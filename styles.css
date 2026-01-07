@@ -1,0 +1,168 @@
+/* Base Styles */
+body {
+    width: 400px; /* Fixed width for the extension pop-up */
+    min-height: 350px; 
+    margin: 0;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* --- THEME VARIABLES (Default: Light Mode) --- */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --primary-color: #007bff;
+    --primary-hover: #0056b3;
+    --border-color: #eeeeee;
+    --sidebar-bg: #f7f7f7;
+    --active-bg: #e0e0e0;
+}
+
+/* --- Dark Mode Overrides (Applied when body has 'dark-mode' class) --- */
+body.dark-mode {
+    --bg-color: #2c2c2c;
+    --text-color: #f0f0f0;
+    --primary-color: #3399ff;
+    --primary-hover: #1e70bf;
+    --border-color: #444444;
+    --sidebar-bg: #3c3c3c;
+    --active-bg: #555555;
+}
+
+/* Apply variables to main body */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* --- Layout --- */
+#header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+#content-area {
+    display: flex;
+    height: 100%; 
+}
+
+/* --- Sidebar --- */
+#folder-sidebar {
+    width: 30%;
+    background-color: var(--sidebar-bg);
+    padding: 15px;
+    border-right: 1px solid var(--border-color);
+}
+#folder-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+}
+.folder-item {
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    transition: background-color 0.2s;
+}
+.folder-item:hover {
+    background-color: var(--active-bg);
+}
+.folder-item.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* --- Prompt View --- */
+#prompt-view {
+    width: 70%;
+    padding: 15px;
+}
+.prompt-actions {
+    margin-bottom: 15px;
+    text-align: right;
+}
+.prompt-card {
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    background-color: var(--sidebar-bg); /* Use a slightly different shade */
+    cursor: pointer;
+}
+.prompt-card h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+/* --- Buttons & Toggles --- */
+.primary-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.primary-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+#theme-toggle-btn {
+    font-size: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+/* --- Modal Styling --- */
+#prompt-modal {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    width: 350px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+#prompt-modal::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* Form Layout */
+#prompt-form label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+#prompt-form input[type="text"],
+#prompt-form textarea,
+#prompt-form select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-sizing: border-box; 
+    background-color: var(--sidebar-bg);
+    color: var(--text-color);
+}
+#prompt-form textarea {
+    resize: vertical;
+}
+
+.form-actions {
+    margin-top: 20px;
+    text-align: right;
+}
+.form-actions button {
+    margin-left: 10px;
+    /* Use default styling for the cancel button */
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}

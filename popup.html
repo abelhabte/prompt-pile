@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Organizer</title>
+    <link rel="stylesheet" href="styles.css"> 
+</head>
+<body>
+    <div id="app-container">
+        <header id="header-bar">
+            <h1>Prompt Pile</h1>
+            
+            <button id="theme-toggle-btn" class="icon-btn" title="Toggle Dark/Light Mode">
+                🌙
+            </button>
+        </header>
+
+        <main id="content-area">
+            
+            <aside id="folder-sidebar">
+                <h2>Folders</h2>
+                <ul id="folder-list">
+                    <li class="folder-item active">All Prompts</li>
+                </ul>
+            </aside>
+            
+            <section id="prompt-view">
+                <div class="prompt-actions">
+                    <button id="add-prompt-btn" class="primary-btn">
+                        + Add New Prompt
+                    </button>
+                </div>
+                
+                <ul id="prompts-list">
+                    <li class="placeholder-prompt">No prompts found. Click "Add New Prompt" to start!</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+    
+    <dialog id="prompt-modal">
+        <h3>Create New Prompt</h3>
+        <form id="prompt-form">
+            <label for="prompt-title">Title:</label>
+            <input type="text" id="prompt-title" required>
+
+            <label for="prompt-folder">Folder:</label>
+            <select id="prompt-folder">
+                <option value="0">Uncategorized</option>
+            </select>
+            
+            <label for="prompt-body">Prompt Text:</label>
+            <textarea id="prompt-body" rows="6" required></textarea>
+            
+            <div class="form-actions">
+                <button type="button" id="cancel-prompt-btn">Cancel</button>
+                <button type="submit" class="primary-btn">Save Prompt</button>
+            </div>
+        </form>
+    </dialog>
+    
+    <script src="popup.js"></script>
+</body>
+</html>
