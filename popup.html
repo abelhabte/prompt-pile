@@ -3,42 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prompt Organizer</title>
+    <title>Prompt Pile</title>
     <link rel="stylesheet" href="styles.css"> 
 </head>
 <body>
     <div id="app-container">
-        <header id="header-bar">
-            <h1>Prompt Pile</h1>
-            
-            <button id="theme-toggle-btn" class="icon-btn" title="Toggle Dark/Light Mode">
-                🌙
-            </button>
+        
+        <header id="top-header">
+            <div class="header-text">
+                <h1>Prompt Pile</h1>
+                <p class="subtitle">by Abel Habte</p>
+            </div>
+            <img src="icons/icon-32.png" alt="Logo" class="app-logo">
         </header>
 
-        <main id="content-area">
-            
-            <aside id="folder-sidebar">
-                <h2>Folders</h2>
-                <ul id="folder-list">
-                    <li class="folder-item active">All Prompts</li>
-                </ul>
-            </aside>
-            
-            <section id="prompt-view">
-                <div class="prompt-actions">
-                    <button id="add-prompt-btn" class="primary-btn">
-                        + Add New Prompt
-                    </button>
+        <section id="control-area">
+
+            <div class="toggle-group">
+                <div class="toggle-item">
+                    <label for="auto-paste">Auto-Paste</label>
+                    <input type="checkbox" id="auto-paste" class="custom-toggle-input">
                 </div>
-                
-                <ul id="prompts-list">
-                    <li class="placeholder-prompt">No prompts found. Click "Add New Prompt" to start!</li>
+                <div class="toggle-item">
+                    <label for="highlight-prompt">Highlight to Prompt</label>
+                    <input type="checkbox" id="highlight-prompt" class="custom-toggle-input">
+                </div>
+                <button id="theme-toggle-btn" class="icon-btn-text">
+                    ☀️ Dark Mode
+                </button>
+            </div>
+
+            <div id="action-row">
+                <div id="folder-create-section">
+                    <button id="add-folder-btn" class="secondary-btn">Create Folder</button>
+                </div>
+                <div class="search-container">
+                    <input type="text" id="search-prompts" placeholder="Search Prompts...">
+                    <span class="search-icon">🔍</span>
+                </div>
+            </div>
+        </section>
+
+        <main id="main-list-view">
+            <ul id="combined-list">
                 </ul>
-            </section>
         </main>
+        
+        <footer id="footer-actions">
+            <button class="footer-btn">⬇️ Backup Prompts</button>
+            <button class="footer-btn">⬆️ Restore Prompts</button>
+            <button class="footer-btn">📦 Add Package</button>
+        </footer>
     </div>
-    
+
     <dialog id="prompt-modal">
         <h3>Create New Prompt</h3>
         <form id="prompt-form">
@@ -59,7 +76,7 @@
             </div>
         </form>
     </dialog>
-    
+
     <script src="popup.js"></script>
 </body>
 </html>

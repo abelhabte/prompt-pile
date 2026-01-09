@@ -1,168 +1,257 @@
-/* Base Styles */
+/* ========================================= */
+/* BASE & THEME SETUP (Dark Mode Default)    */
+/* ========================================= */
 body {
-    width: 400px; /* Fixed width for the extension pop-up */
-    min-height: 350px; 
+    width: 380px; /* Compact width */
+    min-height: 500px; 
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     transition: background-color 0.3s, color 0.3s;
+    user-select: none; /* Gives a slicker feel */
 }
 
-/* --- THEME VARIABLES (Default: Light Mode) --- */
+/* --- THEME VARIABLES (Default: DARK Mode) --- */
 :root {
+    --bg-color: #1e1e1e;       /* Deep gray background */
+    --text-color: #f0f0f0;     /* Light text */
+    --primary-color: #b33951;  /* Reddish highlight for buttons/links */
+    --secondary-color: #777777;/* Muted gray for secondary text */
+    --border-color: #333333;   /* Subtle border lines */
+    --list-item-hover: #2a2a2a;/* Slightly lighter gray for hover */
+    --input-bg: #303030;       /* Darker background for inputs */
+    --toggle-active: #b33951;  /* Toggle switch active color */
+}
+
+/* --- LIGHT Mode Overrides (Applied when body is NOT dark-mode) --- */
+/* Note: You'll implement the JS to toggle this class, even though dark is default */
+body:not(.dark-mode) {
     --bg-color: #ffffff;
     --text-color: #333333;
-    --primary-color: #007bff;
-    --primary-hover: #0056b3;
-    --border-color: #eeeeee;
-    --sidebar-bg: #f7f7f7;
-    --active-bg: #e0e0e0;
-}
-
-/* --- Dark Mode Overrides (Applied when body has 'dark-mode' class) --- */
-body.dark-mode {
-    --bg-color: #2c2c2c;
-    --text-color: #f0f0f0;
-    --primary-color: #3399ff;
-    --primary-hover: #1e70bf;
-    --border-color: #444444;
-    --sidebar-bg: #3c3c3c;
-    --active-bg: #555555;
+    --primary-color: #e60023;
+    --secondary-color: #666666;
+    --border-color: #cccccc;
+    --list-item-hover: #f0f0f0;
+    --input-bg: #ffffff;
+    --toggle-active: #e60023;
 }
 
 /* Apply variables to main body */
-body {
+body, #app-container {
     background-color: var(--bg-color);
     color: var(--text-color);
 }
 
-/* --- Layout --- */
-#header-bar {
+/* ========================================= */
+/* HEADER & CONTROL LAYOUT                   */
+/* ========================================= */
+
+#top-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px;
+    align-items: flex-start;
+    padding: 15px 20px 10px;
+}
+
+.header-text h1 {
+    font-size: 24px;
+    margin: 0 0 5px;
+    color: var(--primary-color);
+}
+.subtitle {
+    font-size: 12px;
+    color: var(--secondary-color);
+    margin: 0;
+}
+.app-logo {
+    width: 32px;
+    height: 32px;
+    filter: invert(1); /* Simple inversion for dark mode logo */
+}
+
+#control-area {
+    padding: 10px 20px;
     border-bottom: 1px solid var(--border-color);
 }
 
-#content-area {
+/* --- Toggle Switches --- */
+.toggle-group {
     display: flex;
-    height: 100%; 
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+.toggle-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
 }
 
-/* --- Sidebar --- */
-#folder-sidebar {
-    width: 30%;
-    background-color: var(--sidebar-bg);
-    padding: 15px;
-    border-right: 1px solid var(--border-color);
+/* Custom CSS for Toggle (Must be highly specific to match the image) */
+.custom-toggle-input {
+    /* Hide the default checkbox */
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
-#folder-list {
+.custom-toggle-input + label {
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+.custom-toggle-input + label::before {
+    content: '';
+    margin-left: 10px;
+    width: 34px;
+    height: 18px;
+    background: var(--secondary-color);
+    border-radius: 9px;
+    transition: background 0.4s;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+.custom-toggle-input + label::after {
+    content: '';
+    position: absolute;
+    right: 2px;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.4s, background 0.4s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.custom-toggle-input:checked + label::before {
+    background: var(--toggle-active);
+}
+.custom-toggle-input:checked + label::after {
+    transform: translateX(-16px);
+}
+
+/* --- Action Row (Create Folder & Search) --- */
+#action-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+#folder-create-section {
+    /* The create folder button is now the main element */
+    flex-shrink: 0;
+}
+
+/* Search Input Styling */
+.search-container {
+    position: relative;
+    flex-grow: 1;
+}
+#search-prompts {
+    width: 100%;
+    padding: 8px 10px;
+    padding-right: 30px; /* Space for the icon */
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    box-sizing: border-box;
+}
+.search-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary-color);
+}
+
+/* ========================================= */
+/* LIST ITEMS (Folders/Prompts)              */
+/* ========================================= */
+
+#combined-list {
     list-style: none;
     padding: 0;
-    margin: 10px 0 0;
-}
-.folder-item {
-    padding: 8px;
-    cursor: pointer;
-    border-radius: 4px;
-    margin-bottom: 5px;
-    transition: background-color 0.2s;
-}
-.folder-item:hover {
-    background-color: var(--active-bg);
-}
-.folder-item.active {
-    background-color: var(--primary-color);
-    color: white;
+    margin: 0;
 }
 
-/* --- Prompt View --- */
-#prompt-view {
-    width: 70%;
-    padding: 15px;
-}
-.prompt-actions {
-    margin-bottom: 15px;
-    text-align: right;
-}
-.prompt-card {
-    border: 1px solid var(--border-color);
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 6px;
-    background-color: var(--sidebar-bg); /* Use a slightly different shade */
+.list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--border-color);
     cursor: pointer;
-}
-.prompt-card h4 {
-    margin-top: 0;
-    margin-bottom: 5px;
+    transition: background-color 0.1s;
 }
 
-/* --- Buttons & Toggles --- */
-.primary-btn {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-.primary-btn:hover {
-    background-color: var(--primary-hover);
+.list-item:hover {
+    background-color: var(--list-item-hover);
 }
 
-#theme-toggle-btn {
-    font-size: 18px;
+.item-main-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.item-actions button {
     background: none;
     border: none;
+    color: var(--secondary-color);
+    font-size: 11px;
+    text-transform: uppercase;
+    padding: 4px 6px;
     cursor: pointer;
-    color: var(--text-color);
+    margin-left: 5px;
+}
+.item-actions .del-btn {
+    color: var(--primary-color); /* Highlight delete button */
 }
 
-/* --- Modal Styling --- */
-#prompt-modal {
+/* ========================================= */
+/* FOOTER ACTIONS                            */
+/* ========================================= */
+
+#footer-actions {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-btn {
+    background: none;
+    border: none;
+    color: var(--secondary-color);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* ========================================= */
+/* BUTTONS (General)                         */
+/* ========================================= */
+
+.secondary-btn, .primary-btn {
+    /* Styles for the "Create Folder" button */
+    padding: 8px 12px;
     border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 20px;
-    width: 350px;
-    background-color: var(--bg-color);
+    border-radius: 6px;
+    background-color: var(--input-bg);
     color: var(--text-color);
-}
-#prompt-modal::backdrop {
-    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-/* Form Layout */
-#prompt-form label {
-    display: block;
-    margin-top: 10px;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-#prompt-form input[type="text"],
-#prompt-form textarea,
-#prompt-form select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    box-sizing: border-box; 
-    background-color: var(--sidebar-bg);
-    color: var(--text-color);
-}
-#prompt-form textarea {
-    resize: vertical;
+.secondary-btn:hover {
+    background-color: var(--list-item-hover);
 }
 
-.form-actions {
-    margin-top: 20px;
+.icon-btn-text {
+    /* Style for the theme button which is now plain text/icon */
+    background: none;
+    border: none;
+    color: var(--secondary-color);
+    cursor: pointer;
     text-align: right;
-}
-.form-actions button {
-    margin-left: 10px;
-    /* Use default styling for the cancel button */
-    background: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--text-color);
+    padding: 0;
 }
