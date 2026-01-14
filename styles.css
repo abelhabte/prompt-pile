@@ -1,257 +1,159 @@
 /* ========================================= */
-/* BASE & THEME SETUP (Dark Mode Default)    */
+/* BASE & THEME SETUP (System Dependent)     */
 /* ========================================= */
-body {
-    width: 380px; /* Compact width */
-    min-height: 500px; 
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    transition: background-color 0.3s, color 0.3s;
-    user-select: none; /* Gives a slicker feel */
-}
-
-/* --- THEME VARIABLES (Default: DARK Mode) --- */
 :root {
-    --bg-color: #1e1e1e;       /* Deep gray background */
-    --text-color: #f0f0f0;     /* Light text */
-    --primary-color: #b33951;  /* Reddish highlight for buttons/links */
-    --secondary-color: #777777;/* Muted gray for secondary text */
-    --border-color: #333333;   /* Subtle border lines */
-    --list-item-hover: #2a2a2a;/* Slightly lighter gray for hover */
-    --input-bg: #303030;       /* Darker background for inputs */
-    --toggle-active: #b33951;  /* Toggle switch active color */
-}
-
-/* --- LIGHT Mode Overrides (Applied when body is NOT dark-mode) --- */
-/* Note: You'll implement the JS to toggle this class, even though dark is default */
-body:not(.dark-mode) {
+    /* Default: Light Mode Variables */
     --bg-color: #ffffff;
     --text-color: #333333;
     --primary-color: #e60023;
-    --secondary-color: #666666;
-    --border-color: #cccccc;
-    --list-item-hover: #f0f0f0;
+    --secondary-color: #cccccc;
+    --border-color: #eeeeee;
+    --list-item-hover: #f9f9f9;
     --input-bg: #ffffff;
-    --toggle-active: #e60023;
 }
 
-/* Apply variables to main body */
-body, #app-container {
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Automatic Dark Mode Overrides */
+        --bg-color: #1e1e1e;
+        --text-color: #f0f0f0;
+        --primary-color: #b33951;
+        --secondary-color: #777777;
+        --border-color: #333333;
+        --list-item-hover: #2a2a2a;
+        --input-bg: #303030;
+    }
+}
+
+body {
+    width: 380px; 
+    min-height: 500px; 
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
+    user-select: none;
 }
 
 /* ========================================= */
-/* HEADER & CONTROL LAYOUT                   */
+/* LAYOUT CONTAINERS                         */
 /* ========================================= */
+#top-header, #control-area, #footer-actions {
+    padding: 20px;
+}
 
 #top-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    padding: 15px 20px 10px;
-}
-
-.header-text h1 {
-    font-size: 24px;
-    margin: 0 0 5px;
-    color: var(--primary-color);
-}
-.subtitle {
-    font-size: 12px;
-    color: var(--secondary-color);
-    margin: 0;
-}
-.app-logo {
-    width: 32px;
-    height: 32px;
-    filter: invert(1); /* Simple inversion for dark mode logo */
-}
-
-#control-area {
-    padding: 10px 20px;
+    align-items: center;
     border-bottom: 1px solid var(--border-color);
 }
 
-/* --- Toggle Switches --- */
-.toggle-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 15px;
-}
-.toggle-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 14px;
-}
+h1 { margin: 0; font-size: 20px; }
+.subtitle { margin: 0; font-size: 12px; color: var(--secondary-color); }
+.app-logo { width: 32px; height: 32px; }
 
-/* Custom CSS for Toggle (Must be highly specific to match the image) */
-.custom-toggle-input {
-    /* Hide the default checkbox */
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-.custom-toggle-input + label {
-    position: relative;
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-    align-items: center;
-}
-.custom-toggle-input + label::before {
-    content: '';
-    margin-left: 10px;
-    width: 34px;
-    height: 18px;
-    background: var(--secondary-color);
-    border-radius: 9px;
-    transition: background 0.4s;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-.custom-toggle-input + label::after {
-    content: '';
-    position: absolute;
-    right: 2px;
-    width: 14px;
-    height: 14px;
-    background: #fff;
-    border-radius: 50%;
-    transition: transform 0.4s, background 0.4s;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-.custom-toggle-input:checked + label::before {
-    background: var(--toggle-active);
-}
-.custom-toggle-input:checked + label::after {
-    transform: translateX(-16px);
-}
-
-/* --- Action Row (Create Folder & Search) --- */
-#action-row {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-}
-#folder-create-section {
-    /* The create folder button is now the main element */
-    flex-shrink: 0;
-}
-
-/* Search Input Styling */
-.search-container {
-    position: relative;
-    flex-grow: 1;
-}
-#search-prompts {
-    width: 100%;
-    padding: 8px 10px;
-    padding-right: 30px; /* Space for the icon */
-    border: 1px solid var(--border-color);
+/* ========================================= */
+/* BUTTONS & ACTIONS                         */
+/* ========================================= */
+.primary-btn, .secondary-btn {
+    padding: 8px 12px;
     border-radius: 6px;
-    background-color: var(--input-bg);
-    color: var(--text-color);
-    box-sizing: border-box;
-}
-.search-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--secondary-color);
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* ========================================= */
-/* LIST ITEMS (Folders/Prompts)              */
-/* ========================================= */
+.primary-btn { background-color: var(--primary-color); color: white; border: none; }
+.secondary-btn { background-color: var(--input-bg); color: var(--text-color); border: 1px solid var(--border-color); }
 
-#combined-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+.secondary-btn:hover { background-color: var(--list-item-hover); border-color: var(--secondary-color); }
+
+#action-row { display: flex; gap: 10px; margin-top: 15px; }
+
+/* Toggle Switches */
+.toggle-group { display: flex; flex-direction: column; gap: 10px; }
+.toggle-item { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+
+/* ========================================= */
+/* LIST & FOLDERS                            */
+/* ========================================= */
+#main-list-view { max-height: 300px; overflow-y: auto; }
+#combined-list { list-style: none; padding: 0; margin: 0; }
 
 .list-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
+    padding: 12px 20px;
     border-bottom: 1px solid var(--border-color);
-    cursor: pointer;
-    transition: background-color 0.1s;
 }
 
-.list-item:hover {
-    background-color: var(--list-item-hover);
-}
-
-.item-main-content {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-}
-
-.item-actions button {
-    background: none;
-    border: none;
-    color: var(--secondary-color);
-    font-size: 11px;
-    text-transform: uppercase;
-    padding: 4px 6px;
-    cursor: pointer;
-    margin-left: 5px;
-}
-.item-actions .del-btn {
-    color: var(--primary-color); /* Highlight delete button */
-}
-
-/* ========================================= */
-/* FOOTER ACTIONS                            */
-/* ========================================= */
-
-#footer-actions {
-    display: flex;
-    justify-content: space-around;
-    padding: 15px 20px;
-    border-top: 1px solid var(--border-color);
-}
-
-.footer-btn {
-    background: none;
-    border: none;
-    color: var(--secondary-color);
-    font-size: 12px;
-    cursor: pointer;
-}
-
-/* ========================================= */
-/* BUTTONS (General)                         */
-/* ========================================= */
-
-.secondary-btn, .primary-btn {
-    /* Styles for the "Create Folder" button */
-    padding: 8px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
+.folder-row {
     background-color: var(--input-bg);
-    color: var(--text-color);
+    font-weight: bold;
+    color: var(--primary-color);
     cursor: pointer;
-    transition: background-color 0.2s;
 }
 
-.secondary-btn:hover {
-    background-color: var(--list-item-hover);
+.folder-row .arrow {
+    transition: transform 0.2s;
+    display: inline-block;
+    margin-right: 8px;
 }
 
-.icon-btn-text {
-    /* Style for the theme button which is now plain text/icon */
+.folder-row.open .arrow { transform: rotate(90deg); }
+.nested-prompt { padding-left: 40px; }
+.hidden { display: none; }
+
+.copy-btn {
     background: none;
-    border: none;
+    border: 1px solid var(--secondary-color);
     color: var(--secondary-color);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 10px;
     cursor: pointer;
-    text-align: right;
-    padding: 0;
+}
+
+/* ========================================= */
+/* SEARCH & FOOTER                           */
+/* ========================================= */
+.search-container { position: relative; flex: 1; }
+#search-prompts {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 8px 30px 8px 10px;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.search-icon { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 12px; }
+
+#footer-actions { border-top: 1px solid var(--border-color); margin-top: auto; }
+.footer-button-container { display: flex; gap: 10px; }
+.footer-button-container .secondary-btn { flex: 1; padding: 10px; }
+
+/* Modals */
+dialog {
+    background: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    width: 300px;
+}
+
+form { display: flex; flex-direction: column; gap: 10px; }
+input, select, textarea {
+    background: var(--input-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 8px;
+    border-radius: 4px;
 }
