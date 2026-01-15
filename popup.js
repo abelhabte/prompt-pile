@@ -5,6 +5,7 @@ let state = {
     expandedFolders: new Set()
 };
 
+// Initialize
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         const data = await chrome.storage.local.get(['folders', 'prompts', 'settings', 'expandedFolders']);
@@ -19,31 +20,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     initEventListeners();
 });
 
-function updateThemeUI() {
-    document.body.classList.toggle('dark-mode', state.settings.darkMode);
-    const btn = document.getElementById('theme-toggle-btn');
-    if (btn) btn.textContent = state.settings.darkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
-}
-
 function renderUI() {
     const listContainer = document.getElementById('combined-list');
     const folderSelect = document.getElementById('prompt-folder');
+    if (!listContainer || !folderSelect) return;
+
     listContainer.innerHTML = '';
     folderSelect.innerHTML = '<option value="0">Uncategorized</option>';
 
-    // Sort folders and build dropdown
+    // 1. Render Folders and their Nested Prompts
     state.folders.forEach(folder => {
-        // Add to dropdown
+        // Update the prompt creation dropdown
         const opt = document.createElement('option');
         opt.value = folder.id;
         opt.textContent = folder.name;
         folderSelect.appendChild(opt);
 
-        // Create Folder Row in UI
+        // Create the Folder Row
+        const isOpen = state.expandedFolders.has(folder.id.toString());
         const folderLi = document.createElement('li');
-        folderLi.className = `list-item folder-row ${state.expandedFolders.has(folder.id.toString()) ? 'open' : ''}`;
-        folderLi.innerHTML = `<span><span class="arrow">▶</span> 📁 ${folder.name}</span>`;
-        
+        folderLi.className = `list-item folder-row ${isOpen ? 'open' : ''}`;
+        folderLi.innerHTML = `
+            <span><span class="arrow">▶</span> 📂 ${folder.name}</span>
+        `;
+
+        // Toggle Folder Logic
         folderLi.onclick = () => {
             const idStr = folder.id.toString();
             if (state.expandedFolders.has(idStr)) {
@@ -51,33 +52,44 @@ function renderUI() {
             } else {
                 state.expandedFolders.add(idStr);
             }
+            // Save expansion state so it persists
             chrome.storage.local.set({ expandedFolders: Array.from(state.expandedFolders) });
             renderUI();
         };
+
         listContainer.appendChild(folderLi);
 
-        // Create container for prompts in this folder
-        const promptGroup = document.createElement('div');
-        promptGroup.className = `prompt-group ${state.expandedFolders.has(folder.id.toString()) ? '' : 'hidden'}`;
-        
-        const folderPrompts = state.prompts.filter(p => p.folderId == folder.id);
-        folderPrompts.forEach(prompt => {
-            promptGroup.appendChild(createPromptEl(prompt, true));
-        });
-        listContainer.appendChild(promptGroup);
+        // If folder is open, render its prompts immediately below
+        if (isOpen) {
+            const nestedPrompts = state.prompts.filter(p => p.folderId == folder.id);
+            nestedPrompts.forEach(prompt => {
+                const promptLi = createPromptElement(prompt, true);
+                listContainer.appendChild(promptLi);
+            });
+        }
     });
 
-    // Render Uncategorized
-    const uncategorizedPrompts = state.prompts.filter(p => p.folderId == "0");
-    if (uncategorizedPrompts.length > 0) {
-        uncategorizedPrompts.forEach(p => listContainer.appendChild(createPromptEl(p, false)));
+    // 2. Render Uncategorized Prompts
+    const uncategorized = state.prompts.filter(p => p.folderId == "0" || !p.folderId);
+    if (uncategorized.length > 0) {
+        const header = document.createElement('li');
+        header.className = 'section-header';
+        header.textContent = 'Uncategorized';
+        listContainer.appendChild(header);
+
+        uncategorized.forEach(prompt => {
+            listContainer.appendChild(createPromptElement(prompt, false));
+        });
     }
 }
 
-function createPromptEl(prompt, isNested) {
+function createPromptElement(prompt, isNested) {
     const li = document.createElement('li');
     li.className = `list-item ${isNested ? 'nested-prompt' : ''}`;
-    li.innerHTML = `<span>📄 ${prompt.title}</span><button class="copy-btn">Copy</button>`;
+    li.innerHTML = `
+        <span>📄 ${prompt.title}</span>
+        <button class="copy-btn">Copy</button>
+    `;
     
     li.querySelector('.copy-btn').onclick = (e) => {
         e.stopPropagation();
@@ -90,37 +102,47 @@ function initEventListeners() {
     const folderModal = document.getElementById('folder-modal');
     const promptModal = document.getElementById('prompt-modal');
 
-    document.getElementById('theme-toggle-btn').onclick = () => {
-        state.settings.darkMode = !state.settings.darkMode;
-        chrome.storage.local.set({ settings: state.settings });
-        updateThemeUI();
-    };
-
+    // Modal Controls
     document.getElementById('add-folder-btn').onclick = () => folderModal.showModal();
     document.getElementById('open-prompt-modal-btn').onclick = () => promptModal.showModal();
     document.getElementById('cancel-folder-btn').onclick = () => folderModal.close();
     document.getElementById('cancel-prompt-btn').onclick = () => promptModal.close();
 
+    // Folder Submission
     document.getElementById('folder-form').onsubmit = async (e) => {
         e.preventDefault();
-        state.folders.push({ id: Date.now(), name: document.getElementById('folder-name').value });
+        const nameInput = document.getElementById('folder-name');
+        state.folders.push({ id: Date.now(), name: nameInput.value });
         await chrome.storage.local.set({ folders: state.folders });
         e.target.reset();
         folderModal.close();
         renderUI();
     };
 
+    // Prompt Submission
     document.getElementById('prompt-form').onsubmit = async (e) => {
         e.preventDefault();
-        state.prompts.push({
+        const newPrompt = {
             id: Date.now(),
             title: document.getElementById('prompt-title').value,
             folderId: document.getElementById('prompt-folder').value,
             body: document.getElementById('prompt-body').value
-        });
+        };
+        state.prompts.push(newPrompt);
         await chrome.storage.local.set({ prompts: state.prompts });
+        
+        // Auto-expand the folder so the user sees the new prompt
+        if (newPrompt.folderId !== "0") {
+            state.expandedFolders.add(newPrompt.folderId.toString());
+            await chrome.storage.local.set({ expandedFolders: Array.from(state.expandedFolders) });
+        }
+
         e.target.reset();
         promptModal.close();
         renderUI();
     };
+}
+
+function updateThemeUI() {
+    document.body.classList.toggle('dark-mode', state.settings.darkMode);
 }
