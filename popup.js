@@ -15,7 +15,7 @@ addFolder.addEventListener("click", () => {
     const input = folder.querySelector('.folder-input');
     input.focus();
 
-    input.addEventListener("keypress", (e) => {
+    input.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
             const folderName = input.value || "Untitled Folder";
             // We use a container for the name and button so we can keep them
@@ -26,6 +26,10 @@ addFolder.addEventListener("click", () => {
                     <button class="three-dot-btn">...</button>
                 </div>
             `;
+        }
+
+        if (e.key === "Escape") {
+            folder.remove();
         }
     });
 
@@ -55,6 +59,11 @@ addFolder.addEventListener("click", () => {
 
             // Use insertAdjacentHTML so you don't delete the icon and name!
             folder.insertAdjacentHTML('beforeend', folderOptionsMenu);
+            }
+        }
+        if (e.target && e.target.classList.contains("action-btn")) {
+            if (e.target.textContent === "Remove Folder") {
+                folder.remove();
             }
         }
     });
