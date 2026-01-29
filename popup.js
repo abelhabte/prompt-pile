@@ -66,6 +66,43 @@ addFolder.addEventListener("click", () => {
                 folder.remove();
             }
         }
+
+
+        if (e.target.textContent === "Rename Folder") {
+            const nameSpan = folder.querySelector(".folder-name");
+            const currentName = nameSpan.textContent.trim(); // Get existing name
+
+            // Swap the header for an input field
+            const header = folder.querySelector(".folder-header");
+            header.innerHTML = `
+                <input type="text" class="folder-input" value="${currentName}"/>
+            `;
+
+            const renameInput = header.querySelector(".folder-input");
+            renameInput.focus();
+            renameInput.select(); // Hightlights the new text for easy overwriting
+
+            // Handle saving the new name
+            renameInput.addEventListener("keydown", (keyEvent) => {
+                if (keyEvent.key === "Enter") {
+                    const newName = renameInput.value || "Untitled Folder";
+                    header.innerHTML = `
+                        <span class="folder-name">${newName}</span>
+                        <button class="three-dot-btn">...</button>
+                    `;
+                }
+                if (keyEvent.key === "Escape") {
+                    // Restore original name if they cancel
+                    header.innerHTML = `
+                        <span class="folder-name">${currentName}</span>
+                        <button class="three-dot-btn">...</button>
+                    `;
+                }
+            })
+        }
+
+
+
     });
 });
 
@@ -81,3 +118,7 @@ document.addEventListener("click", (e) => {
         }
     }
 });
+
+
+// next implement add prompt button functionality
+// should have a title and body field, 
