@@ -1,124 +1,124 @@
-const addFolder = document.getElementById("add-folder-btn"); 
+const addFolderBtn = document.getElementById("add-folder-btn"); 
 const mainListView = document.getElementById("main-list-view");
 
-addFolder.addEventListener("click", () => {
+// 1. The Main Button simply triggers our universal creation function
+addFolderBtn.addEventListener("click", () => {
+    createFolderElement(); // No name passed = new folder mode
+});
+
+function createFolderElement(existingName = null) {
     const folder = document.createElement("div");
     folder.className = 'folder';
     
-    folder.innerHTML = `
-        <div class="icon">📂</div>
-        <input type="text" class="folder-input" placeholder="Folder Name..." />
-    `;
+    // Initial State: Input for new folders, or Span for loaded folders
+    if (!existingName) {
+        folder.innerHTML = `
+            <div class="icon">📂</div>
+            <input type="text" class="folder-input" placeholder="Folder Name..." />
+        `;
+    } else {
+        folder.innerHTML = `
+            <div class="icon">📂</div>
+            <div class="folder-header">
+                <span class="folder-name">${existingName}</span>
+                <button class="three-dot-btn">...</button>
+            </div>
+        `;
+    }
 
     mainListView.appendChild(folder);
     
-    const input = folder.querySelector('.folder-input');
-    input.focus();
-
-    input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-            const folderName = input.value || "Untitled Folder";
-            // We use a container for the name and button so we can keep them
-            folder.innerHTML = `
-                <div class="icon">📂</div>
-                <div class="folder-header">
-                    <span class="folder-name">${folderName}</span>
-                    <button class="three-dot-btn">...</button>
-                </div>
-            `;
-        }
-
-        if (e.key === "Escape") {
-            folder.remove();
-        }
-    });
-
-    // MOVE THE LISTENER HERE (Inside the creation logic)
-    folder.addEventListener("click", (e) => {
-        // Use classList.contains if you have multiple folders
-        if (e.target && e.target.classList.contains("three-dot-btn")) {
-
-            const existingMenu = folder.querySelector(".folder-options-menu");
-
-            const openMenu = document.querySelector(".folder-options-menu");
-
-            if (openMenu && openMenu !== existingMenu) {
-                openMenu.remove();
+    // If it's a new folder, handle the initial naming
+    const initialInput = folder.querySelector('.folder-input');
+    if (initialInput) {
+        initialInput.focus();
+        initialInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                const name = initialInput.value || "Untitled Folder";
+                finalizeFolderName(folder, name);
             }
+            if (e.key === "Escape") folder.remove();
+        });
+    }
 
-            if (existingMenu) {
-                existingMenu.remove();
-            } else {
-                const folderOptionsMenu = `
+    // Handle all interactions inside the folder
+    folder.addEventListener("click", (e) => {
+        // --- 3-DOT MENU TOGGLE ---
+        if (e.target.classList.contains("three-dot-btn")) {
+            const openMenu = document.querySelector(".folder-options-menu");
+            if (openMenu) openMenu.remove();
+
+            folder.insertAdjacentHTML('beforeend', `
                 <div class="folder-options-menu">
                     <button class="action-btn">Add Prompt</button>
                     <button class="action-btn">Rename Folder</button>
                     <button class="action-btn">Remove Folder</button>
                 </div>
-                `;
-
-            // Use insertAdjacentHTML so you don't delete the icon and name!
-            folder.insertAdjacentHTML('beforeend', folderOptionsMenu);
-            }
-        }
-        if (e.target && e.target.classList.contains("action-btn")) {
-            if (e.target.textContent === "Remove Folder") {
-                folder.remove();
-            }
+            `);
         }
 
+        // --- REMOVE LOGIC ---
+        if (e.target.textContent === "Remove Folder") {
+            folder.remove();
+            saveFolders(); // Update storage
+        }
 
+        // --- RENAME LOGIC ---
         if (e.target.textContent === "Rename Folder") {
             const nameSpan = folder.querySelector(".folder-name");
-            const currentName = nameSpan.textContent.trim(); // Get existing name
-
-            // Swap the header for an input field
+            const currentName = nameSpan.textContent;
             const header = folder.querySelector(".folder-header");
-            header.innerHTML = `
-                <input type="text" class="folder-input" value="${currentName}"/>
-            `;
 
+            header.innerHTML = `<input type="text" class="folder-input" value="${currentName}"/>`;
             const renameInput = header.querySelector(".folder-input");
             renameInput.focus();
-            renameInput.select(); // Hightlights the new text for easy overwriting
+            renameInput.select();
 
-            // Handle saving the new name
             renameInput.addEventListener("keydown", (keyEvent) => {
                 if (keyEvent.key === "Enter") {
-                    const newName = renameInput.value || "Untitled Folder";
-                    header.innerHTML = `
-                        <span class="folder-name">${newName}</span>
-                        <button class="three-dot-btn">...</button>
-                    `;
+                    finalizeFolderName(folder, renameInput.value || currentName);
                 }
                 if (keyEvent.key === "Escape") {
-                    // Restore original name if they cancel
-                    header.innerHTML = `
-                        <span class="folder-name">${currentName}</span>
-                        <button class="three-dot-btn">...</button>
-                    `;
+                    finalizeFolderName(folder, currentName);
                 }
-            })
+            });
         }
-
-
-
     });
-});
+}
 
+// Helper to switch from Input mode to Static mode
+function finalizeFolderName(folderElement, name) {
+    folderElement.innerHTML = `
+        <div class="icon">📂</div>
+        <div class="folder-header">
+            <span class="folder-name">${name}</span>
+            <button class="three-dot-btn">...</button>
+        </div>
+    `;
+    saveFolders(); // Update storage
+}
+
+// --- STORAGE LOGIC ---
+function saveFolders() {
+    const data = [];
+    document.querySelectorAll(".folder").forEach(el => {
+        const name = el.querySelector(".folder-name")?.textContent;
+        if (name) data.push({ name: name });
+    });
+    localStorage.setItem("myFolders", JSON.stringify(data));
+}
+
+function loadFolders() {
+    const saved = JSON.parse(localStorage.getItem("myFolders") || "[]");
+    saved.forEach(f => createFolderElement(f.name));
+}
+
+// Close menus when clicking outside
 document.addEventListener("click", (e) => {
-    // 1. Check if an open menu exists on the page
-    const openMenu = document.querySelector(".folder-options-menu");
-
-    if (openMenu) {
-        // 2. If the user clicked outside of the 3-dot button AND outside the menu
-        // .contains() checks if the click happened inside the menu element
-        if (!e.target.classList.contains("three-dot-btn") && !openMenu.contains(e.target)) {
-            openMenu.remove();
-        }
+    const menu = document.querySelector(".folder-options-menu");
+    if (menu && !e.target.classList.contains("three-dot-btn") && !menu.contains(e.target)) {
+        menu.remove();
     }
 });
 
-
-// next implement add prompt button functionality
-// should have a title and body field, 
+loadFolders();
