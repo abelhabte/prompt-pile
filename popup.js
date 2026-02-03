@@ -11,13 +11,11 @@ function createFolderElement(existingName = null, existingPrompts = []) {
     folder.className = 'folder';
 
     if (!existingName) {
-        // Mode: Typing new name
         folder.innerHTML = `
             <div class="icon">📂</div>
             <input type="text" class="folder-input" placeholder="Folder Name..." />
         `;
     } else {
-        // Mode: Already named (Loaded from storage or just finalized)
         renderFolderStatic(folder, existingName);
         const list = folder.querySelector(".prompts-list");
         existingPrompts.forEach(p => addPromptToUI(list, p));
@@ -25,7 +23,6 @@ function createFolderElement(existingName = null, existingPrompts = []) {
 
     mainListView.appendChild(folder);
 
-    // Handle initial naming input
     const initialInput = folder.querySelector('.folder-input');
     if (initialInput) {
         initialInput.focus();
@@ -39,13 +36,11 @@ function createFolderElement(existingName = null, existingPrompts = []) {
         });
     }
 
-    // Main Folder Event Listener (Delegation for menus and buttons)
     folder.addEventListener("click", (e) => {
-        // 1. Toggle 3-Dot Menu
+        // Toggle 3-Dot Menu
         if (e.target.classList.contains("three-dot-btn")) {
             const openMenu = document.querySelector(".folder-options-menu");
             if (openMenu) openMenu.remove();
-
             folder.insertAdjacentHTML('beforeend', `
                 <div class="folder-options-menu">
                     <button class="action-btn">Add Prompt</button>
@@ -55,18 +50,17 @@ function createFolderElement(existingName = null, existingPrompts = []) {
             `);
         }
 
-        // 2. Remove Folder
+        // Remove Folder
         if (e.target.textContent === "Remove Folder") {
             folder.remove();
             saveFolders();
         }
 
-        // 3. Rename Folder
+        // Rename Folder
         if (e.target.textContent === "Rename Folder") {
             const nameSpan = folder.querySelector(".folder-name");
             const currentName = nameSpan.textContent;
             const header = folder.querySelector(".folder-header");
-
             header.innerHTML = `<input type="text" class="folder-input" value="${currentName}"/>`;
             const renameInput = header.querySelector(".folder-input");
             renameInput.focus();
@@ -83,7 +77,7 @@ function createFolderElement(existingName = null, existingPrompts = []) {
             });
         }
 
-        // 4. Add Prompt
+        // Add Prompt
         if (e.target.textContent === "Add Prompt") {
             const list = folder.querySelector(".prompts-list");
             addPromptToUI(list);
@@ -96,7 +90,7 @@ function createFolderElement(existingName = null, existingPrompts = []) {
 // --- PROMPT UI HELPER ---
 function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: ''}) {
     const promptEditor = document.createElement("div");
-    promptEditor.className = "prompt-editor";
+    promptEditor.className = data.title ? "prompt-editor is-saved" : "prompt-editor";
 
     promptEditor.innerHTML = `
         <input type="text" class="prompt-title" placeholder="Prompt Title" value="${data.title}">
@@ -115,13 +109,22 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
 
     container.appendChild(promptEditor);
 
-    // Save Button
+    const titleInput = promptEditor.querySelector(".prompt-title");
+
+    titleInput.addEventListener("click", () => {
+        promptEditor.classList.remove("is-saved");
+    });
+
     promptEditor.querySelector(".save-prompt-btn").addEventListener("click", () => {
+        if (!titleInput.value) {
+            alert("Please enter a title!");
+            return;
+        }
+        promptEditor.classList.add("is-saved");
         saveFolders();
         alert("Prompt Saved!");
     });
 
-    // Copy Button
     promptEditor.querySelector(".copy-prompt-btn").addEventListener("click", (e) => {
         const body = promptEditor.querySelector(".prompt-body").value;
         navigator.clipboard.writeText(body).then(() => {
@@ -131,7 +134,6 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
         });
     });
 
-    // Delete Prompt Button
     promptEditor.querySelector(".delete-prompt-btn").addEventListener("click", () => {
         promptEditor.remove();
         saveFolders();
@@ -140,23 +142,23 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
 
 // --- UTILITY FUNCTIONS ---
 function renderFolderStatic(folderElement, name) {
-    // Keeps existing prompts if they exist when re-rendering the header
-    const existingPrompts = folderElement.querySelector(".prompts-list")?.innerHTML || "";
+    // Only update the header area, leave the prompts-list alone to preserve event listeners
     folderElement.innerHTML = `
         <div class="icon">📂</div>
         <div class="folder-header">
             <span class="folder-name">${name}</span>
             <button class="three-dot-btn">...</button>
         </div>
-        <div class="prompts-list">${existingPrompts}</div>
+        <div class="prompts-list"></div>
     `;
 }
 
 function saveFolders() {
     const data = [];
     document.querySelectorAll(".folder").forEach(el => {
-        const folderName = el.querySelector(".folder-name")?.textContent;
-        if (folderName) {
+        const nameSpan = el.querySelector(".folder-name");
+        if (nameSpan) {
+            const folderName = nameSpan.textContent;
             const prompts = [];
             el.querySelectorAll(".prompt-editor").forEach(p => {
                 prompts.push({
@@ -176,7 +178,6 @@ function loadFolders() {
     saved.forEach(f => createFolderElement(f.name, f.prompts || []));
 }
 
-// Global click to close menus
 document.addEventListener("click", (e) => {
     const menu = document.querySelector(".folder-options-menu");
     if (menu && !e.target.classList.contains("three-dot-btn") && !menu.contains(e.target)) {

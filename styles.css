@@ -1,0 +1,19 @@
+/* By default, everything is shown */
+.prompt-editor .save-prompt-btn,
+.prompt-editor .prompt-body {
+    display: block;
+}
+
+/* When the 'is-saved' class is added... */
+.prompt-editor.is-saved .prompt-body,
+.prompt-editor.is-saved .save-prompt-btn {
+    display: none; /* Hide Body and Save button */
+}
+
+/* Ensure Title, Select, Copy, and Delete stay visible */
+.prompt-editor.is-saved .prompt-title,
+.prompt-editor.is-saved .prompt-category,
+.prompt-editor.is-saved .copy-prompt-btn,
+.prompt-editor.is-saved .delete-prompt-btn {
+    display: inline-block;
+}
