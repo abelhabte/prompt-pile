@@ -110,6 +110,20 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     container.appendChild(promptEditor);
 
     const titleInput = promptEditor.querySelector(".prompt-title");
+    const bodyTextarea = promptEditor.querySelector(".prompt-body");
+
+    // NEW: Handle Escape key to collapse
+    const handleEscapeCollapse = (e) => {
+        if (e.key === "Escape") {
+            // Only collapse if there is a title (don't leave floating empty prompts)
+            if (titleInput.value.trim() !== "") {
+                promptEditor.classList.add("is-saved");
+            }
+        }
+    };
+
+    titleInput.addEventListener("keydown", handleEscapeCollapse);
+    bodyTextarea.addEventListener("keydown", handleEscapeCollapse);
 
     titleInput.addEventListener("click", () => {
         promptEditor.classList.remove("is-saved");
@@ -122,7 +136,6 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
         }
         promptEditor.classList.add("is-saved");
         saveFolders();
-        alert("Prompt Saved!");
     });
 
     promptEditor.querySelector(".copy-prompt-btn").addEventListener("click", (e) => {
@@ -179,8 +192,26 @@ function loadFolders() {
 }
 
 document.addEventListener("click", (e) => {
+    // 1. Close 3-dot menus (Existing logic)
     const menu = document.querySelector(".folder-options-menu");
     if (menu && !e.target.classList.contains("three-dot-btn") && !menu.contains(e.target)) {
         menu.remove();
     }
+
+    // 2. NEW: Collapse open prompts without saving
+    // Find any prompt that is NOT currently marked as 'is-saved'
+    const openPrompt = document.querySelectorAll(".prompt-editor:not(.is-saved)");
+
+    openPrompt.forEach(prompt => {
+        // If the click happened outside this specific prompt
+        if (!prompt.contains(e.target)) {
+            // We only collapse if the title has text (don't collapse empty new prompts)
+            const titleInput = prompt.querySelector(".prompt-title");
+            if (titleInput.value.trim() !== "") {
+                prompt.classList.add("is-saved");
+                // NOTE: We do NOT call saveFolders() here.
+                // The changes exist in the UI but won't survive a refresh.
+            }
+        }
+    });
 });
