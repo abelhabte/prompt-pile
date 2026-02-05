@@ -58,7 +58,11 @@ function createFolderElement(existingName = null, existingPrompts = []) {
         if (e.target.classList.contains("three-dot-btn")) {
             const openMenu = document.querySelector(".folder-options-menu");
             if (openMenu) openMenu.remove();
-            folder.insertAdjacentHTML('beforeend', `
+
+            // Find the header to attach the menu to
+            const header = e.target.closest(".folder-header");
+
+            header.insertAdjacentHTML('beforeend', `
                 <div class="folder-options-menu">
                     <button class="action-btn">Add Prompt</button>
                     <button class="action-btn">Rename Folder</button>

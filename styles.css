@@ -112,3 +112,42 @@
     padding: 8px;
     box-sizing: border-box;
 }
+
+/* Ensure the header can contain an absolute positioned menu */
+.folder-header {
+    display: flex;
+    align-items: center;
+    position: relative; /* Add this: This is the 'anchor' */
+    gap: 8px;
+    padding: 8px;
+}
+
+/* Update the options menu positioning */
+.folder-options-menu {
+    position: absolute;
+    top: 100%;       /* Directly below the header */
+    right: 10px;     /* Align to the right edge */
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;   /* Ensure it floats above prompts */
+    padding: 5px 0;
+    border-radius: 6px;
+    min-width: 140px;
+}
+
+/* Optional: Make the buttons look cleaner in the menu */
+.action-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 8px 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.action-btn:hover {
+    background-color: #f0f0f0;
+}
