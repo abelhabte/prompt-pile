@@ -12,8 +12,10 @@ function createFolderElement(existingName = null, existingPrompts = []) {
 
     if (!existingName) {
         folder.innerHTML = `
-            <div class="icon">📂</div>
-            <input type="text" class="folder-input" placeholder="Folder Name..." />
+            <div class="folder-header">
+                <span class="icon">▶</span>
+                <input type="text" class="folder-input" placeholder="Folder Name..." />
+            </div>
         `;
     } else {
         renderFolderStatic(folder, existingName);
@@ -37,6 +39,21 @@ function createFolderElement(existingName = null, existingPrompts = []) {
     }
 
     folder.addEventListener("click", (e) => {
+        // 1. Toggle Collapse/Expand logic
+        const isHeaderClick = e.target.closest(".folder-header");
+        const isActionButton = e.target.classList.contains("three-dot-btn") || e.target.classList.contains("action-btn");
+        const isInput = e.target.tagName === "INPUT";
+
+        // Only toggle if we click the header, but NOT the 3-dot button or an input field
+        if (isHeaderClick && !isActionButton && !isInput) {
+            folder.classList.toggle("is-open");
+
+            const icon = folder.querySelector(".icon");
+            if (icon) {
+                icon.textContent = folder.classList.contains("is-open") ? "▼" : "▶";
+            }
+        }
+
         // Toggle 3-Dot Menu
         if (e.target.classList.contains("three-dot-btn")) {
             const openMenu = document.querySelector(".folder-options-menu");
@@ -61,7 +78,10 @@ function createFolderElement(existingName = null, existingPrompts = []) {
             const nameSpan = folder.querySelector(".folder-name");
             const currentName = nameSpan.textContent;
             const header = folder.querySelector(".folder-header");
-            header.innerHTML = `<input type="text" class="folder-input" value="${currentName}"/>`;
+            header.innerHTML = `
+                <span class="icon">▶</span>
+                <input type="text" class="folder-input" value="${currentName}"/>
+            `;
             const renameInput = header.querySelector(".folder-input");
             renameInput.focus();
             renameInput.select();
@@ -79,6 +99,11 @@ function createFolderElement(existingName = null, existingPrompts = []) {
 
         // Add Prompt
         if (e.target.textContent === "Add Prompt") {
+            // Automatically expand folder when adding a prompt
+            folder.classList.add("is-open");
+            const icon = folder.querySelector(".icon");
+            if (icon) icon.textContent = "▼";
+
             const list = folder.querySelector(".prompts-list");
             addPromptToUI(list);
             const menu = folder.querySelector(".folder-options-menu");
@@ -112,10 +137,8 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     const titleInput = promptEditor.querySelector(".prompt-title");
     const bodyTextarea = promptEditor.querySelector(".prompt-body");
 
-    // NEW: Handle Escape key to collapse
     const handleEscapeCollapse = (e) => {
         if (e.key === "Escape") {
-            // Only collapse if there is a title (don't leave floating empty prompts)
             if (titleInput.value.trim() !== "") {
                 promptEditor.classList.add("is-saved");
             }
@@ -125,8 +148,9 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     titleInput.addEventListener("keydown", handleEscapeCollapse);
     bodyTextarea.addEventListener("keydown", handleEscapeCollapse);
 
-    titleInput.addEventListener("click", () => {
+    titleInput.addEventListener("click", (e) => {
         promptEditor.classList.remove("is-saved");
+        e.stopPropagation(); // Prevent folder from toggling when clicking prompt
     });
 
     promptEditor.querySelector(".save-prompt-btn").addEventListener("click", () => {
@@ -155,10 +179,13 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
 
 // --- UTILITY FUNCTIONS ---
 function renderFolderStatic(folderElement, name) {
-    // Only update the header area, leave the prompts-list alone to preserve event listeners
+    // Determine if folder should stay open based on current class
+    const isOpen = folderElement.classList.contains("is-open");
+    const icon = isOpen ? "▼" : "▶";
+
     folderElement.innerHTML = `
-        <div class="icon">📂</div>
         <div class="folder-header">
+            <span class="icon">${icon}</span>
             <span class="folder-name">${name}</span>
             <button class="three-dot-btn">...</button>
         </div>
@@ -192,25 +219,19 @@ function loadFolders() {
 }
 
 document.addEventListener("click", (e) => {
-    // 1. Close 3-dot menus (Existing logic)
+    // 1. Close 3-dot menus
     const menu = document.querySelector(".folder-options-menu");
     if (menu && !e.target.classList.contains("three-dot-btn") && !menu.contains(e.target)) {
         menu.remove();
     }
 
-    // 2. NEW: Collapse open prompts without saving
-    // Find any prompt that is NOT currently marked as 'is-saved'
+    // 2. Collapse open prompts without saving
     const openPrompt = document.querySelectorAll(".prompt-editor:not(.is-saved)");
-
     openPrompt.forEach(prompt => {
-        // If the click happened outside this specific prompt
         if (!prompt.contains(e.target)) {
-            // We only collapse if the title has text (don't collapse empty new prompts)
             const titleInput = prompt.querySelector(".prompt-title");
             if (titleInput.value.trim() !== "") {
                 prompt.classList.add("is-saved");
-                // NOTE: We do NOT call saveFolders() here.
-                // The changes exist in the UI but won't survive a refresh.
             }
         }
     });
