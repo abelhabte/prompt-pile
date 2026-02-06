@@ -162,8 +162,24 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     bodyTextarea.addEventListener("keydown", handleEscapeCollapse);
 
     titleInput.addEventListener("click", (e) => {
+        // ---NEW: Single-Open Logic ---
+        // Find all other prompt editors that NOT currently saved (i.e., they are open)
+        const allOpenPrompts = document.querySelectorAll(".prompt-editor:not(.is-saved)");
+
+        allOpenPrompts.forEach(openPrompt => {
+            // Check if it's not the one we just clicked
+            if (openPrompt !== promptEditor) {
+                const otherTitle = openPrompt.querySelector(".prompt-title").value;
+                // Only collapse if there is a title (prevent losing unsaved prompts)
+                if (otherTitle.trim() !== "") {
+                    openPrompt.classList.add("is-saved");
+                }
+            }
+        });
+
+        // Now open the one we clicked
         promptEditor.classList.remove("is-saved");
-        e.stopPropagation();
+        e.stopPropagation(); // Prevent folder from toggling when clicked prompt
     });
 
     promptEditor.querySelector(".save-prompt-btn").addEventListener("click", () => {

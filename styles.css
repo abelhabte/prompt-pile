@@ -286,3 +286,8 @@
     gap: 4px;
     flex-shrink: 0; /* Prevents buttons from squishing */
 }
+
+.prompt-editor {
+    box-sizing: border-box; /* This is crucial for keeping buttons inside the border */
+    /* ... rest of your code ... */
+}
