@@ -199,17 +199,33 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
 
 // --- UTILITY FUNCTIONS ---
 function renderFolderStatic(folderElement, name) {
-    const isOpen = folderElement.classList.contains("is-open");
-    const icon = isOpen ? "▼" : "▶";
+    // Check if the structure already exists (for renames)
+    const header = folderElement.querySelector(".folder-header");
 
-    folderElement.innerHTML = `
-        <div class="folder-header">
-            <span class="icon">${icon}</span>
+    if (header) {
+        // If the folder already exists, just update the name span
+        const nameSpan = header.querySelector(".folder-name");
+        if (nameSpan) {
+            nameSpan.textContent = name;
+        }
+        // Restore the standard header buttons if an input was there
+        header.innerHTML = `
+            <span class="icon">${folderElement.classList.contains("is-open") ? "▼" : "▶"}</span>
             <span class="folder-name">${name}</span>
             <button class="three-dot-btn">...</button>
-        </div>
-        <div class="prompts-list"></div>
-    `;
+        `;
+    } else {
+        // If it's a brand new folder creation
+        folderElement.innerHTML = `
+            <div class="folder-header">
+                <span class="icon">▶</span>
+                <span class="folder-name">${name}</span>
+                <button class="three-dot-btn">...</button>
+            </div>
+            <div class="prompts-list"></div>
+        `;
+    }
+    
 }
 
 function saveFolders() {
