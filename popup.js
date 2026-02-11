@@ -99,7 +99,6 @@ function createFolderElement(existingName = null, existingPrompts = []) {
             if (icon) icon.textContent = "▼";
 
             const list = folder.querySelector(".prompts-list");
-            // Pass 'true' to indicate this is a new prompt being created
             addPromptToUI(list, {title: '', category: 'ChatGPT', body: ''}, true);
             const menu = folder.querySelector(".folder-options-menu");
             if (menu) menu.remove();
@@ -112,11 +111,12 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     const promptEditor = document.createElement("div");
     promptEditor.className = data.title ? "prompt-editor is-saved" : "prompt-editor";
 
-    // Determine which buttons to show in the edit-actions div
+    // Dynamic button logic: [Cancel] [Add] for new, [Cancel] [Copy] [Save] for existing
     const actionButtons = isNew 
-        ? `<button class="cancel-prompt-btn">Cancel</button>
+        ? `<button class="cancel-new-btn">Cancel</button>
            <button class="save-prompt-btn">+ Add Prompt</button>`
-        : `<button class="copy-prompt-btn">Copy</button>
+        : `<button class="cancel-edit-btn">Cancel</button>
+           <button class="copy-prompt-btn">Copy</button>
            <button class="save-prompt-btn">Save</button>`;
 
     promptEditor.innerHTML = `
@@ -140,14 +140,17 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
         </div>
     `;
 
-    // Handle Cancel logic for new prompts
+    // Handle Cancel logic
     if (isNew) {
-        promptEditor.querySelector(".cancel-prompt-btn").addEventListener("click", () => {
-            promptEditor.remove();
+        promptEditor.querySelector(".cancel-new-btn").addEventListener("click", () => promptEditor.remove());
+    } else {
+        promptEditor.querySelector(".cancel-edit-btn").addEventListener("click", () => {
+            // Revert view without saving
+            promptEditor.classList.add("is-saved");
         });
     }
 
-    // Copy logic for all copy buttons
+    // Logic for Copy buttons
     promptEditor.querySelectorAll(".copy-prompt-btn").forEach(btn => {
         btn.addEventListener("click", (e) => {
             const body = promptEditor.querySelector(".prompt-body").value;
@@ -164,48 +167,36 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     const titleInput = promptEditor.querySelector(".prompt-title");
     const bodyTextarea = promptEditor.querySelector(".prompt-body");
 
-    const handleEscapeCollapse = (e) => {
-        if (e.key === "Escape") {
-            if (titleInput.value.trim() !== "") {
-                promptEditor.classList.add("is-saved");
-            }
-        }
-    };
-
-    titleInput.addEventListener("keydown", handleEscapeCollapse);
-    bodyTextarea.addEventListener("keydown", handleEscapeCollapse);
-
+    // Click title to edit
     titleInput.addEventListener("click", (e) => {
         const allOpenPrompts = document.querySelectorAll(".prompt-editor:not(.is-saved)");
         allOpenPrompts.forEach(openPrompt => {
-            if (openPrompt !== promptEditor) {
-                const otherTitle = openPrompt.querySelector(".prompt-title").value;
-                if (otherTitle.trim() !== "") {
-                    openPrompt.classList.add("is-saved");
-                }
+            if (openPrompt !== promptEditor && openPrompt.querySelector(".prompt-title").value.trim() !== "") {
+                openPrompt.classList.add("is-saved");
             }
         });
-
         promptEditor.classList.remove("is-saved");
         e.stopPropagation();
     });
 
+    // Save logic
     promptEditor.querySelector(".save-prompt-btn").addEventListener("click", () => {
         if (!titleInput.value) {
             alert("Please enter a title!");
             return;
         }
-        
-        // Transform a 'New' prompt into an 'Existing' prompt UI after first save
+
+        // If it was a new prompt, transform it into an existing prompt structure
         if (isNew) {
             isNew = false;
-            const actionsDiv = promptEditor.querySelector(".edit-actions");
-            actionsDiv.innerHTML = `
+            promptEditor.querySelector(".edit-actions").innerHTML = `
+                <button class="cancel-edit-btn">Cancel</button>
                 <button class="copy-prompt-btn">Copy</button>
                 <button class="save-prompt-btn">Save</button>
             `;
-            // Re-bind the new copy button
-            actionsDiv.querySelector(".copy-prompt-btn").addEventListener("click", (e) => {
+            // Re-bind listeners for the new buttons
+            promptEditor.querySelector(".cancel-edit-btn").addEventListener("click", () => promptEditor.classList.add("is-saved"));
+            promptEditor.querySelector(".copy-prompt-btn").addEventListener("click", (e) => {
                 const body = promptEditor.querySelector(".prompt-body").value;
                 navigator.clipboard.writeText(body).then(() => {
                     const originalText = e.target.textContent;
@@ -228,10 +219,6 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
 function renderFolderStatic(folderElement, name) {
     const header = folderElement.querySelector(".folder-header");
     if (header) {
-        const nameSpan = header.querySelector(".folder-name");
-        if (nameSpan) {
-            nameSpan.textContent = name;
-        }
         header.innerHTML = `
             <span class="icon">${folderElement.classList.contains("is-open") ? "▼" : "▶"}</span>
             <span class="folder-name">${name}</span>
@@ -254,7 +241,6 @@ function saveFolders() {
     document.querySelectorAll(".folder").forEach(el => {
         const nameSpan = el.querySelector(".folder-name");
         if (nameSpan) {
-            const folderName = nameSpan.textContent;
             const prompts = [];
             el.querySelectorAll(".prompt-editor").forEach(p => {
                 prompts.push({
@@ -263,7 +249,7 @@ function saveFolders() {
                     body: p.querySelector(".prompt-body").value
                 });
             });
-            data.push({ name: folderName, prompts: prompts });
+            data.push({ name: nameSpan.textContent, prompts: prompts });
         }
     });
     localStorage.setItem("myFolders", JSON.stringify(data));
@@ -279,14 +265,4 @@ document.addEventListener("click", (e) => {
     if (menu && !e.target.classList.contains("three-dot-btn") && !menu.contains(e.target)) {
         menu.remove();
     }
-
-    const openPrompt = document.querySelectorAll(".prompt-editor:not(.is-saved)");
-    openPrompt.forEach(prompt => {
-        if (!prompt.contains(e.target)) {
-            const titleInput = prompt.querySelector(".prompt-title");
-            if (titleInput.value.trim() !== "") {
-                prompt.classList.add("is-saved");
-            }
-        }
-    });
 });
