@@ -20,8 +20,8 @@
 
 ### Installation
 Open your browser and navigate to the extensions page:
-    * **Chrome:** `chrome://extensions/`
-    * **Edge:** `edge://extensions/`
+* **Chrome:** `chrome://extensions/`
+* **Edge:** `edge://extensions/`
 
 ### Basic Usage
 * **Create a Folder:** Click the `+ Folder` button to start a new category.
