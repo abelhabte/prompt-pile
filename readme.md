@@ -20,8 +20,8 @@
 
 ### Installation
 Open your browser and navigate to the extension store:
-* **Chrome:** `chromewebstore.google`
-* **Firefox:** `addons.mozilla`
+* **Chrome**
+* **Firefox**
 
 ### Basic Usage
 * **Create a Folder:** Click the `+ Folder` button to start a new category.
