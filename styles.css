@@ -1,6 +1,6 @@
 /* --- APP LAYOUT --- */
 #app-container {
-    width: 350px; /* Standard extension width */
+    width: 350px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -13,7 +13,7 @@
 .folder-header {
     display: flex;
     align-items: center;
-    position: relative; /* Anchor for the 3-dot menu */
+    position: relative;
     gap: 8px;
     padding: 8px;
     cursor: pointer;
@@ -37,7 +37,6 @@
     font-size: 14px;
 }
 
-/* --- THE 3-DOT MENU (Aligned Right) --- */
 .folder-options-menu {
     position: absolute;
     top: 100%;
@@ -62,20 +61,15 @@
     font-size: 13px;
 }
 
-.action-btn:hover {
-    background-color: #f0f0f0;
-}
+.action-btn:hover { background-color: #f0f0f0; }
 
-/* --- FOLDER COLLAPSE LOGIC --- */
 .prompts-list {
-    display: none; /* Hidden by default */
+    display: none;
     padding-left: 10px;
     margin-bottom: 10px;
 }
 
-.folder.is-open > .prompts-list {
-    display: block; /* Shown when folder is open */
-}
+.folder.is-open > .prompts-list { display: block; }
 
 /* --- PROMPT EDITOR STYLES --- */
 .prompt-editor {
@@ -87,21 +81,23 @@
     border-radius: 8px;
     margin: 8px 0;
     background-color: #fff;
+    box-sizing: border-box; 
 }
 
-/* Top Row Layout */
 .prompt-header-row {
     display: flex;
     align-items: center;
     gap: 8px;
+    width: 100%;
+    overflow: hidden; 
 }
 
 .prompt-title {
-    flex-grow: 1;
-    padding: 4px;
-    font-size: 13px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    flex: 1;
+    min-width: 0; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .prompt-category {
@@ -109,7 +105,6 @@
     font-size: 12px;
 }
 
-/* SAVED STATE: Horizontal Layout */
 .prompt-editor.is-saved {
     background-color: #fcfcfc;
     padding: 6px 10px;
@@ -122,21 +117,14 @@
     cursor: pointer;
 }
 
-/* Visibility Toggles */
-.prompt-editor:not(.is-saved) .saved-actions {
-    display: none; /* Hide Copy/Delete while editing */
-}
-
+.prompt-editor:not(.is-saved) .saved-actions { display: none; }
 .prompt-editor.is-saved .prompt-body,
-.prompt-editor.is-saved .edit-actions {
-    display: none; /* Hide Textarea and Save button when saved */
-}
+.prompt-editor.is-saved .edit-actions { display: none; }
 
-/* Textarea & Save Button */
 .prompt-body {
     width: 100%;
     height: 120px;
-    resize: none; /* Non-resizable as requested */
+    resize: none;
     padding: 8px;
     box-sizing: border-box;
     border: 1px solid #ddd;
@@ -144,25 +132,10 @@
     font-size: 13px;
 }
 
-.save-prompt-btn {
-    width: 100%; /* Below the textarea */
-    padding: 8px;
-    background-color: #4A90E2;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.save-prompt-btn:hover {
-    background-color: #357ABD;
-}
-
-/* Copy & Delete Buttons */
 .saved-actions {
     display: flex;
     gap: 4px;
+    flex-shrink: 0;
 }
 
 .copy-prompt-btn, .delete-prompt-btn {
@@ -177,51 +150,18 @@
 .copy-prompt-btn:hover { background: #e8f4fd; }
 .delete-prompt-btn:hover { background: #fde8e8; }
 
-/* Container for the bottom buttons */
 .edit-actions {
     display: flex;
     gap: 8px;
     margin-top: 4px;
 }
 
-/* Make the Save button take more space than the Copy button if desired */
-.save-prompt-btn {
-    flex: 2; /* Takes up 2/3 of the space */
-    padding: 8px;
-    background-color: #4A90E2;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-/* Style for the copy button when in the edit footer */
-.edit-actions .copy-prompt-btn {
-    flex: 1; /* Takes up 1/3 of the space */
-    padding: 8px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.edit-actions .copy-prompt-btn:hover {
-    background-color: #f5f5f5;
-}
-
-/* Container for the bottom buttons */
-.edit-actions {
-    display: flex;
-    gap: 8px;      /* Space between the two buttons */
-    margin-top: 4px;
-}
-
-/* Set both buttons to be identical in size */
+/* Updated shared button styles to include Cancel */
 .edit-actions .copy-prompt-btn,
+.edit-actions .cancel-prompt-btn,
 .edit-actions .save-prompt-btn {
-    flex: 1;       /* This makes them share the width 50/50 */
-    padding: 10px; /* Slightly larger padding for a better click target */
+    flex: 1;
+    padding: 10px;
     font-weight: 600;
     cursor: pointer;
     border-radius: 4px;
@@ -229,65 +169,18 @@
     border: 1px solid #ddd;
 }
 
-/* Specific colors for each to distinguish them */
 .edit-actions .save-prompt-btn {
     background-color: #4A90E2;
     color: white;
     border: none;
 }
 
-.edit-actions .copy-prompt-btn {
+.edit-actions .copy-prompt-btn,
+.edit-actions .cancel-prompt-btn {
     background-color: #ffffff;
     color: #333;
 }
 
-.edit-actions .save-prompt-btn:hover {
-    background-color: #357ABD;
-}
-
-.edit-actions .copy-prompt-btn:hover {
-    background-color: #f5f5f5;
-}
-
-.prompt-editor {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    margin: 8px 0;
-    background-color: #fff;
-    /* This ensures padding doesn't increase the width of the box */
-    box-sizing: border-box; 
-}
-
-.prompt-header-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-    /* This prevents child elements (like long titles) from stretching the box */
-    overflow: hidden; 
-}
-
-.prompt-title {
-    flex: 1;
-    /* Important: prevents title from growing too large and pushing buttons out */
-    min-width: 0; 
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* Group the actions to ensure they don't wrap to a new line */
-.saved-actions {
-    display: flex;
-    gap: 4px;
-    flex-shrink: 0; /* Prevents buttons from squishing */
-}
-
-.prompt-editor {
-    box-sizing: border-box; /* This is crucial for keeping buttons inside the border */
-    /* ... rest of your code ... */
-}
+.edit-actions .save-prompt-btn:hover { background-color: #357ABD; }
+.edit-actions .copy-prompt-btn:hover,
+.edit-actions .cancel-prompt-btn:hover { background-color: #f5f5f5; }

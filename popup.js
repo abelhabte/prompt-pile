@@ -99,7 +99,8 @@ function createFolderElement(existingName = null, existingPrompts = []) {
             if (icon) icon.textContent = "▼";
 
             const list = folder.querySelector(".prompts-list");
-            addPromptToUI(list);
+            // Pass 'true' to indicate this is a new prompt being created
+            addPromptToUI(list, {title: '', category: 'ChatGPT', body: ''}, true);
             const menu = folder.querySelector(".folder-options-menu");
             if (menu) menu.remove();
         }
@@ -107,9 +108,16 @@ function createFolderElement(existingName = null, existingPrompts = []) {
 }
 
 // --- PROMPT UI HELPER ---
-function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: ''}) {
+function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: ''}, isNew = false) {
     const promptEditor = document.createElement("div");
     promptEditor.className = data.title ? "prompt-editor is-saved" : "prompt-editor";
+
+    // Determine which buttons to show in the edit-actions div
+    const actionButtons = isNew 
+        ? `<button class="cancel-prompt-btn">Cancel</button>
+           <button class="save-prompt-btn">+ Add Prompt</button>`
+        : `<button class="copy-prompt-btn">Copy</button>
+           <button class="save-prompt-btn">Save</button>`;
 
     promptEditor.innerHTML = `
         <div class="prompt-header-row">
@@ -128,12 +136,18 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
         <textarea class="prompt-body" placeholder="Write your prompt here...">${data.body}</textarea>
         
         <div class="edit-actions">
-            <button class="copy-prompt-btn">Copy</button>
-            <button class="save-prompt-btn">Save</button>
+            ${actionButtons}
         </div>
     `;
 
-    // --- FIX: Logic for ALL copy buttons in this specific editor ---
+    // Handle Cancel logic for new prompts
+    if (isNew) {
+        promptEditor.querySelector(".cancel-prompt-btn").addEventListener("click", () => {
+            promptEditor.remove();
+        });
+    }
+
+    // Copy logic for all copy buttons
     promptEditor.querySelectorAll(".copy-prompt-btn").forEach(btn => {
         btn.addEventListener("click", (e) => {
             const body = promptEditor.querySelector(".prompt-body").value;
@@ -162,24 +176,18 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     bodyTextarea.addEventListener("keydown", handleEscapeCollapse);
 
     titleInput.addEventListener("click", (e) => {
-        // ---NEW: Single-Open Logic ---
-        // Find all other prompt editors that NOT currently saved (i.e., they are open)
         const allOpenPrompts = document.querySelectorAll(".prompt-editor:not(.is-saved)");
-
         allOpenPrompts.forEach(openPrompt => {
-            // Check if it's not the one we just clicked
             if (openPrompt !== promptEditor) {
                 const otherTitle = openPrompt.querySelector(".prompt-title").value;
-                // Only collapse if there is a title (prevent losing unsaved prompts)
                 if (otherTitle.trim() !== "") {
                     openPrompt.classList.add("is-saved");
                 }
             }
         });
 
-        // Now open the one we clicked
         promptEditor.classList.remove("is-saved");
-        e.stopPropagation(); // Prevent folder from toggling when clicked prompt
+        e.stopPropagation();
     });
 
     promptEditor.querySelector(".save-prompt-btn").addEventListener("click", () => {
@@ -187,6 +195,26 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
             alert("Please enter a title!");
             return;
         }
+        
+        // Transform a 'New' prompt into an 'Existing' prompt UI after first save
+        if (isNew) {
+            isNew = false;
+            const actionsDiv = promptEditor.querySelector(".edit-actions");
+            actionsDiv.innerHTML = `
+                <button class="copy-prompt-btn">Copy</button>
+                <button class="save-prompt-btn">Save</button>
+            `;
+            // Re-bind the new copy button
+            actionsDiv.querySelector(".copy-prompt-btn").addEventListener("click", (e) => {
+                const body = promptEditor.querySelector(".prompt-body").value;
+                navigator.clipboard.writeText(body).then(() => {
+                    const originalText = e.target.textContent;
+                    e.target.textContent = "Copied!";
+                    setTimeout(() => e.target.textContent = originalText, 2000);
+                });
+            });
+        }
+
         promptEditor.classList.add("is-saved");
         saveFolders();
     });
@@ -197,25 +225,19 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     });
 }
 
-// --- UTILITY FUNCTIONS ---
 function renderFolderStatic(folderElement, name) {
-    // Check if the structure already exists (for renames)
     const header = folderElement.querySelector(".folder-header");
-
     if (header) {
-        // If the folder already exists, just update the name span
         const nameSpan = header.querySelector(".folder-name");
         if (nameSpan) {
             nameSpan.textContent = name;
         }
-        // Restore the standard header buttons if an input was there
         header.innerHTML = `
             <span class="icon">${folderElement.classList.contains("is-open") ? "▼" : "▶"}</span>
             <span class="folder-name">${name}</span>
             <button class="three-dot-btn">...</button>
         `;
     } else {
-        // If it's a brand new folder creation
         folderElement.innerHTML = `
             <div class="folder-header">
                 <span class="icon">▶</span>
@@ -225,7 +247,6 @@ function renderFolderStatic(folderElement, name) {
             <div class="prompts-list"></div>
         `;
     }
-    
 }
 
 function saveFolders() {
