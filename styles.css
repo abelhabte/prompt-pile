@@ -160,3 +160,16 @@
 
 .edit-actions button:hover { background-color: #f5f5f5; }
 .edit-actions .save-prompt-btn:hover { background-color: #357ABD; }
+
+/* Remove the dropdown arrow and prevent editing when saved */
+.prompt-editor.is-saved .prompt-category {
+    appearance: none;          /* Removes the default downward arrow */
+    -webkit-appearance: none;   /* For Chrome/Safari */
+    -moz-appearance: none;      /* For Firefox */
+    border: none;
+    background: transparent;
+    pointer-events: none;       /* Prevents the user from clicking/opening it */
+    color: #666;               /* Optional: dim the text color */
+    cursor: default;
+    padding: 0;
+}
