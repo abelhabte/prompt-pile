@@ -1,90 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Prompt Pile</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <div id="app-container">
-        <header id="top-header">
-            <div class="header-text">
-                <h1>Prompt Pile</h1>
-                <p class="subtitle">by Abel Habte</p>
-            </div>
-            <img src="../icons/icon-32.png" alt="Logo" class="app-logo">
-        </header>
+      <header id="top-header">
+        <div class="header-text">
+          <h1>Prompt Pile</h1>
+          <p class="subtitle">by Abel Habte</p>
+          <img src="../icons/icon-32.png" alt="Logo" class="app-logo" />
+        </div>
+      </header>
 
-        <section id="control-area">
-            <div class="toggle-group">
-                <div class="toggle-item">
-                    <label for="auto-paste">Auto-Paste</label>
-                    <div class="toggle-wrapper">
-                        <input type="checkbox" id="auto-paste" class="custom-toggle-input">
-                        <label for="auto-paste" class="toggle-track"></label>
-                    </div>
-                </div>
-                <div class="toggle-item">
-                    <label for="highlight-prompt">Highlight to Prompt</label>
-                    <div class="toggle-wrapper">
-                        <input type="checkbox" id="highlight-prompt" class="custom-toggle-input">
-                        <label for="highlight-prompt" class="toggle-track"></label>
-                    </div>
-                </div>
-            </div>
-
-            <div id="action-row">
-                <button id="add-folder-btn" class="secondary-btn">+ Folder</button>
+      <br>
+      
+      <section id="control-area">
+        <div id="action-row">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+              <td width="20%">
+                <button id="add-folder-btn" class="secondary-btn">
+                  + Folder
+                </button>
+              </td>
+              <td>
                 <div class="search-container">
-                    <input type="text" id="search-prompts" placeholder="Search...">
-                    <span class="search-icon">🔍</span>
+                  <input
+                    type="text"
+                    id="search-prompts"
+                    placeholder="Search..."
+                  />
                 </div>
-            </div>
-        </section>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </section>
 
-        <main id="main-list-view">
-            <ul id="combined-list"></ul>
-        </main>
-        
-        <footer id="footer-actions">
-            <div class="footer-button-container">
-                <button id="export-btn" class="secondary-btn">⬇️ Export</button>
-                <button id="import-btn" class="secondary-btn">⬆️ Import</button>
-            </div>
-        </footer>
+      <main id="main-list-view">
+        <ul id="combined-list"></ul>
+      </main>
+
+      <footer id="footer-actions">
+        <div class="footer-button-container">
+          <button id="export-btn" class="secondary-btn">⬇️ Export</button>
+          <button id="import-btn" class="secondary-btn">⬆️ Import</button>
+        </div>
+      </footer>
     </div>
 
     <dialog id="folder-modal">
-        <h3>Create New Folder</h3>
-        <form id="folder-form">
-            <label for="folder-name">Folder Name:</label>
-            <input type="text" id="folder-name" required>
-            <div class="form-actions">
-                <button type="button" id="cancel-folder-btn">Cancel</button>
-                <button type="submit" class="primary-btn">Create</button>
-            </div>
-        </form>
+      <h3>Create New Folder</h3>
+      <form id="folder-form">
+        <label for="folder-name">Folder Name:</label>
+        <input type="text" id="folder-name" required />
+        <div class="form-actions">
+          <button type="button" id="cancel-folder-btn">Cancel</button>
+          <button type="submit" class="primary-btn">Create</button>
+        </div>
+      </form>
     </dialog>
 
     <dialog id="prompt-modal">
-        <h3>Create New Prompt</h3>
-        <form id="prompt-form">
-            <label for="prompt-title">Title:</label>
-            <input type="text" id="prompt-title" required>
-            <label for="prompt-folder">Folder:</label>
-            <select id="prompt-folder">
-                <option value="0">Uncategorized</option>
-            </select>
-            <label for="prompt-body">Prompt Text:</label>
-            <textarea id="prompt-body" rows="6" required></textarea>
-            <div class="form-actions">
-                <button type="button" id="cancel-prompt-btn">Cancel</button>
-                <button type="submit" class="primary-btn">Save Prompt</button>
-            </div>
-        </form>
+      <h3>Create New Prompt</h3>
+      <form id="prompt-form">
+        <label for="prompt-title">Title:</label>
+        <input type="text" id="prompt-title" required />
+        <label for="prompt-folder">Folder:</label>
+        <select id="prompt-folder">
+          <option value="0">Uncategorized</option>
+        </select>
+        <label for="prompt-body">Prompt Text:</label>
+        <textarea id="prompt-body" rows="6" required></textarea>
+        <div class="form-actions">
+          <button type="button" id="cancel-prompt-btn">Cancel</button>
+          <button type="submit" class="primary-btn">Save Prompt</button>
+        </div>
+      </form>
     </dialog>
 
     <script src="popup.js"></script>
-</body>
+  </body>
 </html>
