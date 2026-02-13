@@ -99,7 +99,9 @@ function createFolderElement(existingName = null, existingPrompts = []) {
             if (icon) icon.textContent = "▼";
 
             const list = folder.querySelector(".prompts-list");
-            addPromptToUI(list, {title: '', category: 'ChatGPT', body: ''}, true);
+            if (list) {
+                addPromptToUI(list, {title: '', category: 'ChatGPT', body: ''}, true);
+            }
             const menu = folder.querySelector(".folder-options-menu");
             if (menu) menu.remove();
         }
@@ -111,7 +113,6 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     const promptEditor = document.createElement("div");
     promptEditor.className = data.title ? "prompt-editor is-saved" : "prompt-editor";
 
-    // Dynamic button logic: [Cancel] [Add] for new, [Cancel] [Copy] [Save] for existing
     const actionButtons = isNew 
         ? `<button class="cancel-new-btn">Cancel</button>
            <button class="save-prompt-btn">+ Add Prompt</button>`
@@ -132,26 +133,19 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
                 <button class="delete-prompt-btn">Delete</button>
             </div>
         </div>
-        
         <textarea class="prompt-body" placeholder="Write your prompt here...">${data.body}</textarea>
-        
-        <div class="edit-actions">
-            ${actionButtons}
-        </div>
+        <div class="edit-actions">${actionButtons}</div>
     `;
 
-    // Handle Cancel logic
     if (isNew) {
         promptEditor.querySelector(".cancel-new-btn").addEventListener("click", () => promptEditor.remove());
     } else {
         promptEditor.querySelector(".cancel-edit-btn").addEventListener("click", () => {
-            // Revert view without saving
             promptEditor.classList.add("is-saved");
         });
     }
 
-    // Logic for Copy buttons
-    promptEditor.querySelectorAll(".copy-prompt-btn").forEach(btn => {
+    const setupCopyLogic = (btn) => {
         btn.addEventListener("click", (e) => {
             const body = promptEditor.querySelector(".prompt-body").value;
             navigator.clipboard.writeText(body).then(() => {
@@ -160,14 +154,13 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
                 setTimeout(() => e.target.textContent = originalText, 2000);
             });
         });
-    });
+    };
+
+    promptEditor.querySelectorAll(".copy-prompt-btn").forEach(setupCopyLogic);
 
     container.appendChild(promptEditor);
 
     const titleInput = promptEditor.querySelector(".prompt-title");
-    const bodyTextarea = promptEditor.querySelector(".prompt-body");
-
-    // Click title to edit
     titleInput.addEventListener("click", (e) => {
         const allOpenPrompts = document.querySelectorAll(".prompt-editor:not(.is-saved)");
         allOpenPrompts.forEach(openPrompt => {
@@ -179,14 +172,12 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
         e.stopPropagation();
     });
 
-    // Save logic
     promptEditor.querySelector(".save-prompt-btn").addEventListener("click", () => {
         if (!titleInput.value) {
             alert("Please enter a title!");
             return;
         }
 
-        // If it was a new prompt, transform it into an existing prompt structure
         if (isNew) {
             isNew = false;
             promptEditor.querySelector(".edit-actions").innerHTML = `
@@ -194,16 +185,8 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
                 <button class="copy-prompt-btn">Copy</button>
                 <button class="save-prompt-btn">Save</button>
             `;
-            // Re-bind listeners for the new buttons
             promptEditor.querySelector(".cancel-edit-btn").addEventListener("click", () => promptEditor.classList.add("is-saved"));
-            promptEditor.querySelector(".copy-prompt-btn").addEventListener("click", (e) => {
-                const body = promptEditor.querySelector(".prompt-body").value;
-                navigator.clipboard.writeText(body).then(() => {
-                    const originalText = e.target.textContent;
-                    e.target.textContent = "Copied!";
-                    setTimeout(() => e.target.textContent = originalText, 2000);
-                });
-            });
+            setupCopyLogic(promptEditor.querySelector(".copy-prompt-btn"));
         }
 
         promptEditor.classList.add("is-saved");
@@ -217,22 +200,24 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
 }
 
 function renderFolderStatic(folderElement, name) {
-    const header = folderElement.querySelector(".folder-header");
-    if (header) {
-        header.innerHTML = `
-            <span class="icon">${folderElement.classList.contains("is-open") ? "▼" : "▶"}</span>
-            <span class="folder-name">${name}</span>
-            <button class="three-dot-btn">...</button>
-        `;
-    } else {
-        folderElement.innerHTML = `
-            <div class="folder-header">
-                <span class="icon">▶</span>
-                <span class="folder-name">${name}</span>
-                <button class="three-dot-btn">...</button>
-            </div>
-            <div class="prompts-list"></div>
-        `;
+    let header = folderElement.querySelector(".folder-header");
+    if (!header) {
+        header = document.createElement("div");
+        header.className = "folder-header";
+        folderElement.prepend(header);
+    }
+
+    header.innerHTML = `
+        <span class="icon">${folderElement.classList.contains("is-open") ? "▼" : "▶"}</span>
+        <span class="folder-name">${name}</span>
+        <button class="three-dot-btn">...</button>
+    `;
+
+    // Corrected variable name from listDev to listDiv
+    if (!folderElement.querySelector(".prompts-list")) {
+        const listDiv = document.createElement("div");
+        listDiv.className = "prompts-list";
+        folderElement.appendChild(listDiv);
     }
 }
 
