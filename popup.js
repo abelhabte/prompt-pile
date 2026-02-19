@@ -13,6 +13,7 @@ function createFolderElement(existingName = null, existingPrompts = []) {
     if (!existingName) {
         folder.innerHTML = `
             <div class="folder-header">
+                <span class="drag-handle">⠿</span>
                 <span class="icon">▶</span>
                 <input type="text" class="folder-input" placeholder="Folder Name..." />
             </div>
@@ -208,6 +209,7 @@ function renderFolderStatic(folderElement, name) {
     }
 
     header.innerHTML = `
+        <span class="drag-handle">⠿</span>
         <span class="icon">${folderElement.classList.contains("is-open") ? "▼" : "▶"}</span>
         <span class="folder-name">${name}</span>
         <button class="three-dot-btn">...</button>

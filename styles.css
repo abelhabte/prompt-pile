@@ -173,3 +173,19 @@
     cursor: default;
     padding: 0;
 }
+
+.drag-handle {
+    cursor: grab;
+    color: #ccc;
+    font-size: 16px;
+    margin-right: 2px;
+    user-select: none;
+}
+
+.drag-handle:hover {
+    color: #999;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
