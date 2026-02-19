@@ -25,7 +25,7 @@ function createFolderElement(existingName = null, existingPrompts = []) {
         existingPrompts.forEach(p => addPromptToUI(list, p));
     }
 
-    // Fix: Only trigger drag if clicking the handle ⠿
+    // Only trigger drag if clicking the handle ⠿
     folder.addEventListener("mousedown", (e) => {
         if (e.target.classList.contains("drag-handle")) {
             folder.setAttribute("draggable", "true");
@@ -124,6 +124,7 @@ function createFolderElement(existingName = null, existingPrompts = []) {
 function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: ''}, isNew = false) {
     const promptEditor = document.createElement("div");
     promptEditor.className = data.title ? "prompt-editor is-saved" : "prompt-editor";
+    promptEditor.setAttribute("draggable", "true");
 
     const actionButtons = isNew 
         ? `<button class="cancel-new-btn">Cancel</button>
@@ -150,6 +151,14 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
         <div class="edit-actions">${actionButtons}</div>
     `;
 
+    promptEditor.addEventListener("mousedown", (e) => {
+        if (e.target.classList.contains("drag-handle")) {
+            promptEditor.setAttribute("draggable", "true");
+        } else {
+            promptEditor.setAttribute("draggable", "false");
+        }
+    });
+
     if (isNew) {
         promptEditor.querySelector(".cancel-new-btn").addEventListener("click", () => promptEditor.remove());
     } else {
@@ -171,6 +180,9 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
 
     promptEditor.querySelectorAll(".copy-prompt-btn").forEach(setupCopyLogic);
     container.appendChild(promptEditor);
+    
+    // Ensure the container has the drag logic for its children
+    setupPromptDragListeners(container);
 
     const titleInput = promptEditor.querySelector(".prompt-title");
     titleInput.addEventListener("click", (e) => {
@@ -264,12 +276,12 @@ document.addEventListener("click", (e) => {
     }
 });
 
-// --- DRAG AND DROP HANDLERS ---
+// --- DRAG AND DROP HANDLERS (FOLDERS) ---
 mainListView.addEventListener("dragstart", (e) => {
     const targetFolder = e.target.closest(".folder");
-    if (!targetFolder) return;
+    if (!targetFolder || e.target.closest(".prompt-editor")) return; // Don't drag folder if dragging a prompt
     targetFolder.classList.add("dragging");
-    e.dataTransfer.setData("text/plain", ""); // Required for Firefox
+    e.dataTransfer.setData("text/plain", ""); 
 });
 
 mainListView.addEventListener('dragend', (e) => {
@@ -283,7 +295,7 @@ mainListView.addEventListener('dragover', (e) => {
     const draggingFolder = document.querySelector('.dragging');
     if (!draggingFolder) return;
 
-    const afterElement = getDragAfterElement(mainListView, e.clientY);
+    const afterElement = getDragAfterElement(mainListView, e.clientY, '.folder');
     if (afterElement == null) {
         mainListView.appendChild(draggingFolder);
     } else {
@@ -291,8 +303,51 @@ mainListView.addEventListener('dragover', (e) => {
     }
 });
 
-function getDragAfterElement(container, y) {
-    const draggableElements = [...container.querySelectorAll('.folder:not(.dragging)')];
+// --- DRAG AND DROP HANDLERS (PROMPTS) ---
+function setupPromptDragListeners(container) {
+    // We remove then add to avoid duplicate listeners on re-renders
+    container.removeEventListener("dragstart", handlePromptDragStart);
+    container.addEventListener("dragstart", handlePromptDragStart);
+
+    container.removeEventListener("dragend", handlePromptDragEnd);
+    container.addEventListener("dragend", handlePromptDragEnd);
+
+    container.removeEventListener("dragover", handlePromptDragOver);
+    container.addEventListener("dragover", handlePromptDragOver);
+}
+
+function handlePromptDragStart(e) {
+    const targetPrompt = e.target.closest(".prompt-editor");
+    if (!targetPrompt) return;
+    targetPrompt.classList.add("dragging-prompt");
+    e.dataTransfer.setData("text/plain", ""); 
+    e.stopPropagation(); 
+}
+
+function handlePromptDragEnd(e) {
+    const targetPrompt = e.target.closest(".prompt-editor");
+    if (targetPrompt) targetPrompt.classList.remove("dragging-prompt");
+    saveFolders(); 
+}
+
+function handlePromptDragOver(e) {
+    e.preventDefault();
+    const draggingPrompt = document.querySelector(".dragging-prompt");
+    if (!draggingPrompt) return;
+
+    const container = e.currentTarget;
+    const afterElement = getDragAfterElement(container, e.clientY, ".prompt-editor");
+    if (afterElement == null) {
+        container.appendChild(draggingPrompt);
+    } else {
+        container.insertBefore(draggingPrompt, afterElement);
+    }
+}
+
+// --- SHARED HELPER ---
+function getDragAfterElement(container, y, selector) {
+    // Filter out both dragging types to be safe
+    const draggableElements = [...container.querySelectorAll(`${selector}:not(.dragging):not(.dragging-prompt)`)];
 
     return draggableElements.reduce((closest, child) => {
         const box = child.getBoundingClientRect();

@@ -221,3 +221,9 @@
 .drag-handle:active {
     cursor: grabbing;
 }
+
+.prompt-editor.dragging-prompt {
+    opacity: 0.4;
+    background-color: #fcfcfc;
+    border: 1px dashed #ccc;
+}
