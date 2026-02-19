@@ -25,7 +25,6 @@ function createFolderElement(existingName = null, existingPrompts = []) {
         existingPrompts.forEach(p => addPromptToUI(list, p));
     }
 
-    // Only trigger drag if clicking the handle ⠿
     folder.addEventListener("mousedown", (e) => {
         if (e.target.classList.contains("drag-handle")) {
             folder.setAttribute("draggable", "true");
@@ -126,12 +125,14 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     promptEditor.className = data.title ? "prompt-editor is-saved" : "prompt-editor";
     promptEditor.setAttribute("draggable", "true");
 
-    const actionButtons = isNew 
-        ? `<button class="cancel-new-btn">Cancel</button>
-           <button class="save-prompt-btn">+ Add Prompt</button>`
-        : `<button class="cancel-edit-btn">Cancel</button>
-           <button class="copy-prompt-btn">Copy</button>
-           <button class="save-prompt-btn">Save</button>`;
+    const renderButtons = (isNewStatus) => {
+        return isNewStatus 
+            ? `<button class="cancel-new-btn">Cancel</button>
+               <button class="save-prompt-btn">+ Add Prompt</button>`
+            : `<button class="cancel-edit-btn">Cancel</button>
+               <button class="copy-prompt-btn">Copy</button>
+               <button class="save-prompt-btn">Save</button>`;
+    };
 
     promptEditor.innerHTML = `
         <div class="prompt-header-row">
@@ -148,8 +149,53 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
             </div>
         </div>
         <textarea class="prompt-body" placeholder="Write your prompt here...">${data.body}</textarea>
-        <div class="edit-actions">${actionButtons}</div>
+        <div class="edit-actions">${renderButtons(isNew)}</div>
     `;
+
+    const setupListeners = () => {
+        // Handle Cancel
+        const cancelNew = promptEditor.querySelector(".cancel-new-btn");
+        if (cancelNew) cancelNew.onclick = () => promptEditor.remove();
+
+        const cancelEdit = promptEditor.querySelector(".cancel-edit-btn");
+        if (cancelEdit) cancelEdit.onclick = () => promptEditor.classList.add("is-saved");
+
+        // Handle Save
+        promptEditor.querySelector(".save-prompt-btn").onclick = () => {
+            const titleInput = promptEditor.querySelector(".prompt-title");
+            if (!titleInput.value) {
+                alert("Please enter a title!");
+                return;
+            }
+
+            if (isNew) {
+                isNew = false;
+                promptEditor.querySelector(".edit-actions").innerHTML = renderButtons(false);
+                setupListeners(); // Re-bind new buttons
+            }
+
+            promptEditor.classList.add("is-saved");
+            saveFolders();
+        };
+
+        // Handle Copy
+        promptEditor.querySelectorAll(".copy-prompt-btn").forEach(btn => {
+            btn.onclick = (e) => {
+                const body = promptEditor.querySelector(".prompt-body").value;
+                navigator.clipboard.writeText(body).then(() => {
+                    const originalText = e.target.textContent;
+                    e.target.textContent = "Copied!";
+                    setTimeout(() => e.target.textContent = originalText, 2000);
+                });
+            };
+        });
+
+        // Handle Delete
+        promptEditor.querySelector(".delete-prompt-btn").onclick = () => {
+            promptEditor.remove();
+            saveFolders();
+        };
+    };
 
     promptEditor.addEventListener("mousedown", (e) => {
         if (e.target.classList.contains("drag-handle")) {
@@ -159,67 +205,19 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
         }
     });
 
-    if (isNew) {
-        promptEditor.querySelector(".cancel-new-btn").addEventListener("click", () => promptEditor.remove());
-    } else {
-        promptEditor.querySelector(".cancel-edit-btn").addEventListener("click", () => {
-            promptEditor.classList.add("is-saved");
-        });
-    }
-
-    const setupCopyLogic = (btn) => {
-        btn.addEventListener("click", (e) => {
-            const body = promptEditor.querySelector(".prompt-body").value;
-            navigator.clipboard.writeText(body).then(() => {
-                const originalText = e.target.textContent;
-                e.target.textContent = "Copied!";
-                setTimeout(() => e.target.textContent = originalText, 2000);
-            });
-        });
-    };
-
-    promptEditor.querySelectorAll(".copy-prompt-btn").forEach(setupCopyLogic);
     container.appendChild(promptEditor);
-    
-    // Ensure the container has the drag logic for its children
     setupPromptDragListeners(container);
+    setupListeners();
 
-    const titleInput = promptEditor.querySelector(".prompt-title");
-    titleInput.addEventListener("click", (e) => {
-        const allOpenPrompts = document.querySelectorAll(".prompt-editor:not(.is-saved)");
-        allOpenPrompts.forEach(openPrompt => {
+    // Title click to edit
+    promptEditor.querySelector(".prompt-title").addEventListener("click", (e) => {
+        document.querySelectorAll(".prompt-editor:not(.is-saved)").forEach(openPrompt => {
             if (openPrompt !== promptEditor && openPrompt.querySelector(".prompt-title").value.trim() !== "") {
                 openPrompt.classList.add("is-saved");
             }
         });
         promptEditor.classList.remove("is-saved");
         e.stopPropagation();
-    });
-
-    promptEditor.querySelector(".save-prompt-btn").addEventListener("click", () => {
-        if (!titleInput.value) {
-            alert("Please enter a title!");
-            return;
-        }
-
-        if (isNew) {
-            isNew = false;
-            promptEditor.querySelector(".edit-actions").innerHTML = `
-                <button class="cancel-edit-btn">Cancel</button>
-                <button class="copy-prompt-btn">Copy</button>
-                <button class="save-prompt-btn">Save</button>
-            `;
-            promptEditor.querySelector(".cancel-edit-btn").addEventListener("click", () => promptEditor.classList.add("is-saved"));
-            setupCopyLogic(promptEditor.querySelector(".copy-prompt-btn"));
-        }
-
-        promptEditor.classList.add("is-saved");
-        saveFolders();
-    });
-
-    promptEditor.querySelector(".delete-prompt-btn").addEventListener("click", () => {
-        promptEditor.remove();
-        saveFolders();
     });
 }
 
@@ -230,14 +228,12 @@ function renderFolderStatic(folderElement, name) {
         header.className = "folder-header";
         folderElement.prepend(header);
     }
-
     header.innerHTML = `
         <span class="drag-handle">⠿</span>
         <span class="icon">${folderElement.classList.contains("is-open") ? "▼" : "▶"}</span>
         <span class="folder-name">${name}</span>
         <button class="three-dot-btn">...</button>
     `;
-
     if (!folderElement.querySelector(".prompts-list")) {
         const listDiv = document.createElement("div");
         listDiv.className = "prompts-list";
@@ -276,10 +272,10 @@ document.addEventListener("click", (e) => {
     }
 });
 
-// --- DRAG AND DROP HANDLERS (FOLDERS) ---
+// --- DRAG HANDLERS (FOLDERS) ---
 mainListView.addEventListener("dragstart", (e) => {
     const targetFolder = e.target.closest(".folder");
-    if (!targetFolder || e.target.closest(".prompt-editor")) return; // Don't drag folder if dragging a prompt
+    if (!targetFolder || e.target.closest(".prompt-editor")) return;
     targetFolder.classList.add("dragging");
     e.dataTransfer.setData("text/plain", ""); 
 });
@@ -294,68 +290,41 @@ mainListView.addEventListener('dragover', (e) => {
     e.preventDefault(); 
     const draggingFolder = document.querySelector('.dragging');
     if (!draggingFolder) return;
-
     const afterElement = getDragAfterElement(mainListView, e.clientY, '.folder');
-    if (afterElement == null) {
-        mainListView.appendChild(draggingFolder);
-    } else {
-        mainListView.insertBefore(draggingFolder, afterElement);
-    }
+    if (afterElement == null) mainListView.appendChild(draggingFolder);
+    else mainListView.insertBefore(draggingFolder, afterElement);
 });
 
-// --- DRAG AND DROP HANDLERS (PROMPTS) ---
+// --- DRAG HANDLERS (PROMPTS) ---
 function setupPromptDragListeners(container) {
-    // We remove then add to avoid duplicate listeners on re-renders
-    container.removeEventListener("dragstart", handlePromptDragStart);
-    container.addEventListener("dragstart", handlePromptDragStart);
-
-    container.removeEventListener("dragend", handlePromptDragEnd);
-    container.addEventListener("dragend", handlePromptDragEnd);
-
-    container.removeEventListener("dragover", handlePromptDragOver);
-    container.addEventListener("dragover", handlePromptDragOver);
+    container.addEventListener("dragstart", (e) => {
+        const targetPrompt = e.target.closest(".prompt-editor");
+        if (!targetPrompt) return;
+        targetPrompt.classList.add("dragging-prompt");
+        e.dataTransfer.setData("text/plain", ""); 
+        e.stopPropagation(); 
+    });
+    container.addEventListener("dragend", (e) => {
+        const targetPrompt = e.target.closest(".prompt-editor");
+        if (targetPrompt) targetPrompt.classList.remove("dragging-prompt");
+        saveFolders(); 
+    });
+    container.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        const draggingPrompt = document.querySelector(".dragging-prompt");
+        if (!draggingPrompt) return;
+        const afterElement = getDragAfterElement(container, e.clientY, ".prompt-editor");
+        if (afterElement == null) container.appendChild(draggingPrompt);
+        else container.insertBefore(draggingPrompt, afterElement);
+    });
 }
 
-function handlePromptDragStart(e) {
-    const targetPrompt = e.target.closest(".prompt-editor");
-    if (!targetPrompt) return;
-    targetPrompt.classList.add("dragging-prompt");
-    e.dataTransfer.setData("text/plain", ""); 
-    e.stopPropagation(); 
-}
-
-function handlePromptDragEnd(e) {
-    const targetPrompt = e.target.closest(".prompt-editor");
-    if (targetPrompt) targetPrompt.classList.remove("dragging-prompt");
-    saveFolders(); 
-}
-
-function handlePromptDragOver(e) {
-    e.preventDefault();
-    const draggingPrompt = document.querySelector(".dragging-prompt");
-    if (!draggingPrompt) return;
-
-    const container = e.currentTarget;
-    const afterElement = getDragAfterElement(container, e.clientY, ".prompt-editor");
-    if (afterElement == null) {
-        container.appendChild(draggingPrompt);
-    } else {
-        container.insertBefore(draggingPrompt, afterElement);
-    }
-}
-
-// --- SHARED HELPER ---
 function getDragAfterElement(container, y, selector) {
-    // Filter out both dragging types to be safe
     const draggableElements = [...container.querySelectorAll(`${selector}:not(.dragging):not(.dragging-prompt)`)];
-
     return draggableElements.reduce((closest, child) => {
         const box = child.getBoundingClientRect();
         const offset = y - box.top - box.height / 2;
-        if (offset < 0 && offset > closest.offset) {
-            return { offset: offset, element: child };
-        } else {
-            return closest;
-        }
+        if (offset < 0 && offset > closest.offset) return { offset: offset, element: child };
+        else return closest;
     }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
