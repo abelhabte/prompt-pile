@@ -203,3 +203,21 @@
     opacity: 0.5;
     cursor: default;
 }
+
+/* Visual style for the folder currently being moved */
+.folder.dragging {
+    opacity: 0.5;
+    border: 2px dashed #4A90E2;
+    background-color: #f0f7ff;
+}
+
+/* Ensure handle looks like a grabber */
+.drag-handle {
+    cursor: grab;
+    padding: 0 4px;
+    user-select: none;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}

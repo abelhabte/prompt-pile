@@ -9,6 +9,7 @@ loadFolders();
 function createFolderElement(existingName = null, existingPrompts = []) {
     const folder = document.createElement("div");
     folder.className = 'folder';
+    folder.setAttribute("draggable", "true");
 
     if (!existingName) {
         folder.innerHTML = `
@@ -23,6 +24,15 @@ function createFolderElement(existingName = null, existingPrompts = []) {
         const list = folder.querySelector(".prompts-list");
         existingPrompts.forEach(p => addPromptToUI(list, p));
     }
+
+    // Fix: Only trigger drag if clicking the handle ⠿
+    folder.addEventListener("mousedown", (e) => {
+        if (e.target.classList.contains("drag-handle")) {
+            folder.setAttribute("draggable", "true");
+        } else {
+            folder.setAttribute("draggable", "false");
+        }
+    });
 
     mainListView.appendChild(folder);
 
@@ -76,6 +86,7 @@ function createFolderElement(existingName = null, existingPrompts = []) {
             const currentName = nameSpan.textContent;
             const header = folder.querySelector(".folder-header");
             header.innerHTML = `
+                <span class="drag-handle">⠿</span>
                 <span class="icon">▶</span>
                 <input type="text" class="folder-input" value="${currentName}"/>
             `;
@@ -159,7 +170,6 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     };
 
     promptEditor.querySelectorAll(".copy-prompt-btn").forEach(setupCopyLogic);
-
     container.appendChild(promptEditor);
 
     const titleInput = promptEditor.querySelector(".prompt-title");
@@ -216,7 +226,6 @@ function renderFolderStatic(folderElement, name) {
         <button class="three-dot-btn">...</button>
     `;
 
-    // Corrected variable name from listDev to listDiv
     if (!folderElement.querySelector(".prompts-list")) {
         const listDiv = document.createElement("div");
         listDiv.className = "prompts-list";
@@ -254,3 +263,44 @@ document.addEventListener("click", (e) => {
         menu.remove();
     }
 });
+
+// --- DRAG AND DROP HANDLERS ---
+mainListView.addEventListener("dragstart", (e) => {
+    const targetFolder = e.target.closest(".folder");
+    if (!targetFolder) return;
+    targetFolder.classList.add("dragging");
+    e.dataTransfer.setData("text/plain", ""); // Required for Firefox
+});
+
+mainListView.addEventListener('dragend', (e) => {
+    const targetFolder = e.target.closest('.folder');
+    if (targetFolder) targetFolder.classList.remove('dragging');
+    saveFolders(); 
+});
+
+mainListView.addEventListener('dragover', (e) => {
+    e.preventDefault(); 
+    const draggingFolder = document.querySelector('.dragging');
+    if (!draggingFolder) return;
+
+    const afterElement = getDragAfterElement(mainListView, e.clientY);
+    if (afterElement == null) {
+        mainListView.appendChild(draggingFolder);
+    } else {
+        mainListView.insertBefore(draggingFolder, afterElement);
+    }
+});
+
+function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.folder:not(.dragging)')];
+
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
