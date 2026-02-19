@@ -189,3 +189,17 @@
 .drag-handle:active {
     cursor: grabbing;
 }
+
+/* Update your existing .drag-handle or add this specific one */
+.prompt-header-row .drag-handle {
+    font-size: 14px; /* Slightly smaller for prompts */
+    color: #ddd;
+    margin-right: 4px;
+    flex-shrink: 0; /* Prevents the handle from squishing */
+}
+
+/* Ensure the handle is hidden when editing to keep the UI clean (Optional) */
+.prompt-editor:not(.is-saved) .drag-handle {
+    opacity: 0.5;
+    cursor: default;
+}

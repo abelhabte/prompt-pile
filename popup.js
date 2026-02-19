@@ -123,6 +123,7 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
 
     promptEditor.innerHTML = `
         <div class="prompt-header-row">
+            <span class="drag-handle">⠿</span>
             <input type="text" class="prompt-title" placeholder="Prompt Title" value="${data.title}">
             <select class="prompt-category">
                 <option value="ChatGPT" ${data.category === 'ChatGPT' ? 'selected' : ''}>ChatGPT</option>
