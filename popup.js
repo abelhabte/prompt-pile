@@ -328,3 +328,47 @@ function getDragAfterElement(container, y, selector) {
         else return closest;
     }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
+
+// --- SEARCH FUNCTIONALITY ---
+const searchInput = document.getElementById("search-prompts");
+
+searchInput.addEventListener("input", (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    const folders = document.querySelectorAll(".folder");
+
+    folders.forEach(folder => {
+        const prompts = folder.querySelectorAll(".prompt-editor");
+        let folderHasMatch = false;
+
+        prompts.forEach(prompt => {
+            const titleInput = prompt.querySelector(".prompt-title");
+            const titleText = titleInput ? titleInput.value.toLowerCase() : "";
+            
+            // If query is empty, show everything.
+            // If title contains query, show the prompt.
+            if (query === "" || titleText.includes(query)) {
+                prompt.style.display = "block";
+                if (query !== "") folderHasMatch = true; 
+            } else {
+                prompt.style.display = "none";
+            }
+        });
+
+        // 1. Show the folder if we aren't searching OR if it has a match
+        const showFolder = query === "" || folderHasMatch;
+        folder.style.display = showFolder ? "block" : "none";
+
+        // 2. Visual Polish: Auto-expand and update icons during search
+        if (query !== "" && folderHasMatch) {
+            folder.classList.add("is-open");
+            const icon = folder.querySelector(".icon");
+            if (icon) icon.textContent = "▼";
+        } 
+        // 3. Reset state when search is cleared
+        else if (query === "") {
+            folder.classList.remove("is-open");
+            const icon = folder.querySelector(".icon");
+            if (icon) icon.textContent = "▶";
+        }
+    });
+});
