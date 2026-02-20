@@ -432,3 +432,71 @@ exportBtn.addEventListener("click", async () => {
         }, 0);
     });
 });
+
+// --- IMPORT FUNCTIONALITY ---
+const importBtn = document.getElementById("import-btn");
+
+// Fallback for Firefox and older browsers
+importBtn.addEventListener("click", () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.webkitdirectory = true; // Allows folder selection
+
+    input.onchange = async (e) => {
+        const files = Array.from(e.target.files);
+        const folderMap = {};
+
+        for (const file of files) {
+            if (file.name.endsWith('.json')) {
+                // Get the folder name from the relative path
+                const pathParts = file.webkitRelativePath.split('/');
+                const folderName = pathParts.length > 2 ? pathParts[pathParts.length - 2] : pathParts[0];
+                
+                const text = await file.text();
+                try {
+                    const json = JSON.parse(text);
+                    if (!folderMap[folderName]) folderMap[folderName] = [];
+                    folderMap[folderName].push(json);
+                } catch (err) { /* ignore invalid json */ }
+            }
+        }
+
+        // Create the folders in UI
+        Object.keys(folderMap).forEach(name => {
+            createFolderElement(name, folderMap[name]);
+        });
+        saveFolders();
+    };
+    input.click();
+});
+
+async function processDirectory(dirHandle, parentFolderName = null) {
+    let promptsInThisFolder = [];
+    
+    // Iterate through all files and folders in the current directory
+    for await (const entry of dirHandle.values()) {
+        if (entry.kind === 'file' && entry.name.endsWith('.json')) {
+            // Read JSON file
+            const file = await entry.getFile();
+            const text = await file.text();
+            try {
+                const json = JSON.parse(text);
+                // Validate that it has the required fields
+                if (json.title && json.body) {
+                    promptsInThisFolder.push(json);
+                }
+            } catch (e) {
+                console.warn(`Skipping invalid JSON file: ${entry.name}`);
+            }
+        } else if (entry.kind === 'directory') {
+            // It's a subfolder: recurse into it
+            await processDirectory(entry, entry.name);
+        }
+    }
+
+    // If we found prompts in this folder, create the folder in UI
+    if (promptsInThisFolder.length > 0) {
+        const folderName = parentFolderName || dirHandle.name;
+        createFolderElement(folderName, promptsInThisFolder);
+    }
+}
