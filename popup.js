@@ -307,7 +307,7 @@ function setupPromptDragListeners(container) {
             e.preventDefault();
             return;
         }
-        
+
         const targetPrompt = e.target.closest(".prompt-editor");
         if (!targetPrompt) return;
         targetPrompt.classList.add("dragging-prompt");
@@ -380,5 +380,55 @@ searchInput.addEventListener("input", (e) => {
             const icon = folder.querySelector(".icon");
             if (icon) icon.textContent = "▶";
         }
+    });
+});
+
+// --- EXPORT FUNCTIONALITY ---
+const exportBtn = document.getElementById("export-btn");
+
+exportBtn.addEventListener("click", async () => {
+    const savedData = JSON.parse(localStorage.getItem("myFolders") || "[]");
+    
+    if (savedData.length === 0) {
+        alert("No prompts found to export!");
+        return;
+    }
+
+    const zip = new JSZip();
+    const rootFolder = zip.folder("Prompt_Pile_Export");
+
+    savedData.forEach(folderData => {
+        // Create a folder inside the ZIP for each category
+        const folder = rootFolder.folder(folderData.name.replace(/[/\\?%*:|"<>]/g, '-')); // Sanitize folder name
+
+        folderData.prompts.forEach((prompt, index) => {
+            const promptContent = JSON.stringify({
+                title: prompt.title,
+                category: prompt.category,
+                body: prompt.body
+            }, null, 4);
+
+            // Sanitize filename and ensure it's unique
+            const fileName = `${prompt.title.replace(/[/\\?%*:|"<>]/g, '-') || 'prompt_' + index}.json`;
+            
+            // Create the .json file inside the specific folder
+            folder.file(fileName, promptContent);
+        });
+    });
+
+    // Generate the ZIP file and trigger download
+    zip.generateAsync({ type: "blob" }).then((content) => {
+        const url = URL.createObjectURL(content);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "Prompt_Pile_Export.zip";
+        document.body.appendChild(a);
+        a.click();
+        
+        // Cleanup
+        setTimeout(() => {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 0);
     });
 });
