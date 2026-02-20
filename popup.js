@@ -274,6 +274,11 @@ document.addEventListener("click", (e) => {
 
 // --- DRAG HANDLERS (FOLDERS) ---
 mainListView.addEventListener("dragstart", (e) => {
+    if (searchInput.value.trim() !== "") {
+        e.preventDefault();
+        return;
+    }
+
     const targetFolder = e.target.closest(".folder");
     if (!targetFolder || e.target.closest(".prompt-editor")) return;
     targetFolder.classList.add("dragging");
@@ -298,6 +303,11 @@ mainListView.addEventListener('dragover', (e) => {
 // --- DRAG HANDLERS (PROMPTS) ---
 function setupPromptDragListeners(container) {
     container.addEventListener("dragstart", (e) => {
+        if (searchInput.value.trim() !== "") {
+            e.preventDefault();
+            return;
+        }
+        
         const targetPrompt = e.target.closest(".prompt-editor");
         if (!targetPrompt) return;
         targetPrompt.classList.add("dragging-prompt");
