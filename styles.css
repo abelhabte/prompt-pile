@@ -306,3 +306,135 @@ body.dark-mode {
     cursor: pointer;
     padding: 0;
 }
+
+/* --- DARK MODE THEME --- */
+body.dark-mode {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+body.dark-mode #app-container {
+    background-color: #000000;
+}
+
+body.dark-mode #top-header, 
+body.dark-mode #footer-actions,
+body.dark-mode .folder-header:hover,
+body.dark-mode .prompt-editor {
+    background-color: #000000;
+    border-color: #333333; /* Darker borders for a seamless look */
+}
+
+body.dark-mode h1, 
+body.dark-mode .folder-name, 
+body.dark-mode .prompt-title,
+body.dark-mode .prompt-body {
+    color: #ffffff;
+}
+
+body.dark-mode .subtitle,
+body.dark-mode .icon,
+body.dark-mode .drag-handle {
+    color: #aaaaaa;
+}
+
+body.dark-mode .prompt-body {
+    background-color: #121212;
+    border: 1px solid #333333;
+}
+
+/* Ensure the logo button has no background */
+#theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+}
+
+/* Add this inside your body.dark-mode block or as a new rule */
+body.dark-mode #search-prompts {
+    background-color: #1a1a1a; /* Very dark grey so it's slightly visible against pure black */
+    color: #ffffff;            /* White text */
+    border: 1px solid #333333; /* Subtle border */
+}
+
+/* Optional: Style the placeholder text (the "Search..." hint) */
+body.dark-mode #search-prompts::placeholder {
+    color: #777777;
+}
+
+/* Optional: Highlight the border when the user clicks into the search bar */
+body.dark-mode #search-prompts:focus {
+    border-color: #4A90E2; /* Use your blue accent color */
+    outline: none;
+}
+
+body.dark-mode {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+/* Buttons and Select dropdowns inside prompts */
+body.dark-mode select, 
+body.dark-mode button:not(.primary-btn):not(.save-prompt-btn) {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    border: 1px solid #333333;
+}
+
+/* The three-dot options menu */
+body.dark-mode .folder-options-menu {
+    background-color: #1a1a1a;
+    border: 1px solid #444;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+/* Modal Dialogs (Create Folder / Create Prompt) */
+body.dark-mode dialog {
+    background-color: #121212;
+    color: #ffffff;
+    border: 1px solid #333;
+}
+
+body.dark-mode dialog input, 
+body.dark-mode dialog textarea {
+    background-color: #000000;
+    color: #ffffff;
+    border: 1px solid #444;
+}
+
+/* Dark Mode Overrides for Prompt Editor Inputs */
+body.dark-mode .prompt-title,
+body.dark-mode .prompt-category,
+body.dark-mode .prompt-body {
+    background-color: #000000; /* Pure black to match the UI */
+    color: #ffffff;            /* White text */
+    border: 1px solid #333333; /* Dark grey border so you can see the field edges */
+}
+
+/* Style the text inside the category dropdown options */
+body.dark-mode .prompt-category option {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+/* Change the border color when the user clicks to type */
+body.dark-mode .prompt-title:focus,
+body.dark-mode .prompt-body:focus {
+    border-color: #4A90E2; /* Your primary blue accent color */
+    outline: none;
+}
+
+/* Ensure the placeholder text isn't too dark to read */
+body.dark-mode .prompt-title::placeholder,
+body.dark-mode .prompt-body::placeholder {
+    color: #666666;
+}
+
+body.dark-mode .folder-input {
+    background-color: #000000;
+    color: #ffffff;
+    border: 1px solid #333333;
+    padding: 4px 8px;
+}

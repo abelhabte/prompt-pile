@@ -501,32 +501,31 @@ async function processDirectory(dirHandle, parentFolderName = null) {
     }
 }
 
-// --- DARK MODE TOGGLE ---
+// --- DARK MODE TOGGLE LOGIC ---
 const themeToggle = document.getElementById("theme-toggle");
 const themeIcon = document.getElementById("theme-icon");
 
-themeToggle.addEventListener("click", () => {
-    // Toggle the class on the body
-    document.body.classList.toggle("dark-mode");
-
-    // Check if dark mode is now active
-    const isDark = document.body.classList.contains("dark-mode");
-
-    // Swap the image source
-    if (isDark) {
-        themeIcon.src = "../icons/circle_white.png";
-    } else {
-        themeIcon.src = "../icons/circle_black.png";
-    }
-
-    // Optional: Save preference to loocalStorage
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-});
-
-// Load preference on startup
-window.addEventListener("DOMContentLoaded", () => {
-    if (localStorage.getItem("theme") === "dark") {
+function applyTheme(theme) {
+    if (theme === "dark") {
         document.body.classList.add("dark-mode");
         themeIcon.src = "../icons/circle_white.png";
+    } else {
+        document.body.classList.remove("dark-mode");
+        themeIcon.src = "../icons/circle_black.png";
     }
+}
+
+themeToggle.addEventListener("click", () => {
+    const isDark = document.body.classList.toggle("dark-mode");
+    const newTheme = isDark ? "dark" : "light";
+    
+    // Update the icon
+    themeIcon.src = isDark ? "../icons/circle_white.png" : "../icons/circle_black.png";
+    
+    // Persist the choice
+    localStorage.setItem("theme", newTheme);
 });
+
+// Initialize theme on load
+const savedTheme = localStorage.getItem("theme") || "light";
+applyTheme(savedTheme);
