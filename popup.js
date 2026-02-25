@@ -500,3 +500,33 @@ async function processDirectory(dirHandle, parentFolderName = null) {
         createFolderElement(folderName, promptsInThisFolder);
     }
 }
+
+// --- DARK MODE TOGGLE ---
+const themeToggle = document.getElementById("theme-toggle");
+const themeIcon = document.getElementById("theme-icon");
+
+themeToggle.addEventListener("click", () => {
+    // Toggle the class on the body
+    document.body.classList.toggle("dark-mode");
+
+    // Check if dark mode is now active
+    const isDark = document.body.classList.contains("dark-mode");
+
+    // Swap the image source
+    if (isDark) {
+        themeIcon.src = "../icons/circle_white.png";
+    } else {
+        themeIcon.src = "../icons/circle_black.png";
+    }
+
+    // Optional: Save preference to loocalStorage
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+});
+
+// Load preference on startup
+window.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+        themeIcon.src = "../icons/circle_white.png";
+    }
+});

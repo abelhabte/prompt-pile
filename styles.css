@@ -263,3 +263,46 @@
     /* Optional: fine-tune placement */
     object-fit: contain;
 }
+
+/* Variables for easy switching */
+:root {
+    --bg-color: #ffffff;
+    --text-primary: #333333;
+    --text-secondary: #888888;
+    --border-color: #f0f0f0;
+    --folder-bg: #ffffff;
+}
+
+body.dark-mode {
+    --bg-color: #1e1e1e;
+    --text-primary: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --border-color: #333333;
+    --folder-bg: #2d2d2d;
+}
+
+#app-container {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Update existing rules to use these variables */
+#top-header {
+    background-color: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-text h1 { color: var(--text-primary); }
+.subtitle { color: var(--text-secondary); }
+
+.folder { border-bottom: 1px solid var(--border-color); }
+.folder-header:hover { background-color: var(--border-color); }
+
+/* Remove button styling for the icon */
+#theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
