@@ -62,10 +62,20 @@ function createFolderElement(existingName = null, existingPrompts = []) {
         }
 
         if (e.target.classList.contains("three-dot-btn")) {
+            const header = e.target.closest(".folder-header");
+            const existingMenu = header.querySelector(".folder-options-menu");
+
+            // 1. If a menu already exists in THIS header, remove it and stop (Toggle Off)
+            if (existingMenu) {
+                existingMenu.remove();
+                return;
+            }
+
+            // 2. Close any other menus open in DIFFERENT folders (Cleanup)
             const openMenu = document.querySelector(".folder-options-menu");
             if (openMenu) openMenu.remove();
 
-            const header = e.target.closest(".folder-header");
+            // 3. Otherwise, create the menu (Toggle On)
             header.insertAdjacentHTML('beforeend', `
                 <div class="folder-options-menu">
                     <button class="action-btn">Add Prompt</button>
