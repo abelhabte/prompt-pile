@@ -1,0 +1,257 @@
+/* --- APP LAYOUT --- */
+#app-container {
+    width: 350px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ffffff;
+    color: #333333;
+}
+
+/* --- FOLDER STYLES --- */
+.folder {
+    margin-bottom: 8px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.folder-header {
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 8px;
+    padding: 8px;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 4px;
+}
+
+.folder-header:hover {
+    background-color: #f9f9f9;
+}
+
+.icon {
+    font-size: 12px;
+    width: 15px;
+    color: #666;
+}
+
+.folder-name {
+    flex-grow: 1;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.folder-options-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    min-width: 140px;
+    padding: 4px 0;
+}
+
+.action-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 8px 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.action-btn:hover { background-color: #f0f0f0; }
+
+.prompts-list {
+    display: none;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+
+.folder.is-open > .prompts-list { display: block; }
+
+/* --- PROMPT EDITOR STYLES --- */
+.prompt-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin: 8px 0;
+    background-color: #fff;
+    box-sizing: border-box; 
+}
+
+.prompt-header-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    overflow: hidden; 
+}
+
+.prompt-title {
+    flex: 1;
+    min-width: 0; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.prompt-editor.is-saved {
+    background-color: #fcfcfc;
+    padding: 6px 10px;
+}
+
+.prompt-editor.is-saved .prompt-title {
+    border: transparent;
+    background: transparent;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.prompt-editor:not(.is-saved) .saved-actions { display: none; }
+.prompt-editor.is-saved .prompt-body,
+.prompt-editor.is-saved .edit-actions { display: none; }
+
+.prompt-body {
+    width: 100%;
+    height: 120px;
+    resize: none;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.saved-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.edit-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.edit-actions button {
+    flex: 1;
+    padding: 8px 4px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 12px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    color: #333;
+}
+
+.edit-actions .save-prompt-btn {
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+}
+
+.edit-actions button:hover { background-color: #f5f5f5; }
+.edit-actions .save-prompt-btn:hover { background-color: #357ABD; }
+
+.prompt-editor.is-saved .prompt-category {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: none;
+    background: transparent;
+    pointer-events: none;
+    color: #666;
+    cursor: default;
+    padding: 0;
+}
+
+.drag-handle {
+    cursor: grab;
+    color: #ccc;
+    font-size: 16px;
+    margin-right: 2px;
+    user-select: none;
+}
+
+.drag-handle:hover {
+    color: #999;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+.prompt-header-row .drag-handle {
+    font-size: 14px;
+    color: #ddd;
+    margin-right: 4px;
+    flex-shrink: 0;
+}
+
+.prompt-editor:not(.is-saved) .drag-handle {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.folder.dragging {
+    opacity: 0.5;
+    border: 2px dashed #4A90E2;
+    background-color: #f0f7ff;
+}
+
+.prompt-editor.dragging-prompt {
+    opacity: 0.4;
+    background-color: #fcfcfc;
+    border: 1px dashed #ccc;
+}
+
+#top-header {
+    padding: 16px;
+    background-color: #fff;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.header-text {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.title-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.header-text h1 {
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+}
+
+.subtitle {
+    margin: 0;
+    font-size: 12px;
+    color: #888;
+}
+
+.app-logo {
+    object-fit: contain;
+}
+
+#theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+}

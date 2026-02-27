@@ -65,17 +65,14 @@ function createFolderElement(existingName = null, existingPrompts = []) {
             const header = e.target.closest(".folder-header");
             const existingMenu = header.querySelector(".folder-options-menu");
 
-            // 1. If a menu already exists in THIS header, remove it and stop (Toggle Off)
             if (existingMenu) {
                 existingMenu.remove();
                 return;
             }
 
-            // 2. Close any other menus open in DIFFERENT folders (Cleanup)
             const openMenu = document.querySelector(".folder-options-menu");
             if (openMenu) openMenu.remove();
 
-            // 3. Otherwise, create the menu (Toggle On)
             header.insertAdjacentHTML('beforeend', `
                 <div class="folder-options-menu">
                     <button class="action-btn">Add Prompt</button>
@@ -163,14 +160,12 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     `;
 
     const setupListeners = () => {
-        // Handle Cancel
         const cancelNew = promptEditor.querySelector(".cancel-new-btn");
         if (cancelNew) cancelNew.onclick = () => promptEditor.remove();
 
         const cancelEdit = promptEditor.querySelector(".cancel-edit-btn");
         if (cancelEdit) cancelEdit.onclick = () => promptEditor.classList.add("is-saved");
 
-        // Handle Save
         promptEditor.querySelector(".save-prompt-btn").onclick = () => {
             const titleInput = promptEditor.querySelector(".prompt-title");
             if (!titleInput.value) {
@@ -181,14 +176,13 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
             if (isNew) {
                 isNew = false;
                 promptEditor.querySelector(".edit-actions").innerHTML = renderButtons(false);
-                setupListeners(); // Re-bind new buttons
+                setupListeners();
             }
 
             promptEditor.classList.add("is-saved");
             saveFolders();
         };
 
-        // Handle Copy
         promptEditor.querySelectorAll(".copy-prompt-btn").forEach(btn => {
             btn.onclick = (e) => {
                 const body = promptEditor.querySelector(".prompt-body").value;
@@ -200,7 +194,6 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
             };
         });
 
-        // Handle Delete
         promptEditor.querySelector(".delete-prompt-btn").onclick = () => {
             promptEditor.remove();
             saveFolders();
@@ -219,7 +212,6 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     setupPromptDragListeners(container);
     setupListeners();
 
-    // Title click to edit
     promptEditor.querySelector(".prompt-title").addEventListener("click", (e) => {
         document.querySelectorAll(".prompt-editor:not(.is-saved)").forEach(openPrompt => {
             if (openPrompt !== promptEditor && openPrompt.querySelector(".prompt-title").value.trim() !== "") {
@@ -282,13 +274,19 @@ document.addEventListener("click", (e) => {
     }
 });
 
-// --- DRAG HANDLERS (FOLDERS) ---
-mainListView.addEventListener("dragstart", (e) => {
-    if (searchInput.value.trim() !== "") {
-        e.preventDefault();
-        return;
-    }
+// --- DRAG HANDLERS ---
+function getDragAfterElement(container, y, selector) {
+    const draggableElements = [...container.querySelectorAll(`${selector}:not(.dragging):not(.dragging-prompt)`)];
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) return { offset: offset, element: child };
+        else return closest;
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
 
+mainListView.addEventListener("dragstart", (e) => {
+    if (searchInput.value.trim() !== "") { e.preventDefault(); return; }
     const targetFolder = e.target.closest(".folder");
     if (!targetFolder || e.target.closest(".prompt-editor")) return;
     targetFolder.classList.add("dragging");
@@ -310,14 +308,9 @@ mainListView.addEventListener('dragover', (e) => {
     else mainListView.insertBefore(draggingFolder, afterElement);
 });
 
-// --- DRAG HANDLERS (PROMPTS) ---
 function setupPromptDragListeners(container) {
     container.addEventListener("dragstart", (e) => {
-        if (searchInput.value.trim() !== "") {
-            e.preventDefault();
-            return;
-        }
-
+        if (searchInput.value.trim() !== "") { e.preventDefault(); return; }
         const targetPrompt = e.target.closest(".prompt-editor");
         if (!targetPrompt) return;
         targetPrompt.classList.add("dragging-prompt");
@@ -339,53 +332,27 @@ function setupPromptDragListeners(container) {
     });
 }
 
-function getDragAfterElement(container, y, selector) {
-    const draggableElements = [...container.querySelectorAll(`${selector}:not(.dragging):not(.dragging-prompt)`)];
-    return draggableElements.reduce((closest, child) => {
-        const box = child.getBoundingClientRect();
-        const offset = y - box.top - box.height / 2;
-        if (offset < 0 && offset > closest.offset) return { offset: offset, element: child };
-        else return closest;
-    }, { offset: Number.NEGATIVE_INFINITY }).element;
-}
-
 // --- SEARCH FUNCTIONALITY ---
 const searchInput = document.getElementById("search-prompts");
-
 searchInput.addEventListener("input", (e) => {
     const query = e.target.value.toLowerCase().trim();
     const folders = document.querySelectorAll(".folder");
-
     folders.forEach(folder => {
         const prompts = folder.querySelectorAll(".prompt-editor");
         let folderHasMatch = false;
-
         prompts.forEach(prompt => {
-            const titleInput = prompt.querySelector(".prompt-title");
-            const titleText = titleInput ? titleInput.value.toLowerCase() : "";
-            
-            // If query is empty, show everything.
-            // If title contains query, show the prompt.
+            const titleText = prompt.querySelector(".prompt-title").value.toLowerCase();
             if (query === "" || titleText.includes(query)) {
                 prompt.style.display = "block";
                 if (query !== "") folderHasMatch = true; 
-            } else {
-                prompt.style.display = "none";
-            }
+            } else { prompt.style.display = "none"; }
         });
-
-        // 1. Show the folder if we aren't searching OR if it has a match
-        const showFolder = query === "" || folderHasMatch;
-        folder.style.display = showFolder ? "block" : "none";
-
-        // 2. Visual Polish: Auto-expand and update icons during search
+        folder.style.display = (query === "" || folderHasMatch) ? "block" : "none";
         if (query !== "" && folderHasMatch) {
             folder.classList.add("is-open");
             const icon = folder.querySelector(".icon");
             if (icon) icon.textContent = "▼";
-        } 
-        // 3. Reset state when search is cleared
-        else if (query === "") {
+        } else if (query === "") {
             folder.classList.remove("is-open");
             const icon = folder.querySelector(".icon");
             if (icon) icon.textContent = "▶";
@@ -393,149 +360,80 @@ searchInput.addEventListener("input", (e) => {
     });
 });
 
-// --- EXPORT FUNCTIONALITY ---
+// --- EXPORT/IMPORT ---
 const exportBtn = document.getElementById("export-btn");
-
 exportBtn.addEventListener("click", async () => {
     const savedData = JSON.parse(localStorage.getItem("myFolders") || "[]");
-    
-    if (savedData.length === 0) {
-        alert("No prompts found to export!");
-        return;
-    }
-
+    if (savedData.length === 0) { alert("No prompts found!"); return; }
     const zip = new JSZip();
     const rootFolder = zip.folder("Prompt_Pile_Export");
-
     savedData.forEach(folderData => {
-        // Create a folder inside the ZIP for each category
-        const folder = rootFolder.folder(folderData.name.replace(/[/\\?%*:|"<>]/g, '-')); // Sanitize folder name
-
+        const folder = rootFolder.folder(folderData.name.replace(/[/\\?%*:|"<>]/g, '-'));
         folderData.prompts.forEach((prompt, index) => {
-            const promptContent = JSON.stringify({
-                title: prompt.title,
-                category: prompt.category,
-                body: prompt.body
-            }, null, 4);
-
-            // Sanitize filename and ensure it's unique
+            const content = JSON.stringify(prompt, null, 4);
             const fileName = `${prompt.title.replace(/[/\\?%*:|"<>]/g, '-') || 'prompt_' + index}.json`;
-            
-            // Create the .json file inside the specific folder
-            folder.file(fileName, promptContent);
+            folder.file(fileName, content);
         });
     });
-
-    // Generate the ZIP file and trigger download
     zip.generateAsync({ type: "blob" }).then((content) => {
         const url = URL.createObjectURL(content);
         const a = document.createElement("a");
-        a.href = url;
-        a.download = "Prompt_Pile_Export.zip";
-        document.body.appendChild(a);
-        a.click();
-        
-        // Cleanup
-        setTimeout(() => {
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }, 0);
+        a.href = url; a.download = "Prompt_Pile_Export.zip";
+        document.body.appendChild(a); a.click();
+        setTimeout(() => { document.body.removeChild(a); window.URL.revokeObjectURL(url); }, 0);
     });
 });
 
-// --- IMPORT FUNCTIONALITY ---
 const importBtn = document.getElementById("import-btn");
-
-// Fallback for Firefox and older browsers
 importBtn.addEventListener("click", () => {
     const input = document.createElement('input');
-    input.type = 'file';
-    input.webkitdirectory = true; // Allows folder selection
-
+    input.type = 'file'; input.webkitdirectory = true;
     input.onchange = async (e) => {
         const files = Array.from(e.target.files);
         const folderMap = {};
-
         for (const file of files) {
             if (file.name.endsWith('.json')) {
-                // Get the folder name from the relative path
                 const pathParts = file.webkitRelativePath.split('/');
                 const folderName = pathParts.length > 2 ? pathParts[pathParts.length - 2] : pathParts[0];
-                
                 const text = await file.text();
                 try {
                     const json = JSON.parse(text);
                     if (!folderMap[folderName]) folderMap[folderName] = [];
                     folderMap[folderName].push(json);
-                } catch (err) { /* ignore invalid json */ }
+                } catch (err) {}
             }
         }
-
-        // Create the folders in UI
-        Object.keys(folderMap).forEach(name => {
-            createFolderElement(name, folderMap[name]);
-        });
+        Object.keys(folderMap).forEach(name => createFolderElement(name, folderMap[name]));
         saveFolders();
     };
     input.click();
 });
 
-async function processDirectory(dirHandle, parentFolderName = null) {
-    let promptsInThisFolder = [];
-    
-    // Iterate through all files and folders in the current directory
-    for await (const entry of dirHandle.values()) {
-        if (entry.kind === 'file' && entry.name.endsWith('.json')) {
-            // Read JSON file
-            const file = await entry.getFile();
-            const text = await file.text();
-            try {
-                const json = JSON.parse(text);
-                // Validate that it has the required fields
-                if (json.title && json.body) {
-                    promptsInThisFolder.push(json);
-                }
-            } catch (e) {
-                console.warn(`Skipping invalid JSON file: ${entry.name}`);
-            }
-        } else if (entry.kind === 'directory') {
-            // It's a subfolder: recurse into it
-            await processDirectory(entry, entry.name);
-        }
-    }
-
-    // If we found prompts in this folder, create the folder in UI
-    if (promptsInThisFolder.length > 0) {
-        const folderName = parentFolderName || dirHandle.name;
-        createFolderElement(folderName, promptsInThisFolder);
-    }
-}
-
-// --- DARK MODE TOGGLE LOGIC ---
+// --- THEME TOGGLE LOGIC (Unified Method 1) ---
 const themeToggle = document.getElementById("theme-toggle");
 const themeIcon = document.getElementById("theme-icon");
+const lightStyle = document.getElementById("light-theme");
+const darkStyle = document.getElementById("dark-theme");
 
-function applyTheme(theme) {
-    if (theme === "dark") {
-        document.body.classList.add("dark-mode");
+function setDarkMode(isDark) {
+    if (isDark) {
+        lightStyle.disabled = true;
+        darkStyle.disabled = false;
         themeIcon.src = "../icons/circle_white.png";
+        localStorage.setItem("theme", "dark");
     } else {
-        document.body.classList.remove("dark-mode");
+        lightStyle.disabled = false;
+        darkStyle.disabled = true;
         themeIcon.src = "../icons/circle_black.png";
+        localStorage.setItem("theme", "light");
     }
 }
 
-themeToggle.addEventListener("click", () => {
-    const isDark = document.body.classList.toggle("dark-mode");
-    const newTheme = isDark ? "dark" : "light";
-    
-    // Update the icon
-    themeIcon.src = isDark ? "../icons/circle_white.png" : "../icons/circle_black.png";
-    
-    // Persist the choice
-    localStorage.setItem("theme", newTheme);
-});
+// Initialization check for theme
+const savedTheme = localStorage.getItem("theme");
+setDarkMode(savedTheme === "dark");
 
-// Initialize theme on load
-const savedTheme = localStorage.getItem("theme") || "light";
-applyTheme(savedTheme);
+themeToggle.addEventListener("click", () => {
+    const isCurrentlyDark = !darkStyle.disabled;
+    setDarkMode(!isCurrentlyDark);
+});
