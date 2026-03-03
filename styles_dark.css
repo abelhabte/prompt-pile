@@ -134,7 +134,13 @@
 
 .prompt-editor:not(.is-saved) .saved-actions { display: none; }
 .prompt-editor.is-saved .prompt-body,
-.prompt-editor.is-saved .edit-actions { display: none; }
+.prompt-editor.is-saved .edit-actions { display: none !important; }
+
+.prompt-editor:not(.is-saved) .edit-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+}
 
 .prompt-body {
     width: 100%;
@@ -332,20 +338,19 @@
 }
 
 #search-prompts {
-    /* Copying border and background from .secondary-btn */
     border: 1px solid #ced4da;
     background-color: #f8f9fa;
     border-radius: 4px;
-    
-    /* Copying font and padding */
     font-size: 13px;
-    padding: 3px 8px; /* Adjusted padding for text input */
-    
-    /* Layout properties */
     width: 100%;
-    box-sizing: border-box; /* Ensures padding doesn't break the width */
+    box-sizing: border-box;
     outline: none;
     transition: border-color 0.2s;
+    
+    /* Use these values from your final standard block */
+    padding: 4px 10px; 
+    height: 30px;      
+    line-height: 1;
 }
 
 /* Optional: Add a focus state so it feels interactive like the button hover */
@@ -380,4 +385,33 @@
 /* Hide the drag handle when the prompt is being edited */
 .prompt-editor:not(.is-saved) .prompt-header-row .drag-handle {
     display: none;
+}
+
+/* Standardize the horizontal spacing for all action rows */
+#action-row, 
+.footer-button-container, 
+.edit-actions {
+    display: flex !important;
+    gap: 8px !important; /* Set your preferred uniform gap here */
+    align-items: center;
+    width: 100%;
+}
+
+/* Ensure the search container grows to fill available space */
+.search-container {
+    flex: 1;
+}
+
+#search-prompts {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Apply to both styles_light.css and styles_dark.css for total uniformity */
+.secondary-btn, 
+.prompt-category, 
+#search-prompts {
+    padding: 4px 10px; /* A balanced middle-ground */
+    height: 30px;      /* Fixed height ensures vertical alignment */
+    line-height: 1;
 }
