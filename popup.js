@@ -135,11 +135,11 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
 
     const renderButtons = (isNewStatus) => {
         return isNewStatus 
-            ? `<button class="cancel-new-btn">Cancel</button>
-               <button class="save-prompt-btn">+ Add Prompt</button>`
-            : `<button class="cancel-edit-btn">Cancel</button>
-               <button class="copy-prompt-btn">Copy</button>
-               <button class="save-prompt-btn">Save</button>`;
+        ? `<button class="cancel-new-btn secondary-btn">Cancel</button>
+           <button class="save-prompt-btn">+ Add Prompt</button>`
+        : `<button class="cancel-edit-btn secondary-btn">Cancel</button>
+           <button class="copy-prompt-btn secondary-btn">Copy</button>
+           <button class="save-prompt-btn">Save</button>`;
     };
 
     promptEditor.innerHTML = `
@@ -152,8 +152,8 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
                 <option value="Gemini" ${data.category === 'Gemini' ? 'selected' : ''}>Gemini</option>
             </select>
             <div class="saved-actions">
-                <button class="copy-prompt-btn">Copy</button>
-                <button class="delete-prompt-btn">Delete</button>
+                <button class="copy-prompt-btn secondary-btn">Copy</button>
+                <button class="delete-prompt-btn secondary-btn">Delete</button>
             </div>
         </div>
         <textarea class="prompt-body" placeholder="Write your prompt here...">${data.body}</textarea>

@@ -1,6 +1,6 @@
 /* --- APP LAYOUT --- */
 #app-container {
-    width: 350px;
+    width: 375px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #ffffff;
     color: #333333;
@@ -152,6 +152,7 @@
     display: flex;
     gap: 4px;
     flex-shrink: 0;
+    margin-left: auto; /* Pushes the buttons to the far right */
 }
 
 .edit-actions {
@@ -278,14 +279,17 @@
 /* --- BUTTON STYLES --- */
 
 .secondary-btn {
-    background-color: #f8f9fa; /* Light neutral gray */
+    background-color: #f8f9fa;
     color: #333;
     border: 1px solid #ced4da;
-    padding: 6px 12px;
+    padding: 3px 8px; /* Standardized padding */
     border-radius: 4px;
     cursor: pointer;
-    font-size: 13px;
-    transition: background-color 0.2s, border-color 0.2s;
+    font-size: 12px; /* Slightly smaller to fit in the prompt row */
+    transition: background-color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .secondary-btn:hover {
@@ -302,4 +306,27 @@
     align-items: center;
     justify-content: center;
     gap: 4px;
+}
+
+#search-prompts {
+    /* Copying border and background from .secondary-btn */
+    border: 1px solid #ced4da;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    
+    /* Copying font and padding */
+    font-size: 13px;
+    padding: 3px 8px; /* Adjusted padding for text input */
+    
+    /* Layout properties */
+    width: 100%;
+    box-sizing: border-box; /* Ensures padding doesn't break the width */
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+/* Optional: Add a focus state so it feels interactive like the button hover */
+#search-prompts:focus {
+    border-color: #4A90E2; /* Highlights blue when you click to type */
+    background-color: #ffffff; /* Turns white when typing */
 }
