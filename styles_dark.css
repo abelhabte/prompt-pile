@@ -274,3 +274,32 @@
     padding: 0;
     outline: none;
 }
+
+/* --- BUTTON STYLES --- */
+
+.secondary-btn {
+    background-color: #f8f9fa; /* Light neutral gray */
+    color: #333;
+    border: 1px solid #ced4da;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.secondary-btn:hover {
+    background-color: #e2e6ea;
+    border-color: #dae0e5;
+}
+
+/* Ensure the + Folder button and Export/Import buttons use these styles */
+#add-folder-btn, 
+#export-btn, 
+#import-btn {
+    /* This ensures they follow the secondary style strictly */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
