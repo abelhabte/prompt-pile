@@ -1,6 +1,6 @@
 /* --- APP LAYOUT --- */
 #app-container {
-    width: 350px;
+    width: 400px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #ffffff;
     color: #333333;
@@ -101,10 +101,9 @@
 
 .prompt-header-row {
     display: flex;
-    align-items: center;
+    align-items: center; /* This ensures button, text, and select are centered */
     gap: 8px;
     width: 100%;
-    overflow: hidden; 
 }
 
 .prompt-title {
@@ -152,6 +151,7 @@
     display: flex;
     gap: 4px;
     flex-shrink: 0;
+    margin-left: auto; /* Pushes the buttons to the far right */
 }
 
 .edit-actions {
@@ -160,26 +160,39 @@
     margin-top: 4px;
 }
 
+/* Standardize all buttons in the prompt edit actions area */
 .edit-actions button {
     flex: 1;
-    padding: 8px 4px;
+    height: 28px;           /* Matches the height defined for your secondary-btn and prompt-category */
     font-weight: 600;
     cursor: pointer;
     border-radius: 4px;
     font-size: 12px;
-    border: 1px solid #ddd;
-    background-color: #fff;
-    color: #333;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, border-color 0.2s;
 }
 
+/* Ensure the Save button doesn't have extra margins/borders that change its size */
 .edit-actions .save-prompt-btn {
-    background-color: #4A90E2;
+    background-color: #4A90E2; 
     color: white;
-    border: none;
+    border: 1px solid #357ABD; /* Adds the border that the other buttons have */
 }
 
 .edit-actions button:hover { background-color: #f5f5f5; }
-.edit-actions .save-prompt-btn:hover { background-color: #357ABD; }
+.edit-actions .save-prompt-btn:hover {
+    background-color: #357ABD;
+    border-color: #2a629c;
+}
+
+.edit-actions .secondary-btn {
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ced4da;
+}
 
 .prompt-editor.is-saved .prompt-category {
     appearance: none;
@@ -277,20 +290,34 @@
 
 /* --- BUTTON STYLES --- */
 
-.secondary-btn {
-    background-color: #f8f9fa; /* Light neutral gray */
+.secondary-btn, 
+.prompt-category {
+    background-color: #f8f9fa;
     color: #333;
     border: 1px solid #ced4da;
-    padding: 6px 12px;
+    padding: 3px 8px;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 13px;
-    transition: background-color 0.2s, border-color 0.2s;
+    font-size: 12px;
+    height: 28px; /* Standardize height with buttons */
+    box-sizing: border-box;
+    transition: background-color 0.2s;
 }
 
-.secondary-btn:hover {
+.secondary-btn:hover,
+.prompt-category:hover {
     background-color: #e2e6ea;
     border-color: #dae0e5;
+}
+
+.prompt-category {
+    appearance: none;       /* Removes default browser styling */
+    -webkit-appearance: none;
+    padding-right: 20px;    /* Leave space for a custom arrow if desired */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg%20xmlns="http://www.w3.org/2000/svg"%20width="10"%20height="10"%20viewBox="0%200%2010%2010"><path%20fill="%23666"%20d="M2%203l3%203%203-3z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    line-height: 1;
 }
 
 /* Ensure the + Folder button and Export/Import buttons use these styles */
@@ -302,4 +329,55 @@
     align-items: center;
     justify-content: center;
     gap: 4px;
+}
+
+#search-prompts {
+    /* Copying border and background from .secondary-btn */
+    border: 1px solid #ced4da;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    
+    /* Copying font and padding */
+    font-size: 13px;
+    padding: 3px 8px; /* Adjusted padding for text input */
+    
+    /* Layout properties */
+    width: 100%;
+    box-sizing: border-box; /* Ensures padding doesn't break the width */
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+/* Optional: Add a focus state so it feels interactive like the button hover */
+#search-prompts:focus {
+    border-color: #4A90E2; /* Highlights blue when you click to type */
+    background-color: #ffffff; /* Turns white when typing */
+}
+
+.prompt-editor:not(.is-saved) .prompt-title {
+    /* Match search bar borders and background */
+    border: 1px solid #ced4da;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    
+    /* Match font and padding */
+    font-size: 13px;
+    padding: 3px 8px;
+    
+    /* Layout properties */
+    width: 100%;
+    box-sizing: border-box; 
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+/* Match the focus state of the search bar */
+.prompt-editor:not(.is-saved) .prompt-title:focus {
+    border-color: #4A90E2; 
+    background-color: #ffffff; 
+}
+
+/* Hide the drag handle when the prompt is being edited */
+.prompt-editor:not(.is-saved) .prompt-header-row .drag-handle {
+    display: none;
 }
