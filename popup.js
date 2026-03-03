@@ -102,7 +102,8 @@ function createFolderElement(existingName = null, existingPrompts = []) {
 
             renameInput.addEventListener("keydown", (keyEvent) => {
                 if (keyEvent.key === "Enter") {
-                    renderFolderStatic(folder, renameInput.value || currentName);
+                    const newName = renameInput.value || currentName;
+                    renderFolderStatic(folder, newName);
                     saveFolders();
                 }
                 if (keyEvent.key === "Escape") {
@@ -160,6 +161,18 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     `;
 
     const setupListeners = () => {
+        const titleInput = promptEditor.querySelector(".prompt-title");
+
+        // --- SMART TOOLTIP LOGIC ---
+        titleInput.addEventListener("mouseenter", () => {
+            if (promptEditor.classList.contains("is-saved") && 
+                titleInput.scrollWidth > titleInput.clientWidth) {
+                titleInput.title = titleInput.value;
+            } else {
+                titleInput.title = "";
+            }
+        });
+
         const cancelNew = promptEditor.querySelector(".cancel-new-btn");
         if (cancelNew) cancelNew.onclick = () => promptEditor.remove();
 
@@ -236,6 +249,18 @@ function renderFolderStatic(folderElement, name) {
         <span class="folder-name">${name}</span>
         <button class="three-dot-btn">...</button>
     `;
+    
+    // Add this part to handle the conditional tooltip
+    const nameSpan = header.querySelector(".folder-name");
+    nameSpan.addEventListener("mouseenter", () => {
+        // Check if the text is overflowing its container
+        if (nameSpan.scrollWidth > nameSpan.clientWidth) {
+            nameSpan.title = name;
+        } else {
+            nameSpan.title = ""; // Ensure no tooltip if it fits
+        }
+    });
+
     if (!folderElement.querySelector(".prompts-list")) {
         const listDiv = document.createElement("div");
         listDiv.className = "prompts-list";
