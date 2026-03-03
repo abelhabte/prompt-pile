@@ -37,6 +37,9 @@
     flex-grow: 1;
     font-weight: 600;
     font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .folder-options-menu {
@@ -50,6 +53,14 @@
     z-index: 1000;
     min-width: 140px;
     padding: 4px 0;
+}
+
+.three-dot-btn {
+    flex-shrink: 0;
+    width: 24px;
+    cursor: pointer;
+    background: none;
+    border: none;
 }
 
 .action-btn {
