@@ -40,6 +40,8 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: block;
+    min-width: 0;
 }
 
 .folder-options-menu {
@@ -123,6 +125,12 @@
     background: transparent;
     font-weight: bold;
     cursor: pointer;
+    
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block; 
+    width: 100%;
 }
 
 .prompt-editor:not(.is-saved) .saved-actions { display: none; }

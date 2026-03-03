@@ -126,7 +126,6 @@
     font-weight: bold;
     cursor: pointer;
     
-    /* Ensure these are present to enable the scrollWidth check */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
