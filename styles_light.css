@@ -7,10 +7,6 @@
 }
 
 /* --- FOLDER STYLES --- */
-.folder {
-    margin-bottom: 8px;
-    border-bottom: 1px solid #f0f0f0;
-}
 
 .folder-header {
     display: flex;
@@ -419,4 +415,32 @@
     padding: 4px 10px; /* A balanced middle-ground */
     height: 30px;      /* Fixed height ensures vertical alignment */
     line-height: 1;
+}
+
+/* --- MAIN LIST CONTAINER --- */
+#main-list-view {
+    margin-top: 12px; /* Fixes the "too close to button" issue */
+}
+
+/* --- FOLDER STYLES --- */
+.folder {
+    /* Use border-top so they don't double up with the one below */
+    border-top: 1px solid #f0f0f0; 
+    background-color: #ffffff;
+}
+
+/* Ensures the very last folder in the list has a closing line */
+.folder:last-child {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.folder-header {
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 8px;
+    padding: 8px;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 4px;
 }
