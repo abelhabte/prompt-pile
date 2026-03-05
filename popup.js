@@ -33,7 +33,11 @@ function createFolderElement(existingName = null, existingPrompts = []) {
         }
     });
 
-    mainListView.appendChild(folder);
+    if (!existingName) {
+        mainListView.prepend(folder);
+    } else {
+        mainListView.appendChild(folder);
+    }
 
     const initialInput = folder.querySelector('.folder-input');
     if (initialInput) {
@@ -221,7 +225,12 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
         }
     });
 
-    container.appendChild(promptEditor);
+    if (isNew) {
+        container.prepend(promptEditor);
+    } else {
+        container.appendChild(promptEditor);
+    }
+
     setupPromptDragListeners(container);
     setupListeners();
 
