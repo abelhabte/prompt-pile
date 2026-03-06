@@ -106,7 +106,7 @@
     display: flex;
     align-items: center; /* This ensures button, text, and select are centered */
     gap: 8px;
-    width: 100%;
+    padding: 0px;
 }
 
 .prompt-title {
@@ -325,13 +325,11 @@
 }
 
 .prompt-category {
-    appearance: none;       /* Removes default browser styling */
-    -webkit-appearance: none;
-    padding-right: 20px;    /* Leave space for a custom arrow if desired */
-    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg%20xmlns="http://www.w3.org/2000/svg"%20width="10"%20height="10"%20viewBox="0%200%2010%2010"><path%20fill="%23666"%20d="M2%203l3%203%203-3z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    line-height: 1;
+    appearance: none;       /* Removes default arrow in modern browsers */
+    -webkit-appearance: none; /* Removes default arrow in Chrome/Safari */
+    -moz-appearance: none;    /* Removes default arrow in Firefox */
+    background-image: none;   /* Ensures no background arrow is set */
+    padding-right: 4px;       /* You can now reduce the right padding */
 }
 
 /* Ensure the + Folder button and Export/Import buttons use these styles */
@@ -419,8 +417,8 @@
 .secondary-btn, 
 .prompt-category, 
 #search-prompts {
-    padding: 4px 10px; /* A balanced middle-ground */
-    height: 30px;      /* Fixed height ensures vertical alignment */
+    padding: 4px; /* A balanced middle-ground */
+    height: 25px;      /* Fixed height ensures vertical alignment */
     line-height: 1;
 }
 
