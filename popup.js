@@ -80,13 +80,22 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
             const openMenu = document.querySelector(".folder-options-menu");
             if (openMenu) openMenu.remove();
 
-            header.insertAdjacentHTML('beforeend', `
-                <div class="folder-options-menu">
-                    <button class="action-btn">Add Prompt</button>
-                    <button class="action-btn">Rename Folder</button>
-                    <button class="action-btn">Remove Folder</button>
-                </div>
-            `);
+            const menu = document.createElement("div");
+            menu.className = "folder-options-menu";
+            menu.innerHTML = `
+                <button class="action-btn">Add Prompt</button>
+                <button class="action-btn">Rename Folder</button>
+                <button class="action-btn">Remove Folder</button>
+            `;
+
+            header.appendChild(menu);
+
+            const menuRect = menu.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+
+            if (menuRect.bottom > windowHeight) {
+                menu.classList.add("spawn-above");
+            }
         }
 
         if (e.target.textContent === "Remove Folder") {

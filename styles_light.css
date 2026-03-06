@@ -42,7 +42,6 @@
 
 .folder-options-menu {
     position: absolute;
-    top: 100%;
     right: 0;
     background: white;
     border: 1px solid #ddd;
@@ -51,6 +50,14 @@
     z-index: 1000;
     min-width: 140px;
     padding: 4px 0;
+    top: 100%;
+}
+
+.folder-options-menu.spawn-above {
+    top: auto;
+    bottom: 100%;
+    margin-bottom: 5px;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
 }
 
 .three-dot-btn {
