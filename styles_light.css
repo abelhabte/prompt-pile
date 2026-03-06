@@ -420,13 +420,24 @@
 /* --- MAIN LIST CONTAINER --- */
 #main-list-view {
     margin-top: 12px; /* Fixes the "too close to button" issue */
+    padding: 0;
 }
 
 /* --- FOLDER STYLES --- */
 .folder {
-    /* Use border-top so they don't double up with the one below */
     border-top: 1px solid #f0f0f0; 
     background-color: #ffffff;
+    margin: 0; /* Force margin to 0 to prevent "jumping" space */
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#combined-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Ensures the very last folder in the list has a closing line */

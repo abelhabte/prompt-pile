@@ -33,10 +33,12 @@ function createFolderElement(existingName = null, existingPrompts = []) {
         }
     });
 
+    const combinedList = document.getElementById("combined-list");
+
     if (!existingName) {
-        mainListView.prepend(folder);
+        combinedList.prepend(folder);
     } else {
-        mainListView.appendChild(folder);
+        combinedList.appendChild(folder);
     }
 
     const initialInput = folder.querySelector('.folder-input');
