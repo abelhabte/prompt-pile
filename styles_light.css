@@ -433,14 +433,3 @@
 .folder:last-child {
     border-bottom: 1px solid #f0f0f0;
 }
-
-.folder-header {
-    display: flex;
-    align-items: center;
-    position: relative;
-    gap: 8px;
-    padding: 8px;
-    cursor: pointer;
-    user-select: none;
-    border-radius: 4px;
-}
