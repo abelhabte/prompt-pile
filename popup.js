@@ -1,5 +1,7 @@
 const addFolderBtn = document.getElementById("add-folder-btn");
 const mainListView = document.getElementById("main-list-view");
+const combinedList = document.getElementById("combined-list");
+const searchInput = document.getElementById("search-prompts");
 
 // --- INITIALIZATION ---
 addFolderBtn.addEventListener("click", () => createFolderElement());
@@ -33,8 +35,7 @@ function createFolderElement(existingName = null, existingPrompts = []) {
         }
     });
 
-    const combinedList = document.getElementById("combined-list");
-
+    // Consistent injection into the UL
     if (!existingName) {
         combinedList.prepend(folder);
     } else {
@@ -169,7 +170,6 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     const setupListeners = () => {
         const titleInput = promptEditor.querySelector(".prompt-title");
 
-        // --- SMART TOOLTIP LOGIC ---
         titleInput.addEventListener("mouseenter", () => {
             if (promptEditor.classList.contains("is-saved") && 
                 titleInput.scrollWidth > titleInput.clientWidth) {
@@ -261,14 +261,12 @@ function renderFolderStatic(folderElement, name) {
         <button class="three-dot-btn">...</button>
     `;
     
-    // Add this part to handle the conditional tooltip
     const nameSpan = header.querySelector(".folder-name");
     nameSpan.addEventListener("mouseenter", () => {
-        // Check if the text is overflowing its container
         if (nameSpan.scrollWidth > nameSpan.clientWidth) {
             nameSpan.title = name;
         } else {
-            nameSpan.title = ""; // Ensure no tooltip if it fits
+            nameSpan.title = "";
         }
     });
 
@@ -321,7 +319,8 @@ function getDragAfterElement(container, y, selector) {
     }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
-mainListView.addEventListener("dragstart", (e) => {
+// FIX: Listen on combinedList (the actual parent)
+combinedList.addEventListener("dragstart", (e) => {
     if (searchInput.value.trim() !== "") { e.preventDefault(); return; }
     const targetFolder = e.target.closest(".folder");
     if (!targetFolder || e.target.closest(".prompt-editor")) return;
@@ -329,19 +328,25 @@ mainListView.addEventListener("dragstart", (e) => {
     e.dataTransfer.setData("text/plain", ""); 
 });
 
-mainListView.addEventListener('dragend', (e) => {
+combinedList.addEventListener('dragend', (e) => {
     const targetFolder = e.target.closest('.folder');
     if (targetFolder) targetFolder.classList.remove('dragging');
     saveFolders(); 
 });
 
-mainListView.addEventListener('dragover', (e) => {
+// FIX: Target combinedList for folder reordering logic
+combinedList.addEventListener('dragover', (e) => {
     e.preventDefault(); 
     const draggingFolder = document.querySelector('.dragging');
     if (!draggingFolder) return;
-    const afterElement = getDragAfterElement(mainListView, e.clientY, '.folder');
-    if (afterElement == null) mainListView.appendChild(draggingFolder);
-    else mainListView.insertBefore(draggingFolder, afterElement);
+    
+    // Calculate position relative to combinedList
+    const afterElement = getDragAfterElement(combinedList, e.clientY, '.folder');
+    if (afterElement == null) {
+        combinedList.appendChild(draggingFolder);
+    } else {
+        combinedList.insertBefore(draggingFolder, afterElement);
+    }
 });
 
 function setupPromptDragListeners(container) {
@@ -369,7 +374,6 @@ function setupPromptDragListeners(container) {
 }
 
 // --- SEARCH FUNCTIONALITY ---
-const searchInput = document.getElementById("search-prompts");
 searchInput.addEventListener("input", (e) => {
     const query = e.target.value.toLowerCase().trim();
     const folders = document.querySelectorAll(".folder");
@@ -445,7 +449,7 @@ importBtn.addEventListener("click", () => {
     input.click();
 });
 
-// --- THEME TOGGLE LOGIC (Unified Method 1) ---
+// --- THEME TOGGLE LOGIC ---
 const themeToggle = document.getElementById("theme-toggle");
 const themeIcon = document.getElementById("theme-icon");
 const lightStyle = document.getElementById("light-theme");
@@ -465,7 +469,6 @@ function setDarkMode(isDark) {
     }
 }
 
-// Initialization check for theme
 const savedTheme = localStorage.getItem("theme");
 setDarkMode(savedTheme === "dark");
 
