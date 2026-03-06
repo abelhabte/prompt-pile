@@ -35,7 +35,6 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
         }
     });
 
-    // Consistent injection into the UL
     if (!existingName || isImport) {
         combinedList.prepend(folder);
     } else {
@@ -177,11 +176,17 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     `;
 
     const setupListeners = () => {
+        // Track original state to allow cancellation
+        let originalData = {
+            title: promptEditor.querySelector(".prompt-title").value,
+            category: promptEditor.querySelector(".prompt-category").value,
+            body: promptEditor.querySelector(".prompt-body").value
+        };
+
         const titleInput = promptEditor.querySelector(".prompt-title");
 
         titleInput.addEventListener("mouseenter", () => {
-            if (promptEditor.classList.contains("is-saved") && 
-                titleInput.scrollWidth > titleInput.clientWidth) {
+            if (promptEditor.classList.contains("is-saved") && titleInput.scrollWidth > titleInput.clientWidth) {
                 titleInput.title = titleInput.value;
             } else {
                 titleInput.title = "";
@@ -189,26 +194,42 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
         });
 
         const cancelNew = promptEditor.querySelector(".cancel-new-btn");
+        const cancelEdit = promptEditor.querySelector(".cancel-edit-btn");
+
         if (cancelNew) cancelNew.onclick = () => promptEditor.remove();
 
-        const cancelEdit = promptEditor.querySelector(".cancel-edit-btn");
-        if (cancelEdit) cancelEdit.onclick = () => promptEditor.classList.add("is-saved");
+        if (cancelEdit) {
+            cancelEdit.onclick = () => {
+                // Revert to original values
+                promptEditor.querySelector(".prompt-title").value = originalData.title;
+                promptEditor.querySelector(".prompt-category").value = originalData.category;
+                promptEditor.querySelector(".prompt-body").value = originalData.body;
+                promptEditor.classList.add("is-saved");
+            };
+        }
 
         promptEditor.querySelector(".save-prompt-btn").onclick = () => {
-            const titleInput = promptEditor.querySelector(".prompt-title");
-            if (!titleInput.value) {
+            const currentTitle = promptEditor.querySelector(".prompt-title").value;
+            if (!currentTitle) {
                 alert("Please enter a title!");
                 return;
             }
 
+            // Update originalData to match the new saved state
+            originalData = {
+                title: currentTitle,
+                category: promptEditor.querySelector(".prompt-category").value,
+                body: promptEditor.querySelector(".prompt-body").value
+            };
+
             if (isNew) {
                 isNew = false;
                 promptEditor.querySelector(".edit-actions").innerHTML = renderButtons(false);
-                setupListeners();
+                setupListeners(); // Re-bind for the new buttons
             }
 
             promptEditor.classList.add("is-saved");
-            saveFolders();
+            saveFolders(); // Now it actually saves to storage
         };
 
         promptEditor.querySelectorAll(".copy-prompt-btn").forEach(btn => {
@@ -246,12 +267,9 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     setupListeners();
 
     promptEditor.querySelector(".prompt-title").addEventListener("click", (e) => {
-        document.querySelectorAll(".prompt-editor:not(.is-saved)").forEach(openPrompt => {
-            if (openPrompt !== promptEditor && openPrompt.querySelector(".prompt-title").value.trim() !== "") {
-                openPrompt.classList.add("is-saved");
-            }
-        });
-        promptEditor.classList.remove("is-saved");
+        if (promptEditor.classList.contains("is-saved")) {
+            promptEditor.classList.remove("is-saved");
+        }
         e.stopPropagation();
     });
 }
@@ -292,7 +310,7 @@ function saveFolders() {
         const nameSpan = el.querySelector(".folder-name");
         if (nameSpan) {
             const prompts = [];
-            el.querySelectorAll(".prompt-editor").forEach(p => {
+            el.querySelectorAll(".prompt-editor.is-saved").forEach(p => {
                 prompts.push({
                     title: p.querySelector(".prompt-title").value,
                     category: p.querySelector(".prompt-category").value,
@@ -328,7 +346,6 @@ function getDragAfterElement(container, y, selector) {
     }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
-// FIX: Listen on combinedList (the actual parent)
 combinedList.addEventListener("dragstart", (e) => {
     if (searchInput.value.trim() !== "") { e.preventDefault(); return; }
     const targetFolder = e.target.closest(".folder");
@@ -343,13 +360,11 @@ combinedList.addEventListener('dragend', (e) => {
     saveFolders(); 
 });
 
-// FIX: Target combinedList for folder reordering logic
 combinedList.addEventListener('dragover', (e) => {
     e.preventDefault(); 
     const draggingFolder = document.querySelector('.dragging');
     if (!draggingFolder) return;
     
-    // Calculate position relative to combinedList
     const afterElement = getDragAfterElement(combinedList, e.clientY, '.folder');
     if (afterElement == null) {
         combinedList.appendChild(draggingFolder);
