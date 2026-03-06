@@ -8,7 +8,7 @@ addFolderBtn.addEventListener("click", () => createFolderElement());
 loadFolders();
 
 // --- CORE FOLDER CREATION ---
-function createFolderElement(existingName = null, existingPrompts = []) {
+function createFolderElement(existingName = null, existingPrompts = [], isImport = false) {
     const folder = document.createElement("div");
     folder.className = 'folder';
     folder.setAttribute("draggable", "true");
@@ -36,7 +36,7 @@ function createFolderElement(existingName = null, existingPrompts = []) {
     });
 
     // Consistent injection into the UL
-    if (!existingName) {
+    if (!existingName || isImport) {
         combinedList.prepend(folder);
     } else {
         combinedList.appendChild(folder);
@@ -443,7 +443,9 @@ importBtn.addEventListener("click", () => {
                 } catch (err) {}
             }
         }
-        Object.keys(folderMap).forEach(name => createFolderElement(name, folderMap[name]));
+        Object.keys(folderMap).reverse().forEach(name => {
+            createFolderElement(name, folderMap[name], true);
+        });
         saveFolders();
     };
     input.click();
