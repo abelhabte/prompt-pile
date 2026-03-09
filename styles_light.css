@@ -32,7 +32,7 @@
 .folder-name {
     flex-grow: 1;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 12px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -76,7 +76,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .action-btn:hover { background-color: #f0f0f0; }
@@ -127,6 +127,7 @@
     background: transparent;
     font-weight: bold;
     cursor: pointer;
+    font-size: 12px;
     
     white-space: nowrap;
     overflow: hidden;
@@ -153,7 +154,7 @@
     box-sizing: border-box;
     border: 1px solid #ddd;
     border-radius: 4px;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .saved-actions {
@@ -232,7 +233,7 @@
 }
 
 .prompt-header-row .drag-handle {
-    font-size: 14px;
+    font-size: 12px;
     color: #ddd;
     margin-right: 4px;
     flex-shrink: 0;
@@ -280,7 +281,7 @@
 
 .header-text h1 {
     margin: 0;
-    font-size: 20px;
+    font-size: 24px;
     color: #333;
 }
 
@@ -347,7 +348,7 @@
     border: 1px solid #ced4da;
     background-color: #f8f9fa;
     border-radius: 4px;
-    font-size: 13px;
+    font-size: 12px;
     width: 100%;
     box-sizing: border-box;
     outline: none;
@@ -372,7 +373,7 @@
     border-radius: 4px;
     
     /* Match font and padding */
-    font-size: 13px;
+    font-size: 12px;
     padding: 3px 8px;
     
     /* Layout properties */
