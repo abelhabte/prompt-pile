@@ -424,6 +424,15 @@ body {
     background-color: #ffffff; /* Turns white when typing */
 }
 
+#search-prompts:focus,
+.prompt-editor:not(.is-saved) .prompt-title:focus,
+.prompt-body:focus { /* Add this */
+    border-color: #4A90E2; 
+    background-color: #ffffff; 
+    outline: none; /* This removes the thick browser default ring */
+    border-width: 1px; /* Forces it to stay thin */
+}
+
 .prompt-editor:not(.is-saved) .prompt-title {
     /* Match search bar borders and background */
     border: 1px solid #ced4da;
