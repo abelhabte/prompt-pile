@@ -285,7 +285,7 @@ function renderFolderStatic(folderElement, name) {
         <span class="drag-handle">⠿</span>
         <span class="icon">${folderElement.classList.contains("is-open") ? "▼" : "▶"}</span>
         <span class="folder-name">${name}</span>
-        <button class="three-dot-btn">...</button>
+        <button class="three-dot-btn">⋮</button>
     `;
     
     const nameSpan = header.querySelector(".folder-name");

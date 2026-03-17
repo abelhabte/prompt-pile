@@ -74,10 +74,35 @@ body {
 
 .three-dot-btn {
     flex-shrink: 0;
-    width: 24px;
+    width: 28px;             /* Slightly wider for a better click target */
+    height: 28px;
     cursor: pointer;
-    background: none;
+    background: transparent;
     border: none;
+    border-radius: 50%;      /* Makes the hover effect a perfect circle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;         /* Size of the dots */
+    color: #666;             /* Subtle grey */
+    transition: background-color 0.2s, color 0.2s;
+    outline: none;
+}
+
+.three-dot-btn:hover {
+    background-color: #eeeeee; /* Light grey circle appears */
+    color: #333;               /* Dots get darker */
+}
+
+.three-dot-btn:active {
+    background-color: #e0e0e0; /* Slightly darker when clicked */
+}
+
+.folder-header {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px; /* Adjusted for a tighter look */
+    gap: 4px;
 }
 
 .action-btn {
@@ -131,7 +156,9 @@ body {
 
 .prompt-editor.is-saved {
     background-color: #fcfcfc;
-    padding: 6px 10px;
+    padding: 2px 8px; /* Slightly tighter vertical and horizontal spacing */
+    margin: 2px 0;    /* Optional: reduces space between multiple prompts */
+    border: 1px solid #f0f0f0; /* Optional: adds a very light border to define the edge */
 }
 
 .prompt-editor.is-saved .prompt-title {
@@ -146,6 +173,17 @@ body {
     text-overflow: ellipsis;
     display: block; 
     width: 100%;
+}
+
+.saved-actions .secondary-btn {
+    height: 20px;          /* Reduced from 25px */
+    padding: 2px 6px;      /* Tighter internal spacing */
+    font-size: 10px;       /* Smaller text/emoji size */
+    min-width: unset;      /* Ensure they can shrink as much as needed */
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .prompt-editor:not(.is-saved) .saved-actions { display: none; }
