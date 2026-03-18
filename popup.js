@@ -82,9 +82,9 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
             const menu = document.createElement("div");
             menu.className = "folder-options-menu";
             menu.innerHTML = `
-                <button class="action-btn">Add Prompt</button>
+                <button class="action-btn">+ Prompt</button>
                 <button class="action-btn">Rename Folder</button>
-                <button class="action-btn">Remove Folder</button>
+                <button class="action-btn">Delete Folder</button>
             `;
 
             header.appendChild(menu);
@@ -97,7 +97,7 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
             }
         }
 
-        if (e.target.textContent === "Remove Folder") {
+        if (e.target.textContent === "Delete Folder") {
             folder.remove();
             saveFolders();
         }
@@ -127,11 +127,11 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
             });
         }
 
-        if (e.target.textContent === "Add Prompt") {
+        if (e.target.classList.contains("action-btn") && e.target.textContent === "+ Prompt") {
             folder.classList.add("is-open");
             const icon = folder.querySelector(".icon");
             if (icon) icon.textContent = "▼";
-
+            
             const list = folder.querySelector(".prompts-list");
             if (list) {
                 addPromptToUI(list, {title: '', category: 'ChatGPT', body: ''}, true);
@@ -151,7 +151,7 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     const renderButtons = (isNewStatus) => {
         return isNewStatus 
         ? `<button class="cancel-new-btn secondary-btn">Cancel</button>
-           <button class="save-prompt-btn">+ Add Prompt</button>`
+           <button class="save-prompt-btn">+ Prompt</button>`
         : `<button class="cancel-edit-btn secondary-btn">Cancel</button>
            <button class="copy-prompt-btn secondary-btn">Copy</button>
            <button class="save-prompt-btn">Save</button>`;
