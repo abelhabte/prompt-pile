@@ -2,6 +2,10 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden; /* Extra insurance to keep the window static */
+    
+    /* Pitch Black for OLED */
+    background-color: #000000;
+    color: #e0e0e0;
 }
 
 /* --- APP LAYOUT --- */
@@ -12,10 +16,8 @@ body {
     flex-direction: column;
     overflow: hidden; /* Keeps the main window from scrolling */
     
-    /* Keep your existing colors/fonts */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #ffffff;
-    color: #333333;
+    /* Inherits background from body */
 }
 
 /* --- FOLDER STYLES --- */
@@ -32,13 +34,13 @@ body {
 }
 
 .folder-header:hover {
-    background-color: #f9f9f9;
+    background-color: #121212;
 }
 
 .icon {
     font-size: 12px;
     width: 15px;
-    color: #666;
+    color: #888;
 }
 
 .folder-name {
@@ -73,15 +75,18 @@ body {
 .folder-input {
     flex: 1;
     min-width: 50px;      /* Minimum size for the text field */
+    background-color: #000000;
+    color: #e0e0e0;
+    border: 1px solid #333;
 }
 
 .folder-options-menu {
     position: absolute;
     right: 0;
-    background: white;
-    border: 1px solid #ddd;
+    background: #121212;
+    border: 1px solid #333;
     border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.8);
     z-index: 1000;
     padding: 4px 0;
     top: 100%;
@@ -89,56 +94,57 @@ body {
 
 .folder-options-menu .action-btn {
     width: 100%;
-    padding: 6px 12px; /* Reduced from your default padding */
+    padding: 6px 12px; 
     text-align: left;
     background: none;
     border: none;
-    font-size: 12px;   /* Ensure text isn't too large for the smaller menu */
+    font-size: 12px;   
     cursor: pointer;
     display: block;
+    color: #e0e0e0;
 }
 
 .folder-options-menu .action-btn:hover {
-    background-color: #f5f5f5;
+    background-color: #1a1a1a;
 }
 
 .folder-options-menu.spawn-above {
     top: auto;
     bottom: 100%;
     margin-bottom: 5px;
-    box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.8);
 }
 
 .three-dot-btn {
     flex-shrink: 0;
-    width: 28px;             /* Slightly wider for a better click target */
+    width: 28px;             
     height: 28px;
     cursor: pointer;
     background: transparent;
     border: none;
-    border-radius: 50%;      /* Makes the hover effect a perfect circle */
+    border-radius: 50%;      
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;         /* Size of the dots */
-    color: #666;             /* Subtle grey */
+    font-size: 16px;         
+    color: #888;             
     transition: background-color 0.2s, color 0.2s;
     outline: none;
 }
 
 .three-dot-btn:hover {
-    background-color: #eeeeee; /* Light grey circle appears */
-    color: #333;               /* Dots get darker */
+    background-color: #1a1a1a; 
+    color: #fff;               
 }
 
 .three-dot-btn:active {
-    background-color: #e0e0e0; /* Slightly darker when clicked */
+    background-color: #222; 
 }
 
 .folder-header {
     display: flex;
     align-items: center;
-    padding: 4px 8px; /* Adjusted for a tighter look */
+    padding: 4px 8px; 
     gap: 4px;
 }
 
@@ -151,9 +157,10 @@ body {
     border: none;
     cursor: pointer;
     font-size: 12px;
+    color: #e0e0e0;
 }
 
-.action-btn:hover { background-color: #f0f0f0; }
+.action-btn:hover { background-color: #1a1a1a; }
 
 .prompts-list {
     display: none;
@@ -169,16 +176,16 @@ body {
     flex-direction: column;
     gap: 8px;
     padding: 10px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #222;
     border-radius: 8px;
     margin: 8px 0;
-    background-color: #fff;
+    background-color: #080808;
     box-sizing: border-box; 
 }
 
 .prompt-header-row {
     display: flex;
-    align-items: center; /* This ensures button, text, and select are centered */
+    align-items: center; 
     gap: 8px;
     padding: 0px;
 }
@@ -189,13 +196,14 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: #e0e0e0;
 }
 
 .prompt-editor.is-saved {
-    background-color: #fcfcfc;
-    padding: 2px 8px; /* Slightly tighter vertical and horizontal spacing */
-    margin: 2px 0;    /* Optional: reduces space between multiple prompts */
-    border: 1px solid #f0f0f0; /* Optional: adds a very light border to define the edge */
+    background-color: #000000;
+    padding: 2px 8px; 
+    margin: 2px 0;    
+    border: 1px solid #1a1a1a; 
 }
 
 .prompt-editor.is-saved .prompt-title {
@@ -204,7 +212,7 @@ body {
     font-weight: bold;
     cursor: pointer;
     font-size: 12px;
-    
+    color: #fff;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -213,10 +221,10 @@ body {
 }
 
 .saved-actions .secondary-btn {
-    height: 20px;          /* Reduced from 25px */
-    padding: 2px 6px;      /* Tighter internal spacing */
-    font-size: 10px;       /* Smaller text/emoji size */
-    min-width: unset;      /* Ensure they can shrink as much as needed */
+    height: 20px;          
+    padding: 2px 6px;      
+    font-size: 10px;       
+    min-width: unset;      
     line-height: 1;
     display: flex;
     align-items: center;
@@ -239,16 +247,18 @@ body {
     resize: none;
     padding: 8px;
     box-sizing: border-box;
-    border: 1px solid #ddd;
+    border: 1px solid #333;
     border-radius: 4px;
     font-size: 12px;
+    background-color: #000000;
+    color: #e0e0e0;
 }
 
 .saved-actions {
     display: flex;
     gap: 4px;
     flex-shrink: 0;
-    margin-left: auto; /* Pushes the buttons to the far right */
+    margin-left: auto; 
 }
 
 .edit-actions {
@@ -260,7 +270,7 @@ body {
 /* Standardize all buttons in the prompt edit actions area */
 .edit-actions button {
     flex: 1;
-    height: 28px;           /* Matches the height defined for your secondary-btn and prompt-category */
+    height: 28px;           
     font-weight: 600;
     cursor: pointer;
     border-radius: 4px;
@@ -272,23 +282,23 @@ body {
     transition: background-color 0.2s, border-color 0.2s;
 }
 
-/* Ensure the Save button doesn't have extra margins/borders that change its size */
+/* Ensure the Save button doesn't have extra margins/borders */
 .edit-actions .save-prompt-btn {
-    background-color: #4A90E2; 
+    background-color: #2a629c; 
     color: white;
-    border: 1px solid #357ABD; /* Adds the border that the other buttons have */
+    border: 1px solid #1e4b7a; 
 }
 
-.edit-actions button:hover { background-color: #f5f5f5; }
+.edit-actions button:hover { background-color: #1a1a1a; }
 .edit-actions .save-prompt-btn:hover {
     background-color: #357ABD;
     border-color: #2a629c;
 }
 
 .edit-actions .secondary-btn {
-    background-color: #f8f9fa;
-    color: #333;
-    border: 1px solid #ced4da;
+    background-color: #121212;
+    color: #e0e0e0;
+    border: 1px solid #333;
 }
 
 .prompt-editor.is-saved .prompt-category {
@@ -298,21 +308,21 @@ body {
     border: none;
     background: transparent;
     pointer-events: none;
-    color: #666;
+    color: #777;
     cursor: default;
     padding: 0;
 }
 
 .drag-handle {
     cursor: grab;
-    color: #ccc;
+    color: #333;
     font-size: 16px;
     margin-right: 2px;
     user-select: none;
 }
 
 .drag-handle:hover {
-    color: #999;
+    color: #555;
 }
 
 .drag-handle:active {
@@ -321,7 +331,7 @@ body {
 
 .prompt-header-row .drag-handle {
     font-size: 12px;
-    color: #ddd;
+    color: #333;
     margin-right: 4px;
     flex-shrink: 0;
 }
@@ -333,20 +343,20 @@ body {
 
 .folder.dragging {
     opacity: 0.5;
-    border: 2px dashed #4A90E2;
-    background-color: #f0f7ff;
+    border: 2px dashed #2a629c;
+    background-color: #0a0e14;
 }
 
 .prompt-editor.dragging-prompt {
     opacity: 0.4;
-    background-color: #fcfcfc;
-    border: 1px dashed #ccc;
+    background-color: #000000;
+    border: 1px dashed #333;
 }
 
 #top-header {
     padding: 16px;
-    background-color: #fff;
-    border-bottom: 1px solid #f0f0f0;
+    background-color: #000000;
+    border-bottom: 1px solid #1a1a1a;
     margin-bottom: 12px;
 }
 
@@ -355,11 +365,11 @@ body {
 }
 
 #footer-actions {
-    margin-top: auto; /* Pushes footer to the bottom of the flexbox */
-    flex-shrink: 0;   /* Prevents buttons from being squashed */
+    margin-top: auto; 
+    flex-shrink: 0;   
     padding: 12px 16px;
-    background-color: #fff;
-    border-top: 1px solid #f0f0f0;
+    background-color: #000000;
+    border-top: 1px solid #1a1a1a;
 }
 
 .header-text {
@@ -377,13 +387,13 @@ body {
 .header-text h1 {
     margin: 0;
     font-size: 24px;
-    color: #333;
+    color: #fff;
 }
 
 .subtitle {
     margin: 0;
     font-size: 12px;
-    color: #888;
+    color: #555;
 }
 
 .app-logo {
@@ -402,37 +412,36 @@ body {
 
 .secondary-btn, 
 .prompt-category {
-    background-color: #f8f9fa;
-    color: #333;
-    border: 1px solid #ced4da;
+    background-color: #121212;
+    color: #e0e0e0;
+    border: 1px solid #333;
     padding: 3px 8px;
     border-radius: 4px;
     cursor: pointer;
     font-size: 12px;
-    height: 28px; /* Standardize height with buttons */
+    height: 28px; 
     box-sizing: border-box;
     transition: background-color 0.2s;
 }
 
 .secondary-btn:hover,
 .prompt-category:hover {
-    background-color: #e2e6ea;
-    border-color: #dae0e5;
+    background-color: #1a1a1a;
+    border-color: #444;
 }
 
 .prompt-category {
-    appearance: none;       /* Removes default arrow in modern browsers */
-    -webkit-appearance: none; /* Removes default arrow in Chrome/Safari */
-    -moz-appearance: none;    /* Removes default arrow in Firefox */
-    background-image: none;   /* Ensures no background arrow is set */
-    padding-right: 4px;       /* You can now reduce the right padding */
+    appearance: none;       
+    -webkit-appearance: none; 
+    -moz-appearance: none;    
+    background-image: none;   
+    padding-right: 4px;       
 }
 
-/* Ensure the + Folder button and Export/Import buttons use these styles */
+/* Ensure buttons use these styles */
 #add-folder-btn, 
 #export-btn, 
 #import-btn {
-    /* This ensures they follow the secondary style strictly */
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -440,75 +449,65 @@ body {
 }
 
 #search-prompts {
-    border: 1px solid #ced4da;
-    background-color: #f8f9fa;
+    border: 1px solid #333;
+    background-color: #080808;
+    color: #e0e0e0;
     border-radius: 4px;
     font-size: 12px;
     width: 100%;
     box-sizing: border-box;
     outline: none;
     transition: border-color 0.2s;
-    
-    /* Use these values from your final standard block */
     padding: 4px 10px; 
     height: 30px;      
     line-height: 1;
 }
 
-/* Optional: Add a focus state so it feels interactive like the button hover */
 #search-prompts:focus {
-    border-color: #4A90E2; /* Highlights blue when you click to type */
-    background-color: #ffffff; /* Turns white when typing */
+    border-color: #2a629c; 
+    background-color: #000000; 
 }
 
 #search-prompts:focus,
 .prompt-editor:not(.is-saved) .prompt-title:focus,
-.prompt-body:focus { /* Add this */
-    border-color: #4A90E2; 
-    background-color: #ffffff; 
-    outline: none; /* This removes the thick browser default ring */
-    border-width: 1px; /* Forces it to stay thin */
+.prompt-body:focus { 
+    border-color: #2a629c; 
+    background-color: #000000; 
+    outline: none; 
+    border-width: 1px; 
 }
 
 .prompt-editor:not(.is-saved) .prompt-title {
-    /* Match search bar borders and background */
-    border: 1px solid #ced4da;
-    background-color: #f8f9fa;
+    border: 1px solid #333;
+    background-color: #080808;
+    color: #e0e0e0;
     border-radius: 4px;
-    
-    /* Match font and padding */
     font-size: 12px;
     padding: 3px 8px;
-    
-    /* Layout properties */
     width: 100%;
     box-sizing: border-box; 
     outline: none;
     transition: border-color 0.2s;
 }
 
-/* Match the focus state of the search bar */
 .prompt-editor:not(.is-saved) .prompt-title:focus {
-    border-color: #4A90E2; 
-    background-color: #ffffff; 
+    border-color: #2a629c; 
+    background-color: #000000; 
 }
 
-/* Hide the drag handle when the prompt is being edited */
 .prompt-editor:not(.is-saved) .prompt-header-row .drag-handle {
     display: none;
 }
 
-/* Standardize the horizontal spacing for all action rows */
 #action-row, 
 .footer-button-container, 
 .edit-actions {
     display: flex !important;
-    gap: 8px !important; /* Set your preferred uniform gap here */
+    gap: 8px !important; 
     align-items: center;
     width: 100%;
 }
 
-/* Ensure the search container grows to fill available space */
 .search-container {
     flex: 1;
 }
@@ -518,28 +517,27 @@ body {
     box-sizing: border-box;
 }
 
-/* Apply to both styles_light.css and styles_dark.css for total uniformity */
 .secondary-btn, 
 .prompt-category, 
 #search-prompts {
-    padding: 4px; /* A balanced middle-ground */
-    height: 25px;      /* Fixed height ensures vertical alignment */
+    padding: 4px; 
+    height: 25px;      
     line-height: 1;
 }
 
 /* --- MAIN LIST CONTAINER --- */
 #main-list-view {
-    flex: 1;          /* Takes up all remaining space */
-    overflow-y: auto; /* Scrollbar appears ONLY here when content is long */
+    flex: 1;          
+    overflow-y: auto; 
     margin-top: 12px;
     padding: 0 10px;
 }
 
 /* --- FOLDER STYLES --- */
 .folder {
-    border-top: 1px solid #f0f0f0; 
-    background-color: #ffffff;
-    margin: 0; /* Force margin to 0 to prevent "jumping" space */
+    border-top: 1px solid #1a1a1a; 
+    background-color: #000000;
+    margin: 0; 
     padding: 0;
     box-sizing: border-box;
 }
@@ -552,7 +550,6 @@ body {
     flex-direction: column;
 }
 
-/* Ensures the very last folder in the list has a closing line */
 .folder:last-child {
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid #1a1a1a;
 }
