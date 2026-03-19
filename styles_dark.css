@@ -52,6 +52,29 @@ body {
     min-width: 0;
 }
 
+.creation-actions {
+    display: flex;
+    gap: 4px;
+    margin-left: auto; /* Pushes buttons to the right */
+}
+
+/* Style the small action buttons specifically */
+.creation-actions .secondary-btn {
+    width: auto;          /* Allow button to grow with text */
+    height: 26px;         /* Standard height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;      /* Slightly smaller text for the header area */
+    white-space: nowrap;  /* Prevents text from wrapping */
+}
+
+/* Ensure the input leaves enough room for the wider buttons */
+.folder-input {
+    flex: 1;
+    min-width: 50px;      /* Minimum size for the text field */
+}
+
 .folder-options-menu {
     position: absolute;
     right: 0;

@@ -20,8 +20,8 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
                 <span class="icon">▶</span>
                 <input type="text" class="folder-input" placeholder="Folder Name..." />
                 <div class="creation-actions">
-                    <button class="cancel-folder-btn secondary-btn">✖</button>
-                    <button class="confirm-folder-btn secondary-btn">✔</button>
+                    <button class="cancel-folder-btn secondary-btn">Cancel</button>
+                    <button class="confirm-folder-btn secondary-btn">+ Folder</button>
                 </div>
             </div>
         `;
@@ -131,8 +131,8 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
                 <span class="icon">▶</span>
                 <input type="text" class="folder-input" value="${currentName}"/>
                 <div class="creation-actions">
-                    <button class="cancel-rename-btn secondary-btn">✖</button>
-                    <button class="confirm-rename-btn secondary-btn">✔</button>
+                    <button class="cancel-rename-btn secondary-btn">Cancel</button>
+                    <button class="confirm-rename-btn secondary-btn">Save</button>
                 </div>
             `;
             const renameInput = header.querySelector(".folder-input");
@@ -244,7 +244,7 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
         }
 
         promptEditor.querySelector(".save-prompt-btn").onclick = (e) => {
-            e.stopPropagation(); // Prevents spawning double dialogs
+            e.stopPropagation(); 
             const currentTitle = promptEditor.querySelector(".prompt-title").value;
             if (!currentTitle) {
                 alert("Please enter a title!");
