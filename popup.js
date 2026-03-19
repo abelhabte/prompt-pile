@@ -19,8 +19,41 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
                 <span class="drag-handle">⠿</span>
                 <span class="icon">▶</span>
                 <input type="text" class="folder-input" placeholder="Folder Name..." />
+                <div class="creation-actions">
+                    <button class="cancel-folder-btn secondary-btn">✖</button>
+                    <button class="confirm-folder-btn secondary-btn">✔</button>
+                </div>
             </div>
         `;
+
+        const initialInput = folder.querySelector('.folder-input');
+        const confirmBtn = folder.querySelector('.confirm-folder-btn');
+        const cancelBtn = folder.querySelector('.cancel-folder-btn');
+
+        if (initialInput) {
+            initialInput.focus();
+
+            const finalizeFolder = () => {
+                const name = initialInput.value.trim() || "Untitled Folder";
+                renderFolderStatic(folder, name);
+                saveFolders();
+            };
+
+            confirmBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                finalizeFolder();
+            });
+
+            cancelBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                folder.remove();
+            });
+
+            initialInput.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") finalizeFolder();
+                if (e.key === "Escape") folder.remove();
+            });
+        }
     } else {
         renderFolderStatic(folder, existingName);
         const list = folder.querySelector(".prompts-list");
@@ -41,22 +74,9 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
         combinedList.appendChild(folder);
     }
 
-    const initialInput = folder.querySelector('.folder-input');
-    if (initialInput) {
-        initialInput.focus();
-        initialInput.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") {
-                const name = initialInput.value || "Untitled Folder";
-                renderFolderStatic(folder, name);
-                saveFolders();
-            }
-            if (e.key === "Escape") folder.remove();
-        });
-    }
-
     folder.addEventListener("click", (e) => {
         const isHeaderClick = e.target.closest(".folder-header");
-        const isActionButton = e.target.classList.contains("three-dot-btn") || e.target.classList.contains("action-btn");
+        const isActionButton = e.target.classList.contains("three-dot-btn") || e.target.classList.contains("action-btn") || e.target.closest(".creation-actions");
         const isInput = e.target.tagName === "INPUT";
 
         if (isHeaderClick && !isActionButton && !isInput) {
@@ -110,20 +130,37 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
                 <span class="drag-handle">⠿</span>
                 <span class="icon">▶</span>
                 <input type="text" class="folder-input" value="${currentName}"/>
+                <div class="creation-actions">
+                    <button class="cancel-rename-btn secondary-btn">✖</button>
+                    <button class="confirm-rename-btn secondary-btn">✔</button>
+                </div>
             `;
             const renameInput = header.querySelector(".folder-input");
+            const confirmRenameBtn = header.querySelector(".confirm-rename-btn");
+            const cancelRenameBtn = header.querySelector(".cancel-rename-btn");
+
             renameInput.focus();
             renameInput.select();
 
+            const finalizeRename = () => {
+                const newName = renameInput.value.trim() || currentName;
+                renderFolderStatic(folder, newName);
+                saveFolders();
+            };
+
+            confirmRenameBtn.addEventListener("click", (ev) => {
+                ev.stopPropagation();
+                finalizeRename();
+            });
+
+            cancelRenameBtn.addEventListener("click", (ev) => {
+                ev.stopPropagation();
+                renderFolderStatic(folder, currentName);
+            });
+
             renameInput.addEventListener("keydown", (keyEvent) => {
-                if (keyEvent.key === "Enter") {
-                    const newName = renameInput.value || currentName;
-                    renderFolderStatic(folder, newName);
-                    saveFolders();
-                }
-                if (keyEvent.key === "Escape") {
-                    renderFolderStatic(folder, currentName);
-                }
+                if (keyEvent.key === "Enter") finalizeRename();
+                if (keyEvent.key === "Escape") renderFolderStatic(folder, currentName);
             });
         }
 
@@ -176,7 +213,6 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     `;
 
     const setupListeners = () => {
-        // Track original state to allow cancellation
         let originalData = {
             title: promptEditor.querySelector(".prompt-title").value,
             category: promptEditor.querySelector(".prompt-category").value,
@@ -200,7 +236,6 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
 
         if (cancelEdit) {
             cancelEdit.onclick = () => {
-                // Revert to original values
                 promptEditor.querySelector(".prompt-title").value = originalData.title;
                 promptEditor.querySelector(".prompt-category").value = originalData.category;
                 promptEditor.querySelector(".prompt-body").value = originalData.body;
@@ -208,14 +243,14 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
             };
         }
 
-        promptEditor.querySelector(".save-prompt-btn").onclick = () => {
+        promptEditor.querySelector(".save-prompt-btn").onclick = (e) => {
+            e.stopPropagation(); // Prevents spawning double dialogs
             const currentTitle = promptEditor.querySelector(".prompt-title").value;
             if (!currentTitle) {
                 alert("Please enter a title!");
                 return;
             }
 
-            // Update originalData to match the new saved state
             originalData = {
                 title: currentTitle,
                 category: promptEditor.querySelector(".prompt-category").value,
@@ -225,11 +260,11 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
             if (isNew) {
                 isNew = false;
                 promptEditor.querySelector(".edit-actions").innerHTML = renderButtons(false);
-                setupListeners(); // Re-bind for the new buttons
+                setupListeners(); 
             }
 
             promptEditor.classList.add("is-saved");
-            saveFolders(); // Now it actually saves to storage
+            saveFolders(); 
         };
 
         promptEditor.querySelectorAll(".copy-prompt-btn").forEach(btn => {
