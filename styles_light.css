@@ -75,6 +75,13 @@ body {
     min-width: 50px;      /* Minimum size for the text field */
 }
 
+.folder-input:focus {
+    border-color: #4A90E2; 
+    background-color: #ffffff; 
+    outline: none; 
+    border-width: 1px;
+}
+
 .folder-options-menu {
     position: absolute;
     right: 0;

@@ -80,6 +80,13 @@ body {
     border: 1px solid #333;
 }
 
+.folder-input:focus {
+    border-color: #2a629c; 
+    background-color: #000000; 
+    outline: none; 
+    border-width: 1px;
+}
+
 .folder-options-menu {
     position: absolute;
     right: 0;
