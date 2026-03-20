@@ -520,12 +520,12 @@ function setDarkMode(isDark) {
     if (isDark) {
         lightStyle.disabled = true;
         darkStyle.disabled = false;
-        themeIcon.src = "../icons/circle_white.png";
+        themeIcon.src = "../icons/logo_white.png";
         localStorage.setItem("theme", "dark");
     } else {
         lightStyle.disabled = false;
         darkStyle.disabled = true;
-        themeIcon.src = "../icons/circle_black.png";
+        themeIcon.src = "../icons/logo_black.png";
         localStorage.setItem("theme", "light");
     }
 }
