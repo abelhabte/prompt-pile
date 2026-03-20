@@ -201,7 +201,12 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
             <select class="prompt-category">
                 <option value="ChatGPT" ${data.category === 'ChatGPT' ? 'selected' : ''}>ChatGPT</option>
                 <option value="Claude" ${data.category === 'Claude' ? 'selected' : ''}>Claude</option>
+                <option value="Copilot" ${data.category === 'Copilot' ? 'selected' : ''}>Copilot</option>
+                <option value="DeepSeek" ${data.category === 'DeepSeek' ? 'selected' : ''}>DeepSeek</option>
                 <option value="Gemini" ${data.category === 'Gemini' ? 'selected' : ''}>Gemini</option>
+                <option value="Grok" ${data.category === 'Grok' ? 'selected' : ''}>Grok</option>
+                <option value="Meta AI" ${data.category === 'Meta AI' ? 'selected' : ''}>Meta AI</option>
+                <option value="Perplexity" ${data.category === 'Perplexity' ? 'selected' : ''}>Perplexity</option>
             </select>
             <div class="saved-actions">
                 <button class="copy-prompt-btn secondary-btn">Copy</button>
