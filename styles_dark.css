@@ -46,8 +46,8 @@ body {
 }
 
 .arrow-icon {
-    width: 10px;  /* Adjust size as needed */
-    height: 10px;
+    width: 8px;  /* Adjust size as needed */
+    height: 8px;
     display: block;
     transition: transform 0.2s; /* Optional: adds a smooth feel */
     filter: invert(1);
