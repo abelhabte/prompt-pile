@@ -563,3 +563,12 @@ body {
 .folder:last-child {
     border-bottom: 1px solid #f0f0f0;
 }
+
+/* Update this in both light and dark CSS files */
+.prompt-title:focus,
+.prompt-body:focus,
+.prompt-entry:focus { 
+    outline: none;           /* Removes the default thick browser halo */
+    border: 1px solid #2a629c; /* Forces a crisp 1px border */
+    box-shadow: none;        /* Ensures no outer glow is adding perceived thickness */
+}
