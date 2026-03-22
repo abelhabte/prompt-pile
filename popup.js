@@ -17,7 +17,9 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
         folder.innerHTML = `
             <div class="folder-header">
                 <span class="drag-handle">⠿</span>
-                <span class="icon">▶</span>
+                <span class="icon">
+                    <img src="../icons/triangle_arrow_right.svg" class="arrow-icon" alt="toggle">
+                </span>
                 <input type="text" class="folder-input" placeholder="Folder Name..." />
                 <div class="creation-actions">
                     <button class="cancel-folder-btn secondary-btn">Cancel</button>
@@ -81,9 +83,11 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
 
         if (isHeaderClick && !isActionButton && !isInput) {
             folder.classList.toggle("is-open");
-            const icon = folder.querySelector(".icon");
-            if (icon) {
-                icon.textContent = folder.classList.contains("is-open") ? "▼" : "▶";
+            const iconImg = folder.querySelector(".arrow-icon");
+            if (iconImg) {
+                iconImg.src = folder.classList.contains("is-open") 
+                    ? "../icons/triangle_arrow_down.svg" 
+                    : "../icons/triangle_arrow_right.svg";
             }
         }
 
@@ -128,7 +132,9 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
             const header = folder.querySelector(".folder-header");
             header.innerHTML = `
                 <span class="drag-handle">⠿</span>
-                <span class="icon">▶</span>
+                <span class="icon">
+                    <img src="../icons/triangle_arrow_right.svg" class="arrow-icon">
+                </span>
                 <input type="text" class="folder-input" value="${currentName}"/>
                 <div class="creation-actions">
                     <button class="cancel-rename-btn secondary-btn">Cancel</button>
@@ -166,8 +172,8 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
 
         if (e.target.classList.contains("action-btn") && e.target.textContent === "+ Prompt") {
             folder.classList.add("is-open");
-            const icon = folder.querySelector(".icon");
-            if (icon) icon.textContent = "▼";
+            const iconImg = folder.querySelector(".arrow-icon");
+            if (iconImg) iconImg.src = "../icons/triangle_arrow_down.svg";
             
             const list = folder.querySelector(".prompts-list");
             if (list) {
@@ -321,9 +327,15 @@ function renderFolderStatic(folderElement, name) {
         header.className = "folder-header";
         folderElement.prepend(header);
     }
+
+    const isOpen = folderElement.classList.contains("is-open");
+    const iconPath = isOpen ? "../icons/triangle_arrow_down.svg" : "../icons/triangle_arrow_right.svg";
+
     header.innerHTML = `
         <span class="drag-handle">⠿</span>
-        <span class="icon">${folderElement.classList.contains("is-open") ? "▼" : "▶"}</span>
+        <span class="icon">
+            <img src="${iconPath}" class="arrow-icon" alt="toggle">
+        </span>
         <span class="folder-name">${name}</span>
         <button class="three-dot-btn">⋮</button>
     `;
@@ -452,14 +464,14 @@ searchInput.addEventListener("input", (e) => {
             } else { prompt.style.display = "none"; }
         });
         folder.style.display = (query === "" || folderHasMatch) ? "block" : "none";
+        
+        const iconImg = folder.querySelector(".arrow-icon");
         if (query !== "" && folderHasMatch) {
             folder.classList.add("is-open");
-            const icon = folder.querySelector(".icon");
-            if (icon) icon.textContent = "▼";
+            if (iconImg) iconImg.src = "../icons/triangle_arrow_down.svg";
         } else if (query === "") {
             folder.classList.remove("is-open");
-            const icon = folder.querySelector(".icon");
-            if (icon) icon.textContent = "▶";
+            if (iconImg) iconImg.src = "../icons/triangle_arrow_right.svg";
         }
     });
 });

@@ -38,9 +38,19 @@ body {
 }
 
 .icon {
-    font-size: 12px;
-    width: 15px;
-    color: #888;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px; /* Matches your existing icon width */
+    height: 15px;
+}
+
+.arrow-icon {
+    width: 10px;  /* Adjust size as needed */
+    height: 10px;
+    display: block;
+    transition: transform 0.2s; /* Optional: adds a smooth feel */
+    filter: invert(1);
 }
 
 .folder-name {
