@@ -97,11 +97,14 @@ body {
 
 /* Ensure the input leaves enough room for the wider buttons */
 .folder-input {
-    flex: 1;
-    min-width: 50px;      /* Minimum size for the text field */
-    background-color: #000000;
+    flex-grow: 1;
+    font-size: 12px;
+    padding: 3px 8px;
+    background-color: #080808; /* Darker background for OLED */
     color: #e0e0e0;
-    border: 1px solid #333;
+    border: 1px solid #333;    /* Subtle border */
+    border-radius: 4px;        /* Consistent corners */
+    outline: none;
 }
 
 .folder-input:focus {

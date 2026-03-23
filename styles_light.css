@@ -93,8 +93,12 @@ body {
 
 /* Ensure the input leaves enough room for the wider buttons */
 .folder-input {
-    flex: 1;
-    min-width: 50px;      /* Minimum size for the text field */
+    flex-grow: 1;
+    font-size: 12px;
+    padding: 3px 8px;
+    border: 1px solid #ccc; /* Matches standard input borders */
+    border-radius: 4px;     /* Match this value with your other inputs */
+    outline: none;
 }
 
 .folder-input:focus {
