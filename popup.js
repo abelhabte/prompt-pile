@@ -216,6 +216,7 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
             </select>
             <div class="saved-actions">
                 <button class="copy-prompt-btn secondary-btn">Copy</button>
+                <button class="move-prompt-btn secondary-btn">Move</button>
                 <button class="delete-prompt-btn secondary-btn">Delete</button>
             </div>
         </div>
