@@ -598,3 +598,38 @@ body {
     border: 1px solid #2a629c; /* Forces a crisp 1px border */
     box-shadow: none;        /* Ensures no outer glow is adding perceived thickness */
 }
+
+.saved-actions {
+    position: relative; /* Context for the menu positioning */
+}
+
+/* --- MOVE MENU SPECIFIC STYLES --- */
+
+/* --- NARROW MOVE MENU --- */
+.move-prompt-menu {
+    width: 120px;          /* Fixed narrow width */
+    min-width: 120px;
+    right: 0;
+    top: 28px;
+    z-index: 1000;
+    overflow-x: hidden;    /* Strictly no horizontal scroll */
+}
+
+.move-prompt-menu .action-btn {
+    font-size: 11px;
+    padding: 6px 10px;
+    width: 100%;           /* Ensure button fills the 120px */
+    text-align: left;
+    
+    /* Truncate long text with dots (...) */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    display: block;        /* Required for ellipsis to work on buttons */
+}
+
+/* Optional: Add a max-height in case the user has 20+ folders */
+.move-prompt-menu {
+    max-height: 200px;
+    overflow-y: auto;
+}

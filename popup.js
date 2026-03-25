@@ -294,6 +294,59 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
             promptEditor.remove();
             saveFolders();
         };
+
+        // --- MOVE PROMPT LOGIC ---
+        promptEditor.querySelector(".move-prompt-btn").onclick = (e) => {
+            e.stopPropagation();
+
+            const existingMenu = promptEditor.querySelector(".move-prompt-menu");
+            if (existingMenu) {
+                existingMenu.remove();
+                return;
+            }
+
+            const openMenu = document.querySelector(".move-prompt-menu");
+            if (openMenu) openMenu.remove();
+
+            const menu = document.createElement("div");
+            menu.className = "move-prompt-menu folder-options-menu";
+
+            const currentFolder = promptEditor.closest(".folder");
+            const allFolders = document.querySelectorAll(".folder");
+
+            allFolders.forEach(folder => {
+                const folderNameSpan = folder.querySelector(".folder-name");
+                if (folderNameSpan && folder !== currentFolder) {
+                    const moveBtn = document.createElement("button");
+                    moveBtn.className = "action-btn";
+                    moveBtn.textContent = `To: ${folderNameSpan.textContent}`;
+                    moveBtn.onclick = () => {
+                        const targetList = folder.querySelector(".prompts-list");
+                        if (targetList) {
+                            targetList.appendChild(promptEditor);
+                            menu.remove();
+                            saveFolders();
+                        }
+                    };
+                    menu.appendChild(moveBtn);
+                }
+            });
+
+            if (menu.children.length === 0) {
+                const noFolderMsg = document.createElement("div");
+                noFolderMsg.className = "action-btn";
+                noFolderMsg.style.pointerEvents = "none";
+                noFolderMsg.textContent = "No other folders";
+                menu.appendChild(noFolderMsg);
+            }
+
+            e.target.closest(".saved-actions").appendChild(menu);
+            
+            const menuRect = menu.getBoundingClientRect();
+            if (menuRect.bottom > window.innerHeight) {
+                menu.classList.add("spawn-above");
+            }
+        };
     };
 
     promptEditor.addEventListener("mousedown", (e) => {
@@ -382,9 +435,15 @@ function loadFolders() {
 }
 
 document.addEventListener("click", (e) => {
-    const menu = document.querySelector(".folder-options-menu");
-    if (menu && !e.target.classList.contains("three-dot-btn") && !menu.contains(e.target)) {
-        menu.remove();
+    // Close folder options menu
+    const folderMenu = document.querySelector(".folder-options-menu:not(.move-prompt-menu)");
+    if (folderMenu && !e.target.classList.contains("three-dot-btn") && !folderMenu.contains(e.target)) {
+        folderMenu.remove();
+    }
+    // Close move prompt menu
+    const moveMenu = document.querySelector(".move-prompt-menu");
+    if (moveMenu && !e.target.classList.contains("move-prompt-btn") && !moveMenu.contains(e.target)) {
+        moveMenu.remove();
     }
 });
 
