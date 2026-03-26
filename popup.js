@@ -281,12 +281,38 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
 
         promptEditor.querySelectorAll(".copy-prompt-btn").forEach(btn => {
             btn.onclick = (e) => {
-                const body = promptEditor.querySelector(".prompt-body").value;
-                navigator.clipboard.writeText(body).then(() => {
-                    const originalText = e.target.textContent;
-                    e.target.textContent = "Copied!";
-                    setTimeout(() => e.target.textContent = originalText, 2000);
-                });
+                const text = promptEditor.querySelector(".prompt-body").value;
+
+                // 1. Create a hidden pre element to preserve formatting exactly
+                const storage = document.createElement('pre');
+                storage.style.position = 'absolute';
+                storage.style.left = '-9999px';
+                storage.textContent = text; 
+                document.body.appendChild(storage);
+
+                // 2. Select the text
+                const range = document.createRange();
+                range.selectNodeContents(storage);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+
+                // 3. Execute copy command (this method is older but more reliable for 
+                // preserving multi-line breaks when pasting into rich-text editors)
+                try {
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        const originalText = e.target.textContent;
+                        e.target.textContent = "Copied!";
+                        setTimeout(() => e.target.textContent = originalText, 2000);
+                    }
+                } catch (err) {
+                    console.error('Unable to copy', err);
+                }
+
+                // 4. Cleanup
+                selection.removeAllRanges();
+                document.body.removeChild(storage);
             };
         });
 
