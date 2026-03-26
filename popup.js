@@ -461,6 +461,10 @@ function loadFolders() {
 }
 
 document.addEventListener("click", (e) => {
+    const isThemeToggle = e.target.closest("#theme-toggle");
+    if (isThemeToggle) {
+        return;
+    }
     // Close folder options menu
     const folderMenu = document.querySelector(".folder-options-menu:not(.move-prompt-menu)");
     if (folderMenu && !e.target.classList.contains("three-dot-btn") && !folderMenu.contains(e.target)) {
