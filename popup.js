@@ -345,7 +345,7 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
                 if (folderNameSpan && folder !== currentFolder) {
                     const moveBtn = document.createElement("button");
                     moveBtn.className = "action-btn";
-                    moveBtn.textContent = `To: ${folderNameSpan.textContent}`;
+                    moveBtn.textContent = `${folderNameSpan.textContent}`;
                     moveBtn.onclick = () => {
                         const targetList = folder.querySelector(".prompts-list");
                         if (targetList) {
