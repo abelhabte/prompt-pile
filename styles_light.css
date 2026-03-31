@@ -555,9 +555,12 @@ body {
 .secondary-btn, 
 .prompt-category, 
 #search-prompts {
-    padding: 4px; /* A balanced middle-ground */
-    height: 25px;      /* Fixed height ensures vertical alignment */
-    line-height: 1;
+    padding: 2px 4px;   /* Vertical padding reduced, horizontal kept */
+    height: 28px;        /* Increased from 25px to 28px */
+    line-height: 1.4;    /* Increased to give descenders more room */
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center; /* Centers the text vertically */
 }
 
 /* --- MAIN LIST CONTAINER --- */

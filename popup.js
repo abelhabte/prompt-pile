@@ -211,6 +211,7 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
                 <option value="DeepSeek" ${data.category === 'DeepSeek' ? 'selected' : ''}>DeepSeek</option>
                 <option value="Gemini" ${data.category === 'Gemini' ? 'selected' : ''}>Gemini</option>
                 <option value="Grok" ${data.category === 'Grok' ? 'selected' : ''}>Grok</option>
+                <option value="HuggingChat" ${data.category === 'HuggingChat' ? 'selected' : ''}>HuggingChat</option>
                 <option value="Meta AI" ${data.category === 'Meta AI' ? 'selected' : ''}>Meta AI</option>
                 <option value="Perplexity" ${data.category === 'Perplexity' ? 'selected' : ''}>Perplexity</option>
             </select>
