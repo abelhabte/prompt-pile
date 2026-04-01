@@ -246,12 +246,16 @@ body {
     font-weight: bold;
     cursor: pointer;
     font-size: 12px;
-    color: #fff;
+    
+    /* Change these lines */
+    flex: 1;           /* Takes up only the available space */
+    min-width: 0;      /* Crucial for text-overflow ellipsis to work in flex */
+    width: auto;       /* Remove the 100% width constraint */
+    
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     display: block; 
-    width: 100%;
 }
 
 .saved-actions .secondary-btn {
@@ -336,6 +340,9 @@ body {
 }
 
 .prompt-editor.is-saved .prompt-category {
+    text-align: right;
+    width: auto;    /* Allow it to fit its content */
+    margin-left: 8px;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
