@@ -241,21 +241,19 @@ body {
 }
 
 .prompt-editor.is-saved .prompt-title {
+    flex: 1;
+    width: auto;
     border: transparent;
     background: transparent;
     font-weight: bold;
     cursor: pointer;
     font-size: 12px;
-    
-    /* Change these lines */
-    flex: 1;           /* Takes up only the available space */
-    min-width: 0;      /* Crucial for text-overflow ellipsis to work in flex */
-    width: auto;       /* Remove the 100% width constraint */
-    
+    color: #fff;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     display: block; 
+    width: 100%;
 }
 
 .saved-actions .secondary-btn {
