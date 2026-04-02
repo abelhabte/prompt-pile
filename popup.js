@@ -303,9 +303,20 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
                 try {
                     const successful = document.execCommand('copy');
                     if (successful) {
-                        const originalText = e.target.textContent;
-                        e.target.textContent = "Copied!";
-                        setTimeout(() => e.target.textContent = originalText, 2000);
+                        // Find the image inside the button specifically
+                        const iconImg = btn.querySelector(".btn-icon");
+                        
+                        if (iconImg) {
+                            const originalSrc = iconImg.src;
+                            
+                            // Change to check mark
+                            iconImg.src = "icons/check_mark.svg";
+                            
+                            // Revert after 2 seconds
+                            setTimeout(() => {
+                                iconImg.src = originalSrc;
+                            }, 1500);
+                        }
                     }
                 } catch (err) {
                     console.error('Unable to copy', err);
