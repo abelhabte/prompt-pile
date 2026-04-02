@@ -6,6 +6,7 @@ const searchInput = document.getElementById("search-prompts");
 // --- INITIALIZATION ---
 addFolderBtn.addEventListener("click", () => createFolderElement());
 loadFolders();
+checkEmptyState();
 
 // --- CORE FOLDER CREATION ---
 function createFolderElement(existingName = null, existingPrompts = [], isImport = false) {
@@ -49,6 +50,7 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
             cancelBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
                 folder.remove();
+                checkEmptyState();
             });
 
             initialInput.addEventListener("keydown", (e) => {
@@ -75,6 +77,8 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
     } else {
         combinedList.appendChild(folder);
     }
+
+    checkEmptyState();
 
     folder.addEventListener("click", (e) => {
         const isHeaderClick = e.target.closest(".folder-header");
@@ -124,6 +128,7 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
         if (e.target.textContent === "Delete Folder") {
             folder.remove();
             saveFolders();
+            checkEmptyState();
         }
 
         if (e.target.textContent === "Rename Folder") {
@@ -656,3 +661,24 @@ themeToggle.addEventListener("click", () => {
     const isCurrentlyDark = !darkStyle.disabled;
     setDarkMode(!isCurrentlyDark);
 });
+
+function checkEmptyState() {
+    const list = document.getElementById("combined-list");
+    // Check if there are any folders currently in the list
+    const existingFolders = list.querySelectorAll(".folder");
+    
+    // Remove any existing empty-state message first to avoid duplicates
+    const existingMsg = list.querySelector(".empty-state");
+    if (existingMsg) existingMsg.remove();
+
+    if (existingFolders.length === 0) {
+        const emptyDiv = document.createElement("div");
+        emptyDiv.className = "empty-state";
+        emptyDiv.innerHTML = `
+            <p>Your pile is empty.</p>
+            <span>Click <b>+ Folder</b> to start fresh or 
+            <b>Import</b> a previous backup.</span>
+        `;
+        list.appendChild(emptyDiv);
+    }
+}

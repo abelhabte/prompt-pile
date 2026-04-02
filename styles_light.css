@@ -668,3 +668,15 @@ body {
     background-color: rgba(0, 0, 0, 0.05);
     border-radius: 4px;
 }
+
+.empty-state {
+    text-align: center;
+    margin-top: 60px;
+    color: #888;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.empty-state b {
+    color: #2a629c; /* Matches your primary action color */
+}
