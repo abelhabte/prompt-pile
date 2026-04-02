@@ -649,6 +649,23 @@ body {
 
 /* Optional: Add a hover effect so the user knows they are clickable */
 .prompt-editor.is-saved .saved-actions .secondary-btn:hover {
-    background-color: rgba(128, 128, 128, 0.1); 
+    background-color: rgba(128, 128, 128, 0.1);
+    border-radius: 4px;
+}
+
+/* Remove borders for specific folder and rename action buttons */
+.cancel-folder-btn,
+.confirm-folder-btn,
+.cancel-rename-btn,
+.confirm-rename-btn {
+    border: none !important;
+    background: transparent;
+}
+
+.cancel-folder-btn:hover,
+.confirm-folder-btn:hover,
+.cancel-rename-btn:hover,
+.confirm-rename-btn:hover {
+    background-color: rgba(255, 255, 255, 0.05);
     border-radius: 4px;
 }

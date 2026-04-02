@@ -22,8 +22,8 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
                 </span>
                 <input type="text" class="folder-input" placeholder="Folder Name..." />
                 <div class="creation-actions">
-                    <button class="cancel-folder-btn secondary-btn">Cancel</button>
-                    <button class="confirm-folder-btn secondary-btn">+ Folder</button>
+                    <button class="cancel-folder-btn secondary-btn" title="Cancel"><img src="icons/cross.svg" class="btn-icon" alt="Cross"></button>
+                    <button class="confirm-folder-btn secondary-btn" title="+ Folder"><img src="icons/add.svg" class="btn-icon" alt="+ Folder"></button>
                 </div>
             </div>
         `;
@@ -137,8 +137,8 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
                 </span>
                 <input type="text" class="folder-input" value="${currentName}"/>
                 <div class="creation-actions">
-                    <button class="cancel-rename-btn secondary-btn">Cancel</button>
-                    <button class="confirm-rename-btn secondary-btn">Save</button>
+                    <button class="cancel-rename-btn secondary-btn" title="Cancel"><img src="icons/cross.svg" class="btn-icon" alt="Cross"></button>
+                    <button class="confirm-rename-btn secondary-btn" title="Save"><img src="icons/check_mark.svg" class="btn-icon" alt="Check Mark"></button>
                 </div>
             `;
             const renameInput = header.querySelector(".folder-input");
