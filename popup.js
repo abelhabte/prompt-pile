@@ -216,9 +216,9 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
                 <option value="Perplexity" ${data.category === 'Perplexity' ? 'selected' : ''}>Perplexity</option>
             </select>
             <div class="saved-actions">
-                <button class="copy-prompt-btn secondary-btn"><img src="icons/copy.svg" class="btn-icon" alt="Copy"></button>
-                <button class="move-prompt-btn secondary-btn"><img src="icons/move.svg" class="btn-icon" alt="Move"></button>
-                <button class="delete-prompt-btn secondary-btn"><img src="icons/delete.svg" class="btn-icon" alt="Delete"></button>
+                <button class="copy-prompt-btn secondary-btn" title="Copy"><img src="icons/copy.svg" class="btn-icon" alt="Copy"></button>
+                <button class="move-prompt-btn secondary-btn" title="Move"><img src="icons/move.svg" class="btn-icon" alt="Move"></button>
+                <button class="delete-prompt-btn secondary-btn" title="Delete"><img src="icons/delete.svg" class="btn-icon" alt="Delete"></button>
             </div>
         </div>
         <textarea class="prompt-body" placeholder="Write your prompt here...">${data.body}</textarea>
