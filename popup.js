@@ -18,7 +18,7 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
             <div class="folder-header">
                 <span class="drag-handle">⠿</span>
                 <span class="icon">
-                    <img src="icons/triangle_arrow_right.svg" class="arrow-icon" alt="toggle">
+                    <img src="icons/triangle_right.svg" class="arrow-icon" alt="toggle">
                 </span>
                 <input type="text" class="folder-input" placeholder="Folder Name..." />
                 <div class="creation-actions">
@@ -86,8 +86,8 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
             const iconImg = folder.querySelector(".arrow-icon");
             if (iconImg) {
                 iconImg.src = folder.classList.contains("is-open") 
-                    ? "icons/triangle_arrow_down.svg" 
-                    : "icons/triangle_arrow_right.svg";
+                    ? "icons/triangle_down.svg" 
+                    : "icons/triangle_right.svg";
             }
         }
 
@@ -133,7 +133,7 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
             header.innerHTML = `
                 <span class="drag-handle">⠿</span>
                 <span class="icon">
-                    <img src="icons/triangle_arrow_right.svg" class="arrow-icon">
+                    <img src="icons/triangle_right.svg" class="arrow-icon">
                 </span>
                 <input type="text" class="folder-input" value="${currentName}"/>
                 <div class="creation-actions">
@@ -173,7 +173,7 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
         if (e.target.classList.contains("action-btn") && e.target.textContent === "+ Prompt") {
             folder.classList.add("is-open");
             const iconImg = folder.querySelector(".arrow-icon");
-            if (iconImg) iconImg.src = "icons/triangle_arrow_down.svg";
+            if (iconImg) iconImg.src = "icons/triangle_down.svg";
             
             const list = folder.querySelector(".prompts-list");
             if (list) {
@@ -421,7 +421,7 @@ function renderFolderStatic(folderElement, name) {
     }
 
     const isOpen = folderElement.classList.contains("is-open");
-    const iconPath = isOpen ? "icons/triangle_arrow_down.svg" : "icons/triangle_arrow_right.svg";
+    const iconPath = isOpen ? "icons/triangle_down.svg" : "icons/triangle_right.svg";
 
     header.innerHTML = `
         <span class="drag-handle">⠿</span>
@@ -570,10 +570,10 @@ searchInput.addEventListener("input", (e) => {
         const iconImg = folder.querySelector(".arrow-icon");
         if (query !== "" && folderHasMatch) {
             folder.classList.add("is-open");
-            if (iconImg) iconImg.src = "icons/triangle_arrow_down.svg";
+            if (iconImg) iconImg.src = "icons/triangle_down.svg";
         } else if (query === "") {
             folder.classList.remove("is-open");
-            if (iconImg) iconImg.src = "icons/triangle_arrow_right.svg";
+            if (iconImg) iconImg.src = "icons/triangle_right.svg";
         }
     });
 });
