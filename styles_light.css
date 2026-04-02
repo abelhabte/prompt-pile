@@ -6,7 +6,7 @@ body {
 
 /* --- APP LAYOUT --- */
 #app-container {
-    width: 400px;
+    width: 350px;
     height: 100vh;    /* Fills the entire window height */
     display: flex;
     flex-direction: column;
@@ -640,4 +640,17 @@ body {
 .move-prompt-menu {
     max-height: 200px;
     overflow-y: auto;
+}
+
+.prompt-editor.is-saved .saved-actions .secondary-btn {
+    border: none;
+    background: transparent;
+    padding: 4px 6px; /* Adjust padding as needed for spacing */
+    box-shadow: none;
+}
+
+/* Optional: Add a hover effect so the user knows they are clickable */
+.prompt-editor.is-saved .saved-actions .secondary-btn:hover {
+    background-color: rgba(128, 128, 128, 0.1); 
+    border-radius: 4px;
 }
