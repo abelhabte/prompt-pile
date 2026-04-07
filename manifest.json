@@ -5,32 +5,25 @@
     "description": "A web extension for storing and organizing AI prompts.",
     
     "icons": {
-        "16": "icons/icon-16.png",
-        "48": "icons/icon-48.png",
-        "128": "icons/icon-128.png"
+        "16": "icons/logo_web_16.png",
+        "48": "icons/logo_web_48.png",
+        "128": "icons/logo_web_128.png"
     },
     
     "action": {
         "default_popup": "popup.html",
         "default_icon": {
-            "16": "icons/icon-16.png",
-            "24": "icons/icon-24.png",
-            "32": "icons/icon-32.png"
+            "16": "icons/logo_web_16.png",
+            "24": "icons/logo_web_24.png",
+            "32": "icons/logo_web_32.png"
         },
         "default_title": "Open Prompt Pile"
     },
     
     "permissions": [
         "storage",
+        "sidePanel",
         "contextMenus",
         "clipboardWrite"
-    ],
-    
-    "host_permissions": [
-        "<all_urls>" 
-    ],
-    
-    "background": {
-        "service_worker": "background.js"
-    }
+    ]
 }

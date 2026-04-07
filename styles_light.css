@@ -4,10 +4,18 @@ body {
     overflow: hidden; /* Extra insurance to keep the window static */
 }
 
+html, body {
+    width: 350px;    /* Matches your #app-container */
+    height: 600px;   /* Set a fixed height so the browser knows how much to reveal */
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
 /* --- APP LAYOUT --- */
 #app-container {
-    width: 350px;
-    height: 100vh;    /* Fills the entire window height */
+    width: 100%;
+    height: 100%;    /* Fills the entire window height */
     display: flex;
     flex-direction: column;
     overflow: hidden; /* Keeps the main window from scrolling */
