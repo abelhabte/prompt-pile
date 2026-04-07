@@ -9,8 +9,8 @@ body {
 }
 
 html, body {
-    width: 350px;    /* Matches your #app-container */
-    height: 600px;   /* Set a fixed height so the browser knows how much to reveal */
+    width: 100%;    /* Matches your #app-container */
+    height: 100vh;   /* Set a fixed height so the browser knows how much to reveal */
     margin: 0;
     padding: 0;
     overflow: hidden;

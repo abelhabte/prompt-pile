@@ -11,13 +11,17 @@
     },
     
     "action": {
-        "default_popup": "popup.html",
-        "default_icon": {
-            "16": "icons/logo_web_16.png",
-            "24": "icons/logo_web_24.png",
-            "32": "icons/logo_web_32.png"
-        },
         "default_title": "Open Prompt Pile"
+    },
+
+    "side_panel": {
+        "default_path": "popup.html"
+    },
+
+    "sidebar_action": {
+        "default_title": "Prompt Pile",
+        "default_panel": "popup.html",
+        "default_icon": "icons/logo_web_16.png"
     },
     
     "permissions": [
@@ -25,5 +29,16 @@
         "sidePanel",
         "contextMenus",
         "clipboardWrite"
-    ]
+    ],
+
+    "background": {
+        "service_worker": "background.js",
+        "scripts": ["background.js"]
+    },
+
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "prompt-pile@yourdomain.com"
+        }
+    }
 }
