@@ -25,6 +25,7 @@
     },
     
     "permissions": [
+        "downloads",
         "storage",
         "sidePanel",
         "contextMenus",
