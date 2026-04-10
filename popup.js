@@ -585,51 +585,75 @@ searchInput.addEventListener("input", (e) => {
 
 // --- EXPORT/IMPORT ---
 const exportBtn = document.getElementById("export-btn");
-exportBtn.addEventListener("click", async () => {
+exportBtn.addEventListener("click", () => {
     const savedData = JSON.parse(localStorage.getItem("myFolders") || "[]");
-    if (savedData.length === 0) { alert("No prompts found!"); return; }
-    const zip = new JSZip();
-    const rootFolder = zip.folder("Prompt_Pile_Export");
-    savedData.forEach(folderData => {
-        const folder = rootFolder.folder(folderData.name.replace(/[/\\?%*:|"<>]/g, '-'));
-        folderData.prompts.forEach((prompt, index) => {
-            const content = JSON.stringify(prompt, null, 4);
-            const fileName = `${prompt.title.replace(/[/\\?%*:|"<>]/g, '-') || 'prompt_' + index}.json`;
-            folder.file(fileName, content);
-        });
-    });
-    zip.generateAsync({ type: "blob" }).then((content) => {
-        const url = URL.createObjectURL(content);
-        const a = document.createElement("a");
-        a.href = url; a.download = "Prompt_Pile_Export.zip";
-        document.body.appendChild(a); a.click();
-        setTimeout(() => { document.body.removeChild(a); window.URL.revokeObjectURL(url); }, 0);
-    });
+    
+    if (savedData.length === 0) { 
+        alert("No prompts found!"); 
+        return; 
+    }
+
+    // Get the version directly from manifest.json
+    const manifestData = chrome.runtime.getManifest();
+    const manifestVersion = manifestData.version;
+
+    // Generate ISO Date (e.g., 2026-04-10T21:22:29.000Z)
+    const now = new Date();
+    const isoDate = now.toISOString();
+    // Extract YYYY-MM-DD for the filename
+    const dateStamp = isoDate.split('T')[0];
+
+    const exportObject = {
+        version: manifestVersion,
+        date: isoDate, // Full ISO format in the JSON
+        folders: savedData
+    };
+
+    const blob = new Blob([JSON.stringify(exportObject, null, 4)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `prompt_pile_${dateStamp}.json`;
+    document.body.appendChild(a);
+    a.click();
+    
+    setTimeout(() => {
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+    }, 0);
 });
 
 const importBtn = document.getElementById("import-btn");
 importBtn.addEventListener("click", () => {
     const input = document.createElement('input');
-    input.type = 'file'; input.webkitdirectory = true;
+    input.type = 'file';
+    input.accept = '.json';
+    
     input.onchange = async (e) => {
-        const files = Array.from(e.target.files);
-        const folderMap = {};
-        for (const file of files) {
-            if (file.name.endsWith('.json')) {
-                const pathParts = file.webkitRelativePath.split('/');
-                const folderName = pathParts.length > 2 ? pathParts[pathParts.length - 2] : pathParts[0];
-                const text = await file.text();
-                try {
-                    const json = JSON.parse(text);
-                    if (!folderMap[folderName]) folderMap[folderName] = [];
-                    folderMap[folderName].push(json);
-                } catch (err) {}
+        const file = e.target.files[0];
+        if (!file) return;
+
+        try {
+            const text = await file.text();
+            const importedContent = JSON.parse(text);
+            
+            // Access the folders array from our new schema
+            const folderData = importedContent.folders || importedContent;
+
+            if (Array.isArray(folderData)) {
+                folderData.reverse().forEach(folder => {
+                    createFolderElement(folder.name, folder.prompts || [], true);
+                });
+                saveFolders();
+                alert(`Imported successfully! (Exported on: ${importedContent.exportDate || 'Unknown Date'})`);
+            } else {
+                alert("Invalid file format: Could not find folder list.");
             }
+        } catch (err) {
+            console.error("Import error:", err);
+            alert("Failed to parse the import file.");
         }
-        Object.keys(folderMap).reverse().forEach(name => {
-            createFolderElement(name, folderMap[name], true);
-        });
-        saveFolders();
     };
     input.click();
 });
