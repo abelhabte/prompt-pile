@@ -593,19 +593,19 @@ exportBtn.addEventListener("click", () => {
         return; 
     }
 
-    // Get the version directly from manifest.json
-    const manifestData = chrome.runtime.getManifest();
-    const manifestVersion = manifestData.version;
+    // Safety check: Check if chrome.runtime exists before calling getManifest
+    let extensionVersion = "Testing"; 
+    if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.getManifest) {
+        extensionVersion = chrome.runtime.getManifest().version;
+    }
 
-    // Generate ISO Date (e.g., 2026-04-10T21:22:29.000Z)
     const now = new Date();
     const isoDate = now.toISOString();
-    // Extract YYYY-MM-DD for the filename
     const dateStamp = isoDate.split('T')[0];
 
     const exportObject = {
-        version: manifestVersion,
-        date: isoDate, // Full ISO format in the JSON
+        version: extensionVersion,
+        date: isoDate,
         folders: savedData
     };
 
@@ -614,7 +614,7 @@ exportBtn.addEventListener("click", () => {
     
     const a = document.createElement("a");
     a.href = url;
-    a.download = `prompt_pile_${dateStamp}.json`;
+    a.download = `prompt_pile_backup_${dateStamp}.json`;
     document.body.appendChild(a);
     a.click();
     
