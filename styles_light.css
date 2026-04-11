@@ -303,7 +303,7 @@ html, body {
 /* Standardize all buttons in the prompt edit actions area */
 .edit-actions button {
     flex: 1;
-    height: 28px;           /* Matches the height defined for your secondary-btn and prompt-category */
+    height: 28px;           /* Matches the height defined for your secondary-btn and prompt-model */
     font-weight: 600;
     cursor: pointer;
     border-radius: 4px;
@@ -334,7 +334,7 @@ html, body {
     border: 1px solid #ced4da;
 }
 
-.prompt-editor.is-saved .prompt-category {
+.prompt-editor.is-saved .prompt-model {
     text-align: right;
     width: auto;    /* Allow it to fit its content */
     margin-left: 8px;
@@ -447,7 +447,7 @@ html, body {
 /* --- BUTTON STYLES --- */
 
 .secondary-btn, 
-.prompt-category {
+.prompt-model {
     background-color: #f8f9fa;
     color: #333;
     border: 1px solid #ced4da;
@@ -461,12 +461,12 @@ html, body {
 }
 
 .secondary-btn:hover,
-.prompt-category:hover {
+.prompt-model:hover {
     background-color: #e2e6ea;
     border-color: #dae0e5;
 }
 
-.prompt-category {
+.prompt-model {
     appearance: none;       /* Removes default arrow in modern browsers */
     -webkit-appearance: none; /* Removes default arrow in Chrome/Safari */
     -moz-appearance: none;    /* Removes default arrow in Firefox */
@@ -566,7 +566,7 @@ html, body {
 
 /* Apply to both styles_light.css and styles_dark.css for total uniformity */
 .secondary-btn, 
-.prompt-category, 
+.prompt-model, 
 #search-prompts {
     padding: 2px 4px;   /* Vertical padding reduced, horizontal kept */
     height: 28px;        /* Increased from 25px to 28px */

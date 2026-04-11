@@ -345,7 +345,7 @@ html, body {
     border: 1px solid #333;
 }
 
-.prompt-editor.is-saved .prompt-category {
+.prompt-editor.is-saved .prompt-model {
     text-align: right;
     width: auto;    /* Allow it to fit its content */
     margin-left: 8px;
@@ -458,7 +458,7 @@ html, body {
 /* --- BUTTON STYLES --- */
 
 .secondary-btn, 
-.prompt-category {
+.prompt-model {
     background-color: #121212;
     color: #e0e0e0;
     border: 1px solid #333;
@@ -472,12 +472,12 @@ html, body {
 }
 
 .secondary-btn:hover,
-.prompt-category:hover {
+.prompt-model:hover {
     background-color: #1a1a1a;
     border-color: #444;
 }
 
-.prompt-category {
+.prompt-model {
     appearance: none;       
     -webkit-appearance: none; 
     -moz-appearance: none;    
@@ -565,7 +565,7 @@ html, body {
 }
 
 .secondary-btn, 
-.prompt-category, 
+.prompt-model, 
 #search-prompts {
     padding: 2px 4px;   /* Vertical padding reduced, horizontal kept */
     height: 28px;        /* Increased from 25px to 28px */

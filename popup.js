@@ -182,7 +182,7 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
             
             const list = folder.querySelector(".prompts-list");
             if (list) {
-                addPromptToUI(list, {title: '', category: 'ChatGPT', body: ''}, true);
+                addPromptToUI(list, {title: '', model: 'ChatGPT', body: ''}, true);
             }
             const menu = folder.querySelector(".folder-options-menu");
             if (menu) menu.remove();
@@ -191,7 +191,7 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
 }
 
 // --- PROMPT UI HELPER ---
-function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: ''}, isNew = false) {
+function addPromptToUI(container, data = {title: '', model: 'ChatGPT', body: ''}, isNew = false) {
     const promptEditor = document.createElement("div");
     promptEditor.className = data.title ? "prompt-editor is-saved" : "prompt-editor";
     promptEditor.setAttribute("draggable", "true");
@@ -209,16 +209,16 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
         <div class="prompt-header-row">
             <span class="drag-handle">⠿</span>
             <input type="text" class="prompt-title" placeholder="Prompt Title" value="${data.title}">
-            <select class="prompt-category">
-                <option value="ChatGPT" ${data.category === 'ChatGPT' ? 'selected' : ''}>ChatGPT</option>
-                <option value="Claude" ${data.category === 'Claude' ? 'selected' : ''}>Claude</option>
-                <option value="Copilot" ${data.category === 'Copilot' ? 'selected' : ''}>Copilot</option>
-                <option value="DeepSeek" ${data.category === 'DeepSeek' ? 'selected' : ''}>DeepSeek</option>
-                <option value="Gemini" ${data.category === 'Gemini' ? 'selected' : ''}>Gemini</option>
-                <option value="Grok" ${data.category === 'Grok' ? 'selected' : ''}>Grok</option>
-                <option value="HuggingChat" ${data.category === 'HuggingChat' ? 'selected' : ''}>HuggingChat</option>
-                <option value="Meta AI" ${data.category === 'Meta AI' ? 'selected' : ''}>Meta AI</option>
-                <option value="Perplexity" ${data.category === 'Perplexity' ? 'selected' : ''}>Perplexity</option>
+            <select class="prompt-model">
+                <option value="ChatGPT" ${data.model === 'ChatGPT' ? 'selected' : ''}>ChatGPT</option>
+                <option value="Claude" ${data.model === 'Claude' ? 'selected' : ''}>Claude</option>
+                <option value="Copilot" ${data.model === 'Copilot' ? 'selected' : ''}>Copilot</option>
+                <option value="DeepSeek" ${data.model === 'DeepSeek' ? 'selected' : ''}>DeepSeek</option>
+                <option value="Gemini" ${data.model === 'Gemini' ? 'selected' : ''}>Gemini</option>
+                <option value="Grok" ${data.model === 'Grok' ? 'selected' : ''}>Grok</option>
+                <option value="HuggingChat" ${data.model === 'HuggingChat' ? 'selected' : ''}>HuggingChat</option>
+                <option value="Meta AI" ${data.model === 'Meta AI' ? 'selected' : ''}>Meta AI</option>
+                <option value="Perplexity" ${data.model === 'Perplexity' ? 'selected' : ''}>Perplexity</option>
             </select>
             <div class="saved-actions">
                 <button class="copy-prompt-btn secondary-btn" title="Copy"><img src="icons/copy.svg" class="btn-icon" alt="Copy"></button>
@@ -233,7 +233,7 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
     const setupListeners = () => {
         let originalData = {
             title: promptEditor.querySelector(".prompt-title").value,
-            category: promptEditor.querySelector(".prompt-category").value,
+            model: promptEditor.querySelector(".prompt-model").value,
             body: promptEditor.querySelector(".prompt-body").value
         };
 
@@ -255,7 +255,7 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
         if (cancelEdit) {
             cancelEdit.onclick = () => {
                 promptEditor.querySelector(".prompt-title").value = originalData.title;
-                promptEditor.querySelector(".prompt-category").value = originalData.category;
+                promptEditor.querySelector(".prompt-model").value = originalData.model;
                 promptEditor.querySelector(".prompt-body").value = originalData.body;
                 promptEditor.classList.add("is-saved");
             };
@@ -271,7 +271,7 @@ function addPromptToUI(container, data = {title: '', category: 'ChatGPT', body: 
 
             originalData = {
                 title: currentTitle,
-                category: promptEditor.querySelector(".prompt-category").value,
+                model: promptEditor.querySelector(".prompt-model").value,
                 body: promptEditor.querySelector(".prompt-body").value
             };
 
@@ -462,7 +462,7 @@ function saveFolders() {
             el.querySelectorAll(".prompt-editor.is-saved").forEach(p => {
                 prompts.push({
                     title: p.querySelector(".prompt-title").value,
-                    category: p.querySelector(".prompt-category").value,
+                    model: p.querySelector(".prompt-model").value,
                     body: p.querySelector(".prompt-body").value
                 });
             });
