@@ -646,7 +646,7 @@ importBtn.addEventListener("click", () => {
                     createFolderElement(folder.name, folder.prompts || [], true);
                 });
                 saveFolders();
-                alert(`Imported successfully! (Exported on: ${importedContent.exportDate || 'Unknown Date'})`);
+                alert(`Imported successfully! (Exported on: ${importedContent.date || 'Unknown Date'})`);
             } else {
                 alert("Invalid file format: Could not find folder list.");
             }
