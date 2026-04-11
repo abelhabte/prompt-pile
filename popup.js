@@ -182,7 +182,7 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
             
             const list = folder.querySelector(".prompts-list");
             if (list) {
-                addPromptToUI(list, {title: '', model: 'ChatGPT', body: ''}, true);
+                addPromptToUI(list, {title: '', model: 'ChatGPT', text: ''}, true);
             }
             const menu = folder.querySelector(".folder-options-menu");
             if (menu) menu.remove();
@@ -191,7 +191,7 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
 }
 
 // --- PROMPT UI HELPER ---
-function addPromptToUI(container, data = {title: '', model: 'ChatGPT', body: ''}, isNew = false) {
+function addPromptToUI(container, data = {title: '', model: 'ChatGPT', text: ''}, isNew = false) {
     const promptEditor = document.createElement("div");
     promptEditor.className = data.title ? "prompt-editor is-saved" : "prompt-editor";
     promptEditor.setAttribute("draggable", "true");
@@ -226,7 +226,7 @@ function addPromptToUI(container, data = {title: '', model: 'ChatGPT', body: ''}
                 <button class="delete-prompt-btn secondary-btn" title="Delete"><img src="icons/delete.svg" class="btn-icon" alt="Delete"></button>
             </div>
         </div>
-        <textarea class="prompt-body" placeholder="Write your prompt here...">${data.body}</textarea>
+        <textarea class="prompt-text" placeholder="Write your prompt here...">${data.text}</textarea>
         <div class="edit-actions">${renderButtons(isNew)}</div>
     `;
 
@@ -234,7 +234,7 @@ function addPromptToUI(container, data = {title: '', model: 'ChatGPT', body: ''}
         let originalData = {
             title: promptEditor.querySelector(".prompt-title").value,
             model: promptEditor.querySelector(".prompt-model").value,
-            body: promptEditor.querySelector(".prompt-body").value
+            text: promptEditor.querySelector(".prompt-text").value
         };
 
         const titleInput = promptEditor.querySelector(".prompt-title");
@@ -256,7 +256,7 @@ function addPromptToUI(container, data = {title: '', model: 'ChatGPT', body: ''}
             cancelEdit.onclick = () => {
                 promptEditor.querySelector(".prompt-title").value = originalData.title;
                 promptEditor.querySelector(".prompt-model").value = originalData.model;
-                promptEditor.querySelector(".prompt-body").value = originalData.body;
+                promptEditor.querySelector(".prompt-text").value = originalData.text;
                 promptEditor.classList.add("is-saved");
             };
         }
@@ -272,7 +272,7 @@ function addPromptToUI(container, data = {title: '', model: 'ChatGPT', body: ''}
             originalData = {
                 title: currentTitle,
                 model: promptEditor.querySelector(".prompt-model").value,
-                body: promptEditor.querySelector(".prompt-body").value
+                text: promptEditor.querySelector(".prompt-text").value
             };
 
             if (isNew) {
@@ -287,7 +287,7 @@ function addPromptToUI(container, data = {title: '', model: 'ChatGPT', body: ''}
 
         promptEditor.querySelectorAll(".copy-prompt-btn").forEach(btn => {
             btn.onclick = (e) => {
-                const text = promptEditor.querySelector(".prompt-body").value;
+                const text = promptEditor.querySelector(".prompt-text").value;
 
                 // 1. Create a hidden pre element to preserve formatting exactly
                 const storage = document.createElement('pre');
@@ -463,7 +463,7 @@ function saveFolders() {
                 prompts.push({
                     title: p.querySelector(".prompt-title").value,
                     model: p.querySelector(".prompt-model").value,
-                    body: p.querySelector(".prompt-body").value
+                    text: p.querySelector(".prompt-text").value
                 });
             });
             data.push({ name: nameSpan.textContent, prompts: prompts });

@@ -267,7 +267,7 @@ html, body {
 }
 
 .prompt-editor:not(.is-saved) .saved-actions { display: none; }
-.prompt-editor.is-saved .prompt-body,
+.prompt-editor.is-saved .prompt-text,
 .prompt-editor.is-saved .edit-actions { display: none !important; }
 
 .prompt-editor:not(.is-saved) .edit-actions {
@@ -276,7 +276,7 @@ html, body {
     margin-top: 4px;
 }
 
-.prompt-body {
+.prompt-text {
     width: 100%;
     height: 250px;
     resize: none;
@@ -509,7 +509,7 @@ html, body {
 
 #search-prompts:focus,
 .prompt-editor:not(.is-saved) .prompt-title:focus,
-.prompt-body:focus { /* Add this */
+.prompt-text:focus { /* Add this */
     border-color: #4A90E2; 
     background-color: #ffffff; 
     outline: none; /* This removes the thick browser default ring */
@@ -608,7 +608,7 @@ html, body {
 
 /* Update this in both light and dark CSS files */
 .prompt-title:focus,
-.prompt-body:focus,
+.prompt-text:focus,
 .prompt-entry:focus { 
     outline: none;           /* Removes the default thick browser halo */
     border: 1px solid #2a629c; /* Forces a crisp 1px border */
