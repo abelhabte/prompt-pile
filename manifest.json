@@ -6,8 +6,12 @@
     
     "icons": {
         "16": "icons/logo_web_16.png",
+        "24": "icons/logo_web_24.png",
+        "32": "icons/logo_web_32.png",
         "48": "icons/logo_web_48.png",
-        "128": "icons/logo_web_128.png"
+        "128": "icons/logo_web_128.png",
+        "512": "icons/logo_web_512.png",
+        "1024": "icons/logo_web_1024.png"
     },
     
     "action": {
