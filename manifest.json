@@ -8,8 +8,7 @@
         "32": "icons/logo_web_32.png",
         "64": "icons/logo_web_64.png",
         "128": "icons/logo_web_128.png",
-        "512": "icons/logo_web_512.png",
-        "1024": "icons/logo_web_1024.png"
+        "512": "icons/logo_web_512.png"
     },
     
     "action": {
