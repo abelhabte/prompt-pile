@@ -591,8 +591,7 @@ html, body {
 }
 
 .prompt-title:focus,
-.prompt-text:focus,
-.prompt-entry:focus { 
+.prompt-text:focus { 
     outline: none;
     border: 1px solid #2a629c;
     box-shadow: none;
