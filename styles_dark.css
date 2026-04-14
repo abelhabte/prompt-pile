@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Extra insurance to keep the window static */
+    overflow: hidden;
     
     /* Pitch Black for OLED */
     background-color: #000000;
@@ -9,26 +9,22 @@ body {
 }
 
 html, body {
-    width: 100%;    /* Matches your #app-container */
-    height: 100vh;   /* Set a fixed height so the browser knows how much to reveal */
+    width: 100%;
+    height: 100vh;
     margin: 0;
     padding: 0;
     overflow: hidden;
 }
 
-/* --- APP LAYOUT --- */
 #app-container {
     width: 100%;
-    height: 100%;    /* Fills the entire window height */
+    height: 100%;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Keeps the main window from scrolling */
+    overflow: hidden;
     
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    /* Inherits background from body */
 }
-
-/* --- FOLDER STYLES --- */
 
 .folder-header {
     display: flex;
@@ -49,15 +45,15 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 15px; /* Matches your existing icon width */
+    width: 15px;
     height: 15px;
 }
 
 .arrow-icon {
-    width: 8px;  /* Adjust size as needed */
+    width: 8px;
     height: 8px;
     display: block;
-    transition: transform 0.2s; /* Optional: adds a smooth feel */
+    transition: transform 0.2s;
     filter: invert(1);
 }
 
@@ -75,14 +71,14 @@ html, body {
 .creation-actions {
     display: flex;
     gap: 4px;
-    margin-left: auto; /* Pushes buttons to the right */
+    margin-left: auto;
 }
 
 .secondary-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px; /* Space between the SVG and the text */
+    gap: 6px;
 }
 
 .btn-icon {
@@ -92,26 +88,24 @@ html, body {
     filter: invert(0.9);
 }
 
-/* Style the small action buttons specifically */
 .creation-actions .secondary-btn {
-    width: auto;          /* Allow button to grow with text */
-    height: 26px;         /* Standard height */
+    width: auto;
+    height: 26px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;      /* Slightly smaller text for the header area */
-    white-space: nowrap;  /* Prevents text from wrapping */
+    font-size: 11px;
+    white-space: nowrap;
 }
 
-/* Ensure the input leaves enough room for the wider buttons */
 .folder-input {
     flex-grow: 1;
     font-size: 12px;
     padding: 3px 8px;
-    background-color: #080808; /* Darker background for OLED */
+    background-color: #080808;
     color: #e0e0e0;
-    border: 1px solid #333;    /* Subtle border */
-    border-radius: 4px;        /* Consistent corners */
+    border: 1px solid #333;
+    border-radius: 4px;
     outline: none;
 }
 
@@ -212,7 +206,6 @@ html, body {
 
 .folder.is-open > .prompts-list { display: block; }
 
-/* --- PROMPT EDITOR STYLES --- */
 .prompt-editor {
     display: flex;
     flex-direction: column;
@@ -311,7 +304,6 @@ html, body {
     margin-top: 4px;
 }
 
-/* Standardize all buttons in the prompt edit actions area */
 .edit-actions button {
     flex: 1;
     height: 28px;           
@@ -326,7 +318,6 @@ html, body {
     transition: background-color 0.2s, border-color 0.2s;
 }
 
-/* Ensure the Save button doesn't have extra margins/borders */
 .edit-actions .save-prompt-btn {
     background-color: #2a629c; 
     color: white;
@@ -347,7 +338,7 @@ html, body {
 
 .prompt-editor.is-saved .prompt-model {
     text-align: right;
-    width: auto;    /* Allow it to fit its content */
+    width: auto;
     margin-left: 8px;
     appearance: none;
     -webkit-appearance: none;
@@ -455,8 +446,6 @@ html, body {
     outline: none;
 }
 
-/* --- BUTTON STYLES --- */
-
 .secondary-btn, 
 .prompt-model {
     background-color: #121212;
@@ -485,7 +474,6 @@ html, body {
     padding-right: 4px;       
 }
 
-/* Ensure buttons use these styles */
 #add-folder-btn, 
 #export-btn, 
 #import-btn {
@@ -567,15 +555,14 @@ html, body {
 .secondary-btn, 
 .prompt-model, 
 #search-prompts {
-    padding: 2px 4px;   /* Vertical padding reduced, horizontal kept */
-    height: 28px;        /* Increased from 25px to 28px */
-    line-height: 1.4;    /* Increased to give descenders more room */
+    padding: 2px 4px;
+    height: 28px;
+    line-height: 1.4;
     box-sizing: border-box;
     display: inline-flex;
-    align-items: center; /* Centers the text vertically */
+    align-items: center;
 }
 
-/* --- MAIN LIST CONTAINER --- */
 #main-list-view {
     flex: 1;          
     overflow-y: auto; 
@@ -583,7 +570,6 @@ html, body {
     padding: 0 10px;
 }
 
-/* --- FOLDER STYLES --- */
 .folder {
     border-top: 1px solid #1a1a1a; 
     background-color: #000000;
@@ -604,45 +590,39 @@ html, body {
     border-bottom: 1px solid #1a1a1a;
 }
 
-/* Update this in both light and dark CSS files */
 .prompt-title:focus,
 .prompt-text:focus,
 .prompt-entry:focus { 
-    outline: none;           /* Removes the default thick browser halo */
-    border: 1px solid #2a629c; /* Forces a crisp 1px border */
-    box-shadow: none;        /* Ensures no outer glow is adding perceived thickness */
+    outline: none;
+    border: 1px solid #2a629c;
+    box-shadow: none;
 }
 
 .saved-actions {
-    position: relative; /* Context for the menu positioning */
+    position: relative;
 }
 
-/* --- MOVE MENU SPECIFIC STYLES --- */
-
-/* --- NARROW MOVE MENU --- */
 .move-prompt-menu {
-    width: 120px;          /* Fixed narrow width */
+    width: 120px;
     min-width: 120px;
     right: 0;
     top: 28px;
     z-index: 1000;
-    overflow-x: hidden;    /* Strictly no horizontal scroll */
+    overflow-x: hidden;
 }
 
 .move-prompt-menu .action-btn {
     font-size: 11px;
     padding: 6px 10px;
-    width: 100%;           /* Ensure button fills the 120px */
+    width: 100%;
     text-align: left;
     
-    /* Truncate long text with dots (...) */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis; 
-    display: block;        /* Required for ellipsis to work on buttons */
+    display: block;
 }
 
-/* Optional: Add a max-height in case the user has 20+ folders */
 .move-prompt-menu {
     max-height: 200px;
     overflow-y: auto;
@@ -651,17 +631,15 @@ html, body {
 .prompt-editor.is-saved .saved-actions .secondary-btn {
     border: none;
     background: transparent;
-    padding: 4px 6px; /* Adjust padding as needed for spacing */
+    padding: 4px 6px;
     box-shadow: none;
 }
 
-/* Optional: Add a hover effect so the user knows they are clickable */
 .prompt-editor.is-saved .saved-actions .secondary-btn:hover {
     background-color: rgba(128, 128, 128, 0.1);
     border-radius: 4px;
 }
 
-/* Remove borders for specific folder and rename action buttons */
 .cancel-folder-btn,
 .confirm-folder-btn,
 .cancel-rename-btn,
@@ -684,5 +662,5 @@ html, body {
 }
 
 .empty-state b {
-    color: #2a629c; /* Matches your primary action color */
+    color: #2a629c;
 }
