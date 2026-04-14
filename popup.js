@@ -11,7 +11,7 @@ checkEmptyState();
 // --- CORE FOLDER CREATION ---
 function createFolderElement(existingName = null, existingPrompts = [], isImport = false) {
     const folder = document.createElement("div");
-    folder.className = 'folder';
+    folder.className = "folder";
     folder.setAttribute("draggable", "true");
 
     if (!existingName) {
@@ -29,9 +29,9 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
             </div>
         `;
 
-        const initialInput = folder.querySelector('.folder-input');
-        const confirmBtn = folder.querySelector('.confirm-folder-btn');
-        const cancelBtn = folder.querySelector('.cancel-folder-btn');
+        const initialInput = folder.querySelector(".folder-input");
+        const confirmBtn = folder.querySelector(".confirm-folder-btn");
+        const cancelBtn = folder.querySelector(".cancel-folder-btn");
 
         if (initialInput) {
             initialInput.focus();
@@ -182,7 +182,7 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
             
             const list = folder.querySelector(".prompts-list");
             if (list) {
-                addPromptToUI(list, {title: '', model: 'ChatGPT', text: ''}, true);
+                addPromptToUI(list, {title: "", model: "ChatGPT", text: ""}, true);
             }
             const menu = folder.querySelector(".folder-options-menu");
             if (menu) menu.remove();
@@ -191,7 +191,7 @@ function createFolderElement(existingName = null, existingPrompts = [], isImport
 }
 
 // --- PROMPT UI HELPER ---
-function addPromptToUI(container, data = {title: '', model: 'ChatGPT', text: ''}, isNew = false) {
+function addPromptToUI(container, data = {title: "", model: "ChatGPT", text: ""}, isNew = false) {
     const promptEditor = document.createElement("div");
     promptEditor.className = data.title ? "prompt-editor is-saved" : "prompt-editor";
     promptEditor.setAttribute("draggable", "true");
@@ -210,15 +210,15 @@ function addPromptToUI(container, data = {title: '', model: 'ChatGPT', text: ''}
             <span class="drag-handle">⠿</span>
             <input type="text" class="prompt-title" placeholder="Prompt Title" value="${data.title}">
             <select class="prompt-model">
-                <option value="ChatGPT" ${data.model === 'ChatGPT' ? 'selected' : ''}>ChatGPT</option>
-                <option value="Claude" ${data.model === 'Claude' ? 'selected' : ''}>Claude</option>
-                <option value="Copilot" ${data.model === 'Copilot' ? 'selected' : ''}>Copilot</option>
-                <option value="DeepSeek" ${data.model === 'DeepSeek' ? 'selected' : ''}>DeepSeek</option>
-                <option value="Gemini" ${data.model === 'Gemini' ? 'selected' : ''}>Gemini</option>
-                <option value="Grok" ${data.model === 'Grok' ? 'selected' : ''}>Grok</option>
-                <option value="HuggingChat" ${data.model === 'HuggingChat' ? 'selected' : ''}>HuggingChat</option>
-                <option value="Meta AI" ${data.model === 'Meta AI' ? 'selected' : ''}>Meta AI</option>
-                <option value="Perplexity" ${data.model === 'Perplexity' ? 'selected' : ''}>Perplexity</option>
+                <option value="ChatGPT" ${data.model === "ChatGPT" ? "selected" : ""}>ChatGPT</option>
+                <option value="Claude" ${data.model === "Claude" ? "selected" : ""}>Claude</option>
+                <option value="Copilot" ${data.model === "Copilot" ? "selected" : ""}>Copilot</option>
+                <option value="DeepSeek" ${data.model === "DeepSeek" ? "selected" : ""}>DeepSeek</option>
+                <option value="Gemini" ${data.model === "Gemini" ? "selected" : ""}>Gemini</option>
+                <option value="Grok" ${data.model === "Grok" ? "selected" : ""}>Grok</option>
+                <option value="HuggingChat" ${data.model === "HuggingChat" ? "selected" : ""}>HuggingChat</option>
+                <option value="Meta AI" ${data.model === "Meta AI" ? "selected" : ""}>Meta AI</option>
+                <option value="Perplexity" ${data.model === "Perplexity" ? "selected" : ""}>Perplexity</option>
             </select>
             <div class="saved-actions">
                 <button class="copy-prompt-btn secondary-btn" title="Copy"><img src="icons/copy.svg" class="btn-icon" alt="Copy"></button>
@@ -290,9 +290,9 @@ function addPromptToUI(container, data = {title: '', model: 'ChatGPT', text: ''}
                 const text = promptEditor.querySelector(".prompt-text").value;
 
                 // 1. Create a hidden pre element to preserve formatting exactly
-                const storage = document.createElement('pre');
-                storage.style.position = 'absolute';
-                storage.style.left = '-9999px';
+                const storage = document.createElement("pre");
+                storage.style.position = "absolute";
+                storage.style.left = "-9999px";
                 storage.textContent = text; 
                 document.body.appendChild(storage);
 
@@ -306,7 +306,7 @@ function addPromptToUI(container, data = {title: '', model: 'ChatGPT', text: ''}
                 // 3. Execute copy command (this method is older but more reliable for 
                 // preserving multi-line breaks when pasting into rich-text editors)
                 try {
-                    const successful = document.execCommand('copy');
+                    const successful = document.execCommand("copy");
                     if (successful) {
                         // Find the image inside the button specifically
                         const iconImg = btn.querySelector(".btn-icon");
@@ -324,7 +324,7 @@ function addPromptToUI(container, data = {title: '', model: 'ChatGPT', text: ''}
                         }
                     }
                 } catch (err) {
-                    console.error('Unable to copy', err);
+                    console.error("Unable to copy", err);
                 }
 
                 // 4. Cleanup
@@ -513,18 +513,18 @@ combinedList.addEventListener("dragstart", (e) => {
     e.dataTransfer.setData("text/plain", ""); 
 });
 
-combinedList.addEventListener('dragend', (e) => {
-    const targetFolder = e.target.closest('.folder');
-    if (targetFolder) targetFolder.classList.remove('dragging');
+combinedList.addEventListener("dragend", (e) => {
+    const targetFolder = e.target.closest(".folder");
+    if (targetFolder) targetFolder.classList.remove("dragging");
     saveFolders(); 
 });
 
-combinedList.addEventListener('dragover', (e) => {
+combinedList.addEventListener("dragover", (e) => {
     e.preventDefault(); 
-    const draggingFolder = document.querySelector('.dragging');
+    const draggingFolder = document.querySelector(".dragging");
     if (!draggingFolder) return;
     
-    const afterElement = getDragAfterElement(combinedList, e.clientY, '.folder');
+    const afterElement = getDragAfterElement(combinedList, e.clientY, ".folder");
     if (afterElement == null) {
         combinedList.appendChild(draggingFolder);
     } else {
@@ -601,7 +601,7 @@ exportBtn.addEventListener("click", () => {
 
     const now = new Date();
     const isoDate = now.toISOString();
-    const dateStamp = isoDate.split('T')[0];
+    const dateStamp = isoDate.split("T")[0];
 
     const exportObject = {
         version: extensionVersion,
@@ -626,9 +626,9 @@ exportBtn.addEventListener("click", () => {
 
 const importBtn = document.getElementById("import-btn");
 importBtn.addEventListener("click", () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.json';
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json";
     
     input.onchange = async (e) => {
         const file = e.target.files[0];
@@ -646,7 +646,7 @@ importBtn.addEventListener("click", () => {
                     createFolderElement(folder.name, folder.prompts || [], true);
                 });
                 saveFolders();
-                alert(`Imported successfully! (Exported on: ${importedContent.date || 'Unknown Date'})`);
+                alert(`Imported successfully! (Exported on: ${importedContent.date || "Unknown Date"})`);
             } else {
                 alert("Invalid file format: Could not find folder list.");
             }
