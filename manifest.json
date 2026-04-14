@@ -1,46 +1,46 @@
 {
-    "manifest_version": 3,
-    "name": "Prompt Pile",
-    "version": "1.0",
-    "description": "A web extension for storing and organizing AI prompts.",
-    
-    "icons": {
-        "32": "icons/logo_web_32.png",
-        "64": "icons/logo_web_64.png",
-        "128": "icons/logo_web_128.png",
-        "512": "icons/logo_web_512.png"
-    },
-    
-    "action": {
-        "default_title": "Open Prompt Pile"
-    },
+  "manifest_version": 3,
+  "name": "Prompt Pile",
+  "version": "1.0",
+  "description": "A web extension for storing and organizing AI prompts.",
 
-    "side_panel": {
-        "default_path": "popup.html"
-    },
+  "icons": {
+    "32": "icons/logo_web_32.png",
+    "64": "icons/logo_web_64.png",
+    "128": "icons/logo_web_128.png",
+    "512": "icons/logo_web_512.png"
+  },
 
-    "sidebar_action": {
-        "default_title": "Prompt Pile",
-        "default_panel": "popup.html",
-        "default_icon": "icons/logo_web_32.png"
-    },
-    
-    "permissions": [
-        "downloads",
-        "storage",
-        "sidePanel",
-        "contextMenus",
-        "clipboardWrite"
-    ],
+  "action": {
+    "default_title": "Open Prompt Pile"
+  },
 
-    "background": {
-        "service_worker": "background.js",
-        "scripts": ["background.js"]
-    },
+  "side_panel": {
+    "default_path": "popup.html"
+  },
 
-    "browser_specific_settings": {
-        "gecko": {
-            "id": "prompt-pile@yourdomain.com"
-        }
+  "sidebar_action": {
+    "default_title": "Prompt Pile",
+    "default_panel": "popup.html",
+    "default_icon": "icons/logo_web_32.png"
+  },
+
+  "permissions": [
+    "downloads",
+    "storage",
+    "sidePanel",
+    "contextMenus",
+    "clipboardWrite"
+  ],
+
+  "background": {
+    "service_worker": "background.js",
+    "scripts": ["background.js"]
+  },
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "prompt-pile@yourdomain.com"
     }
+  }
 }
