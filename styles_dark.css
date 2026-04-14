@@ -1,19 +1,16 @@
-body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    
-    /* Pitch Black for OLED */
-    background-color: #000000;
-    color: #e0e0e0;
-}
-
 html, body {
     width: 100%;
     height: 100vh;
     margin: 0;
     padding: 0;
     overflow: hidden;
+
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    
+    background-color: #000000;
+    color: #e0e0e0;
 }
 
 #app-container {
