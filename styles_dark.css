@@ -24,7 +24,7 @@ html, body {
     flex-direction: column;
     overflow: hidden; /* Keeps the main window from scrolling */
     
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     /* Inherits background from body */
 }
 

@@ -21,7 +21,7 @@ html, body {
     overflow: hidden; /* Keeps the main window from scrolling */
     
     /* Keep your existing colors/fonts */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     background-color: #ffffff;
     color: #333333;
 }

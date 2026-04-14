@@ -1,4 +1,4 @@
- # Prompt Pile
+# Prompt Pile
 
 **Prompt Pile** is a streamlined side bar web extension designed to save and organize AI prompts. Whether you are working with ChatGPT, Claude, or Gemini, this tool helps you maintain a personal library of high-performing prompts to optimize your AI interactions.
 
@@ -6,10 +6,12 @@
 
 ## Key Features
 
-* **Nested Organization:** Group your prompts into custom folders to keep different workflows separate.
-* **Smart Editing:** A dedicated prompt editor with model-specific categorization and instant "Copy to Clipboard" functionality.
-* **Instant Search:** Quickly filter through your entire collection of folders and prompts using the search bar.
-* **Local & Portable:** All data is stored via the Chrome Storage API, keeping your prompts private. Features Import/Export options to backup or move your "Pile" between devices.
+* **Nested & Fluid Organization:** Group prompts into custom folders. Use drag-and-drop handles to reorder your entire "Pile" instantly.
+* **AI Model Categorization:** Tag prompts for specific models like ChatGPT, Claude, DeepSeek, Gemini, and more.
+* **Prompt Mobility:** Easily move prompts between folders or rename categories on the fly.
+* **Advanced Clipboard Tool:** Copy prompts with a single click; includes a visual confirmation and preserves multi-line formatting.
+* **Persistent Dark Mode:** Toggle between light and dark themes, with preferences saved automatically.
+* **JSON Backups:** Export your entire prompt library into a single JSON file for easy migration or backup.
 
 ---
 
