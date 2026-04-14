@@ -1,11 +1,9 @@
-// --- Chrome Logic ---
 if (typeof chrome !== "undefined" && chrome.sidePanel) {
     chrome.sidePanel
         .setPanelBehavior({ openPanelOnActionClick: true })
         .catch((error) => console.error(error));
 }
 
-// --- Firefox Logic ---
 if (typeof browser !== "undefined" && browser.sidebarAction) {
     browser.action.onClicked.addListener(() => {
         browser.sidebarAction.open();
