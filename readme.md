@@ -1,3 +1,5 @@
+[logo](icons/logo_web_512.png)
+
 # Prompt Pile
 
 **Prompt Pile** is a streamlined side bar web extension designed to save and organize AI prompts. Whether you are working with ChatGPT, Claude, or Gemini, this tool helps you maintain a personal library of high-performing prompts to optimize your AI interactions.
@@ -24,12 +26,12 @@ Open your browser and navigate to the extension store:
 
 ### Basic Usage
 * **Create a Folder:** Click the `+ Folder` button to start a new category.
-* **Manage Prompts:** Use the three-dot menu on any folder to add a new prompt or rename the folder.
+* **Manage Prompts:** Use the three-dot menu on any folder to add a new prompt, rename the folder, or delete the folder.
 * **Quick Copy:** Click the "Copy" button on a saved prompt to instantly add the text to your clipboard.
 
 ---
 
 ## Technical Stack
-* **Manifest V3:** Built using the latest extension standards for better security and performance.
-* **Vanilla JS:** Lightweight logic without heavy framework overhead.
-* **Custom CSS:** Responsive extension layout limited to a 350px width for a clean sidebar-style feel.
+* **Manifest V3:** Built using the latest extension standards for best possible security and performance.
+* **Vanilla JS:** Lightweight logic without any framework overhead.
+* **Custom CSS:** Responsive extension layout for a clean sidebar-style feel.
