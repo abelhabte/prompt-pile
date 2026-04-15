@@ -1,651 +1,666 @@
-html, body {
-    width: 100%;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    
-    background-color: #000000;
-    color: #e0e0e0;
+html,
+body {
+  margin: 0;
+
+  background-color: #000000;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  color: #e0e0e0;
 }
 
 #app-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .folder-header {
-    display: flex;
-    align-items: center;
-    position: relative;
-    gap: 8px;
-    padding: 4px;
-    cursor: pointer;
-    user-select: none;
-    border-radius: 4px;
+  display: flex;
+  position: relative;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 4px;
+  user-select: none;
 }
 
 .folder-header:hover {
-    background-color: #121212;
+  background-color: #121212;
 }
 
 .icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 15px;
-    height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 15px;
+  height: 15px;
 }
 
 .arrow-icon {
-    width: 8px;
-    height: 8px;
-    display: block;
-    transition: transform 0.2s;
-    filter: invert(1);
+  display: block;
+  filter: invert(1);
+  transition: transform 0.2s;
+  width: 8px;
+  height: 8px;
 }
 
 .folder-name {
-    flex-grow: 1;
-    font-weight: 600;
-    font-size: 12px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
-    min-width: 0;
+  display: block;
+  flex-grow: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 600;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .creation-actions {
-    display: flex;
-    gap: 4px;
-    margin-left: auto;
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
 }
 
 .secondary-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
 }
 
 .btn-icon {
-    width: 14px;
-    height: 14px;
-    display: inline-block;
-    filter: invert(0.9);
+  display: inline-block;
+  filter: invert(0.9);
+  width: 14px;
+  height: 14px;
 }
 
 .creation-actions .secondary-btn {
-    width: auto;
-    height: 26px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    white-space: nowrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: 26px;
+  font-size: 11px;
+  white-space: nowrap;
 }
 
 .folder-input {
-    flex-grow: 1;
-    font-size: 12px;
-    padding: 3px 8px;
-    background-color: #080808;
-    color: #e0e0e0;
-    border: 1px solid #333;
-    border-radius: 4px;
-    outline: none;
+  flex-grow: 1;
+  outline: none;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background-color: #080808;
+  padding: 3px 8px;
+  color: #e0e0e0;
+  font-size: 12px;
 }
 
 .folder-input:focus {
-    border-color: #2a629c; 
-    background-color: #000000; 
-    outline: none; 
-    border-width: 1px;
+  outline: none;
+  border-width: 1px;
+  border-color: #2a629c;
+  background-color: #000000;
 }
 
 .folder-options-menu {
-    position: absolute;
-    right: 0;
-    background: #121212;
-    border: 1px solid #333;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.8);
-    z-index: 1000;
-    padding: 4px 0;
-    top: 100%;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: #121212;
+  padding: 4px 0;
 }
 
 .folder-options-menu .action-btn {
-    width: 100%;
-    padding: 6px 12px; 
-    text-align: left;
-    background: none;
-    border: none;
-    font-size: 12px;   
-    cursor: pointer;
-    display: block;
-    color: #e0e0e0;
+  display: block;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 6px 12px;
+  width: 100%;
+  color: #e0e0e0;
+  font-size: 12px;
+  text-align: left;
 }
 
 .folder-options-menu .action-btn:hover {
-    background-color: #1a1a1a;
+  background-color: #1a1a1a;
 }
 
 .folder-options-menu.spawn-above {
-    top: auto;
-    bottom: 100%;
-    margin-bottom: 5px;
-    box-shadow: 0 -4px 12px rgba(0,0,0,0.8);
+  top: auto;
+  bottom: 100%;
+  margin-bottom: 5px;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.8);
 }
 
 .three-dot-btn {
-    flex-shrink: 0;
-    width: 28px;             
-    height: 28px;
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    border-radius: 50%;      
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;         
-    color: #888;             
-    transition: background-color 0.2s, color 0.2s;
-    outline: none;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  width: 28px;
+  height: 28px;
+  color: #888;
+  font-size: 16px;
 }
 
 .three-dot-btn:hover {
-    background-color: #1a1a1a; 
-    color: #fff;               
+  background-color: #1a1a1a;
+  color: #fff;
 }
 
 .three-dot-btn:active {
-    background-color: #222; 
+  background-color: #222;
 }
 
 .action-btn {
-    display: block;
-    width: 100%;
-    text-align: left;
-    padding: 8px 12px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 12px;
-    color: #e0e0e0;
+  display: block;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 8px 12px;
+  width: 100%;
+  color: #e0e0e0;
+  font-size: 12px;
+  text-align: left;
 }
 
-.action-btn:hover { background-color: #1a1a1a; }
+.action-btn:hover {
+  background-color: #1a1a1a;
+}
 
 .prompts-list {
-    display: none;
-    padding-left: 10px;
-    margin-bottom: 10px;
+  display: none;
+  margin-bottom: 10px;
+  padding-left: 10px;
 }
 
-.folder.is-open > .prompts-list { display: block; }
+.folder.is-open > .prompts-list {
+  display: block;
+}
 
 .prompt-editor {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 10px;
-    border: 1px solid #222;
-    border-radius: 8px;
-    margin: 8px 0;
-    background-color: #080808;
-    box-sizing: border-box; 
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-sizing: border-box;
+  margin: 8px 0;
+  border: 1px solid #222;
+  border-radius: 8px;
+  background-color: #080808;
+  padding: 10px;
 }
 
 .prompt-header-row {
-    display: flex;
-    align-items: center; 
-    gap: 8px;
-    padding: 0px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0px;
 }
 
 .prompt-title {
-    flex: 1;
-    min-width: 0; 
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #e0e0e0;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: #e0e0e0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .prompt-editor.is-saved {
-    background-color: #000000;
-    padding: 2px 8px; 
-    margin: 2px 0;    
-    border: 1px solid #1a1a1a; 
+  margin: 2px 0;
+  border: 1px solid #1a1a1a;
+  background-color: #000000;
+  padding: 2px 8px;
 }
 
 .prompt-editor.is-saved .prompt-title {
-    flex: 1;
-    width: auto;
-    border: transparent;
-    background: transparent;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 12px;
-    color: #fff;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block; 
-    width: 100%;
+  display: block;
+  flex: 1;
+  cursor: pointer;
+  border: transparent;
+  background: transparent;
+  width: auto;
+  width: 100%;
+  overflow: hidden;
+  color: #fff;
+  font-weight: bold;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .saved-actions .secondary-btn {
-    height: 20px;          
-    padding: 2px 6px;      
-    font-size: 10px;       
-    min-width: unset;      
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px 6px;
+  min-width: unset;
+  height: 20px;
+  font-size: 10px;
+  line-height: 1;
 }
 
-.prompt-editor:not(.is-saved) .saved-actions { display: none; }
+.prompt-editor:not(.is-saved) .saved-actions {
+  display: none;
+}
 .prompt-editor.is-saved .prompt-text,
-.prompt-editor.is-saved .edit-actions { display: none !important; }
+.prompt-editor.is-saved .edit-actions {
+  display: none !important;
+}
 
 .prompt-editor:not(.is-saved) .edit-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 4px;
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
 }
 
 .prompt-text {
-    width: 100%;
-    height: 150px;
-    resize: none;
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid #333;
-    border-radius: 4px;
-    font-size: 12px;
-    background-color: #000000;
-    color: #e0e0e0;
+  box-sizing: border-box;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background-color: #000000;
+  padding: 8px;
+  width: 100%;
+  height: 150px;
+  resize: none;
+  color: #e0e0e0;
+  font-size: 12px;
 }
 
 .saved-actions {
-    display: flex;
-    gap: 4px;
-    flex-shrink: 0;
-    margin-left: auto; 
+  display: flex;
+  flex-shrink: 0;
+  gap: 4px;
+  margin-left: auto;
 }
 
 .edit-actions {
-    display: flex;
-    gap: 6px;
-    margin-top: 4px;
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
 }
 
 .edit-actions button {
-    flex: 1;
-    height: 28px;           
-    font-weight: 600;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 12px;
-    box-sizing: border-box;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s, border-color 0.2s;
+  display: inline-flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  cursor: pointer;
+  box-sizing: border-box;
+  border-radius: 4px;
+  height: 28px;
+  font-weight: 600;
+  font-size: 12px;
 }
 
 .edit-actions .save-prompt-btn {
-    background-color: #2a629c; 
-    color: white;
-    border: 1px solid #1e4b7a; 
+  border: 1px solid #1e4b7a;
+  background-color: #2a629c;
+  color: white;
 }
 
-.edit-actions button:hover { background-color: #1a1a1a; }
+.edit-actions button:hover {
+  background-color: #1a1a1a;
+}
 .edit-actions .save-prompt-btn:hover {
-    background-color: #357ABD;
-    border-color: #2a629c;
+  border-color: #2a629c;
+  background-color: #357abd;
 }
 
 .edit-actions .secondary-btn {
-    background-color: #121212;
-    color: #e0e0e0;
-    border: 1px solid #333;
+  border: 1px solid #333;
+  background-color: #121212;
+  color: #e0e0e0;
 }
 
 .prompt-editor.is-saved .prompt-model {
-    text-align: right;
-    width: auto;
-    margin-left: 8px;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    border: none;
-    background: transparent;
-    pointer-events: none;
-    color: #777;
-    cursor: default;
-    padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: default;
+  margin-left: 8px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  width: auto;
+  pointer-events: none;
+  color: #777;
+  text-align: right;
 }
 
 .drag-handle {
-    cursor: grab;
-    color: #333;
-    font-size: 16px;
-    margin-right: 2px;
-    user-select: none;
+  cursor: grab;
+  margin-right: 2px;
+  color: #333;
+  font-size: 16px;
+  user-select: none;
 }
 
 .drag-handle:hover {
-    color: #555;
+  color: #555;
 }
 
 .drag-handle:active {
-    cursor: grabbing;
+  cursor: grabbing;
 }
 
 .prompt-header-row .drag-handle {
-    font-size: 12px;
-    color: #333;
-    margin-right: 4px;
-    flex-shrink: 0;
+  flex-shrink: 0;
+  margin-right: 4px;
+  color: #333;
+  font-size: 12px;
 }
 
 .prompt-editor:not(.is-saved) .drag-handle {
-    opacity: 0.5;
-    cursor: default;
+  opacity: 0.5;
+  cursor: default;
 }
 
 .folder.dragging {
-    opacity: 0.5;
-    border: 2px dashed #2a629c;
-    background-color: #0a0e14;
+  opacity: 0.5;
+  border: 2px dashed #2a629c;
+  background-color: #0a0e14;
 }
 
 .prompt-editor.dragging-prompt {
-    opacity: 0.4;
-    background-color: #000000;
-    border: 1px dashed #333;
+  opacity: 0.4;
+  border: 1px dashed #333;
+  background-color: #000000;
 }
 
 #top-header {
-    padding: 16px;
-    background-color: #000000;
-    border-bottom: 1px solid #1a1a1a;
-    margin-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #1a1a1a;
+  background-color: #000000;
+  padding: 16px;
 }
 
 #control-area {
-    padding: 0 16px; 
+  padding: 0 16px;
 }
 
 #footer-actions {
-    margin-top: auto; 
-    flex-shrink: 0;   
-    padding: 12px 16px;
-    background-color: #000000;
-    border-top: 1px solid #1a1a1a;
+  flex-shrink: 0;
+  margin-top: auto;
+  border-top: 1px solid #1a1a1a;
+  background-color: #000000;
+  padding: 12px 16px;
 }
 
 .header-text {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .title-group {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .header-text h1 {
-    margin: 0;
-    font-size: 24px;
-    color: #fff;
+  margin: 0;
+  color: #fff;
+  font-size: 24px;
 }
 
 .subtitle {
-    margin: 0;
-    font-size: 12px;
-    color: #555;
+  margin: 0;
+  color: #555;
+  font-size: 12px;
 }
 
 .app-logo {
-    object-fit: contain;
+  object-fit: contain;
 }
 
 #theme-toggle {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    outline: none;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background: none;
+  padding: 0;
 }
 
-.secondary-btn, 
+.secondary-btn,
 .prompt-model {
-    background-color: #121212;
-    color: #e0e0e0;
-    border: 1px solid #333;
-    padding: 3px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
-    height: 28px; 
-    box-sizing: border-box;
-    transition: background-color 0.2s;
+  transition: background-color 0.2s;
+  cursor: pointer;
+  box-sizing: border-box;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background-color: #121212;
+  padding: 3px 8px;
+  height: 28px;
+  color: #e0e0e0;
+  font-size: 12px;
 }
 
 .secondary-btn:hover,
 .prompt-model:hover {
-    background-color: #1a1a1a;
-    border-color: #444;
+  border-color: #444;
+  background-color: #1a1a1a;
 }
 
 .prompt-model {
-    appearance: none;       
-    -webkit-appearance: none; 
-    -moz-appearance: none;    
-    background-image: none;   
-    padding-right: 4px;       
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: none;
+  padding-right: 4px;
 }
 
-#add-folder-btn, 
-#export-btn, 
+#add-folder-btn,
+#export-btn,
 #import-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
 }
 
 #search-prompts {
-    border: 1px solid #333;
-    background-color: #080808;
-    color: #e0e0e0;
-    border-radius: 4px;
-    font-size: 12px;
-    width: 100%;
-    box-sizing: border-box;
-    outline: none;
-    transition: border-color 0.2s;
-    padding: 4px 10px; 
-    height: 30px;      
-    line-height: 1;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+  outline: none;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background-color: #080808;
+  padding: 4px 10px;
+  width: 100%;
+  height: 30px;
+  color: #e0e0e0;
+  font-size: 12px;
+  line-height: 1;
 }
 
 #search-prompts:focus {
-    border-color: #2a629c; 
-    background-color: #000000; 
+  border-color: #2a629c;
+  background-color: #000000;
 }
 
 #search-prompts:focus,
 .prompt-editor:not(.is-saved) .prompt-title:focus,
-.prompt-text:focus { 
-    border-color: #2a629c; 
-    background-color: #000000; 
-    outline: none; 
-    border-width: 1px; 
+.prompt-text:focus {
+  outline: none;
+  border-width: 1px;
+  border-color: #2a629c;
+  background-color: #000000;
 }
 
 .prompt-editor:not(.is-saved) .prompt-title {
-    border: 1px solid #333;
-    background-color: #080808;
-    color: #e0e0e0;
-    border-radius: 4px;
-    font-size: 12px;
-    padding: 3px 8px;
-    width: 100%;
-    box-sizing: border-box; 
-    outline: none;
-    transition: border-color 0.2s;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+  outline: none;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background-color: #080808;
+  padding: 3px 8px;
+  width: 100%;
+  color: #e0e0e0;
+  font-size: 12px;
 }
 
 .prompt-editor:not(.is-saved) .prompt-title:focus {
-    border-color: #2a629c; 
-    background-color: #000000; 
+  border-color: #2a629c;
+  background-color: #000000;
 }
 
 .prompt-editor:not(.is-saved) .prompt-header-row .drag-handle {
-    display: none;
+  display: none;
 }
 
-#action-row, 
-.footer-button-container, 
+#action-row,
+.footer-button-container,
 .edit-actions {
-    display: flex !important;
-    gap: 8px !important; 
-    align-items: center;
-    width: 100%;
+  display: flex !important;
+  align-items: center;
+  gap: 8px !important;
+  width: 100%;
 }
 
 .search-container {
-    flex: 1;
+  flex: 1;
 }
 
 #search-prompts {
-    width: 100%;
-    box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
 }
 
-.secondary-btn, 
-.prompt-model, 
+.secondary-btn,
+.prompt-model,
 #search-prompts {
-    padding: 2px 4px;
-    height: 28px;
-    line-height: 1.4;
-    box-sizing: border-box;
-    display: inline-flex;
-    align-items: center;
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 2px 4px;
+  height: 28px;
+  line-height: 1.4;
 }
 
 #main-list-view {
-    flex: 1;          
-    overflow-y: auto; 
-    margin-top: 12px;
-    padding: 0 10px;
+  flex: 1;
+  margin-top: 12px;
+  padding: 0 10px;
+  overflow-y: auto;
 }
 
 .folder {
-    border-top: 1px solid #1a1a1a; 
-    background-color: #000000;
-    margin: 0; 
-    padding: 0;
-    box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  border-top: 1px solid #1a1a1a;
+  background-color: #000000;
+  padding: 0;
 }
 
 #combined-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .folder:last-child {
-    border-bottom: 1px solid #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
 }
 
 .prompt-title:focus,
-.prompt-text:focus { 
-    outline: none;
-    border: 1px solid #2a629c;
-    box-shadow: none;
+.prompt-text:focus {
+  outline: none;
+  box-shadow: none;
+  border: 1px solid #2a629c;
 }
 
 .saved-actions {
-    position: relative;
+  position: relative;
 }
 
 .move-prompt-menu {
-    width: 120px;
-    min-width: 120px;
-    right: 0;
-    top: 28px;
-    z-index: 1000;
-    overflow-x: hidden;
+  top: 28px;
+  right: 0;
+  z-index: 1000;
+  width: 120px;
+  min-width: 120px;
+  overflow-x: hidden;
 }
 
 .move-prompt-menu .action-btn {
-    font-size: 11px;
-    padding: 6px 10px;
-    width: 100%;
-    text-align: left;
-    
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; 
-    display: block;
+  display: block;
+  padding: 6px 10px;
+  width: 100%;
+  overflow: hidden;
+  font-size: 11px;
+  text-align: left;
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
 }
 
 .move-prompt-menu {
-    max-height: 200px;
-    overflow-y: auto;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .prompt-editor.is-saved .saved-actions .secondary-btn {
-    border: none;
-    background: transparent;
-    padding: 4px 6px;
-    box-shadow: none;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+  padding: 4px 6px;
 }
 
 .prompt-editor.is-saved .saved-actions .secondary-btn:hover {
-    background-color: rgba(128, 128, 128, 0.1);
-    border-radius: 4px;
+  border-radius: 4px;
+  background-color: rgba(128, 128, 128, 0.1);
 }
 
 .cancel-folder-btn,
 .confirm-folder-btn,
 .cancel-rename-btn,
 .confirm-rename-btn {
-    border: none !important;
-    background: transparent;
+  border: none !important;
+  background: transparent;
 }
 
 .secondary-btn:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 4px;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .empty-state {
-    text-align: center;
-    margin-top: 60px;
-    color: #888;
-    font-size: 14px;
-    line-height: 1.6;
+  margin-top: 60px;
+  color: #888;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
 }
 
 .empty-state b {
-    color: #2a629c;
+  color: #2a629c;
 }
