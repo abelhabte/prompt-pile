@@ -17,6 +17,6 @@
     "scripts": ["background.js"]
   },
   "browser_specific_settings": {
-    "gecko": { "id": "prompt-pile@yourdomain.com" }
+    "gecko": { "id": "promptpile@abelhabte.com" }
   }
 }
