@@ -8,15 +8,15 @@
     "128": "icons/logo_web_128.png"
   },
   "action": { "default_title": "Open Prompt Pile" },
-  "sidebar_action": {
-    "default_title": "Prompt Pile",
-    "default_panel": "popup.html"
-  },
-  "permissions": ["downloads", "storage", "contextMenus", "clipboardWrite"],
+  "side_panel": { "default_path": "popup.html" },
+  "permissions": [
+    "downloads",
+    "storage",
+    "sidePanel",
+    "contextMenus",
+    "clipboardWrite"
+  ],
   "background": {
-    "scripts": ["background.js"]
-  },
-  "browser_specific_settings": {
-    "gecko": { "id": "prompt-pile@yourdomain.com" }
+    "service_worker": "background.js"
   }
 }
