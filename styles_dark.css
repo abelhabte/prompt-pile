@@ -30,6 +30,13 @@ html, body {
     border-radius: 4px;
 }
 
+.folder-header {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px; 
+    gap: 4px;
+}
+
 .folder-header:hover {
     background-color: #121212;
 }
@@ -168,13 +175,6 @@ html, body {
 
 .three-dot-btn:active {
     background-color: #222; 
-}
-
-.folder-header {
-    display: flex;
-    align-items: center;
-    padding: 4px 8px; 
-    gap: 4px;
 }
 
 .action-btn {

@@ -29,6 +29,13 @@ html, body {
     border-radius: 4px;
 }
 
+.folder-header {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    gap: 4px;
+}
+
 .folder-header:hover {
     background-color: #f9f9f9;
 }
@@ -162,13 +169,6 @@ html, body {
 
 .three-dot-btn:active {
     background-color: #e0e0e0;
-}
-
-.folder-header {
-    display: flex;
-    align-items: center;
-    padding: 4px 8px;
-    gap: 4px;
 }
 
 .action-btn {
