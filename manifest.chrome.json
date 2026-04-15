@@ -5,10 +5,16 @@
   "description": "A web extension for storing and organizing AI prompts.",
   "icons": {
     "32": "icons/logo_web_32.png",
-    "128": "icons/logo_web_128.png"
+    "64": "icons/logo_web_64.png",
+    "128": "icons/logo_web_128.png",
+    "512": "icons/logo_web_512.png"
   },
-  "action": { "default_title": "Open Prompt Pile" },
-  "side_panel": { "default_path": "popup.html" },
+  "action": {
+    "default_title": "Prompt Pile"
+  },
+  "side_panel": {
+    "default_path": "popup.html"
+  },
   "permissions": [
     "downloads",
     "storage",
