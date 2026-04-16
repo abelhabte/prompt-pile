@@ -231,6 +231,7 @@ function addPromptToUI(
                 <option value="Grok" ${data.model === "Grok" ? "selected" : ""}>Grok</option>
                 <option value="HuggingChat" ${data.model === "HuggingChat" ? "selected" : ""}>HuggingChat</option>
                 <option value="Meta AI" ${data.model === "Meta AI" ? "selected" : ""}>Meta AI</option>
+                <option value="Mistral AI" ${data.model === "Mistral AI" ? "selected" : ""}>Mistral AI</option>
                 <option value="Perplexity" ${data.model === "Perplexity" ? "selected" : ""}>Perplexity</option>
             </select>
             <div class="saved-actions">
