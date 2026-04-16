@@ -3,6 +3,19 @@ const mainListView = document.getElementById("main-list-view");
 const combinedList = document.getElementById("combined-list");
 const searchInput = document.getElementById("search-prompts");
 
+const modelIcons = {
+  ChatGPT: "icons/chatgpt.svg",
+  Claude: "icons/claude.svg",
+  Copilot: "icons/copilot.svg",
+  DeepSeek: "icons/deepseek.svg",
+  Gemini: "icons/gemini.svg",
+  Grok: "icons/grok.svg",
+  HuggingChat: "icons/huggingchat.svg",
+  "Meta AI": "icons/metaai.svg",
+  "Mistral AI": "icons/mistralai.svg",
+  Perplexity: "icons/perplexity.svg"
+};
+
 addFolderBtn.addEventListener("click", () => createFolderElement());
 loadFolders();
 checkEmptyState();
@@ -218,36 +231,79 @@ function addPromptToUI(
            <button class="save-prompt-btn">Save</button>`;
   };
 
+  const iconPath = modelIcons[data.model] || modelIcons["Default"];
+
   promptEditor.innerHTML = `
         <div class="prompt-header-row">
             <span class="drag-handle">⠿</span>
             <input type="text" class="prompt-title" placeholder="Prompt Title" value="${data.title}">
-            <select class="prompt-model">
-                <option value="ChatGPT" ${data.model === "ChatGPT" ? "selected" : ""}>ChatGPT</option>
-                <option value="Claude" ${data.model === "Claude" ? "selected" : ""}>Claude</option>
-                <option value="Copilot" ${data.model === "Copilot" ? "selected" : ""}>Copilot</option>
-                <option value="DeepSeek" ${data.model === "DeepSeek" ? "selected" : ""}>DeepSeek</option>
-                <option value="Gemini" ${data.model === "Gemini" ? "selected" : ""}>Gemini</option>
-                <option value="Grok" ${data.model === "Grok" ? "selected" : ""}>Grok</option>
-                <option value="HuggingChat" ${data.model === "HuggingChat" ? "selected" : ""}>HuggingChat</option>
-                <option value="Meta AI" ${data.model === "Meta AI" ? "selected" : ""}>Meta AI</option>
-                <option value="Mistral AI" ${data.model === "Mistral AI" ? "selected" : ""}>Mistral AI</option>
-                <option value="Perplexity" ${data.model === "Perplexity" ? "selected" : ""}>Perplexity</option>
-            </select>
+            
+            <div class="custom-model-select" data-model="${data.model}">
+                <div class="selected-display">
+                    <img src="${iconPath}" class="model-icon" alt="${data.model}">
+                </div>
+                <div class="model-options-dropdown">
+                    ${Object.entries(modelIcons)
+                      .filter(([key]) => key !== "Default")
+                      .map(
+                        ([model, path]) => `
+                        <div class="model-opt" data-value="${model}">
+                            <img src="${path}" class="model-icon">
+                            <span>${model}</span>
+                        </div>
+                    `,
+                      )
+                      .join("")}
+                </div>
+            </div>
+
             <div class="saved-actions">
                 <button class="copy-prompt-btn secondary-btn" title="Copy"><img src="icons/copy.svg" class="btn-icon" alt="Copy"></button>
                 <button class="move-prompt-btn secondary-btn" title="Move"><img src="icons/move.svg" class="btn-icon" alt="Move"></button>
                 <button class="delete-prompt-btn secondary-btn" title="Delete"><img src="icons/delete.svg" class="btn-icon" alt="Delete"></button>
             </div>
         </div>
-        <textarea class="prompt-text" placeholder="Write your prompt here...">${data.text}</textarea>
+        <textarea class="prompt-text" placeholder="Paste your prompt here...">${data.text}</textarea>
         <div class="edit-actions">${renderButtons(isNew)}</div>
     `;
 
+  const customSelect = promptEditor.querySelector(".custom-model-select");
+  const display = customSelect.querySelector(".selected-display");
+
+  display.onclick = (e) => {
+    e.stopPropagation();
+
+    // ADD THIS CHECK:
+    if (promptEditor.classList.contains("is-saved")) {
+      return;
+    }
+
+    // Close any other open dropdowns first
+    document.querySelectorAll(".custom-model-select.active").forEach((s) => {
+      if (s !== customSelect) s.classList.remove("active");
+    });
+    customSelect.classList.toggle("active");
+  };
+
+  customSelect.querySelectorAll(".model-opt").forEach((opt) => {
+    opt.onclick = (e) => {
+      e.stopPropagation();
+      const val = opt.getAttribute("data-value");
+      customSelect.setAttribute("data-model", val);
+      display.querySelector("img").src = modelIcons[val];
+      customSelect.classList.remove("active");
+      if (promptEditor.classList.contains("is-saved")) {
+        saveFolders();
+      }
+    };
+  });
+
   const setupListeners = () => {
+    const customSelect = promptEditor.querySelector(".custom-model-select");
+
     let originalData = {
       title: promptEditor.querySelector(".prompt-title").value,
-      model: promptEditor.querySelector(".prompt-model").value,
+      model: customSelect.getAttribute("data-model"), // Use getAttribute instead
       text: promptEditor.querySelector(".prompt-text").value,
     };
 
@@ -272,23 +328,28 @@ function addPromptToUI(
     if (cancelEdit) {
       cancelEdit.onclick = () => {
         promptEditor.querySelector(".prompt-title").value = originalData.title;
-        promptEditor.querySelector(".prompt-model").value = originalData.model;
         promptEditor.querySelector(".prompt-text").value = originalData.text;
+
+        // Restore the custom model UI
+        customSelect.setAttribute("data-model", originalData.model);
+        customSelect.querySelector(".selected-display img").src =
+          modelIcons[originalData.model] || modelIcons["Default"];
+
         promptEditor.classList.add("is-saved");
       };
     }
 
     promptEditor.querySelector(".save-prompt-btn").onclick = (e) => {
-      e.stopPropagation();
       const currentTitle = promptEditor.querySelector(".prompt-title").value;
       if (!currentTitle) {
         alert("Please enter a title!");
         return;
       }
 
+      // Update originalData and the model attribute
       originalData = {
         title: currentTitle,
-        model: promptEditor.querySelector(".prompt-model").value,
+        model: customSelect.getAttribute("data-model"),
         text: promptEditor.querySelector(".prompt-text").value,
       };
 
@@ -473,7 +534,9 @@ function saveFolders() {
       el.querySelectorAll(".prompt-editor.is-saved").forEach((p) => {
         prompts.push({
           title: p.querySelector(".prompt-title").value,
-          model: p.querySelector(".prompt-model").value,
+          model: p
+            .querySelector(".custom-model-select")
+            .getAttribute("data-model"),
           text: p.querySelector(".prompt-text").value,
         });
       });
@@ -510,6 +573,11 @@ document.addEventListener("click", (e) => {
     !moveMenu.contains(e.target)
   ) {
     moveMenu.remove();
+  }
+  if (!e.target.closest(".custom-model-select")) {
+    document
+      .querySelectorAll(".custom-model-select.active")
+      .forEach((s) => s.classList.remove("active"));
   }
 });
 

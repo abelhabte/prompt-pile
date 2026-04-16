@@ -655,3 +655,69 @@ body {
 .empty-state b {
   color: #2a629c;
 }
+/* Custom Model Selector */
+.custom-model-select {
+  position: relative;
+  cursor: pointer;
+  margin: 0 4px;
+}
+
+.selected-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  background: #fdfdfd;
+  width: 24px;
+  height: 24px;
+}
+
+.model-options-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 2000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Matches light folder-options-menu */
+  border: 1px solid #ddd; /* Matches light folder-options-menu */
+  border-radius: 6px;
+  background: white;
+  min-width: 130px;
+  margin-top: 4px;
+}
+
+.custom-model-select.active .model-options-dropdown {
+  display: block;
+}
+
+.model-opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #333;
+}
+
+.model-opt:hover {
+  background-color: #f0f0f0;
+}
+
+.model-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+/* Disable pointer events and dim the icon when the prompt is saved */
+.prompt-editor.is-saved .custom-model-select {
+  pointer-events: none;
+  opacity: 0.7;
+  cursor: default;
+}
+
+/* Ensure the dropdown doesn't accidentally show if forced */
+.prompt-editor.is-saved .model-options-dropdown {
+  display: none !important;
+}
