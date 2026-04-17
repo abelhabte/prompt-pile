@@ -410,6 +410,15 @@ function addPromptToUI(
               setTimeout(() => {
                 iconImg.src = originalSrc;
               }, 1500);
+            } else {
+              // Logic for Editing State (Text)
+              btn.textContent = "Copied!";
+              btn.classList.add("copy-success"); // Optional: for styling
+
+              setTimeout(() => {
+                btn.textContent = "Copy";
+                btn.classList.remove("copy-success");
+              }, 1500);
             }
           }
         } catch (err) {
