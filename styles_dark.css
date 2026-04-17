@@ -676,7 +676,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 4px;
-  border-radius: 4px;
+  border-radius: 50%;
   background: #080808;
   width: 24px;
   height: 24px;
@@ -740,4 +740,18 @@ body {
 /* Ensure the dropdown doesn't accidentally show if forced */
 .prompt-editor.is-saved .model-options-dropdown {
   display: none !important;
+}
+
+/* Replicates the 3-dot button hover effect for the model logo in dark mode */
+.custom-model-select .selected-display {
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.custom-model-select .selected-display:hover {
+  background-color: #1a1a1a;
+}
+
+.custom-model-select .selected-display:active {
+  background-color: #222;
 }
