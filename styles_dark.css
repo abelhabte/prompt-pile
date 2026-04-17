@@ -603,12 +603,17 @@ body {
 }
 
 .move-prompt-menu {
-  top: 28px;
+  top: 28px; /* Align with the bottom of the button */
   right: 0;
   z-index: 1000;
   width: 130px;
   min-width: 130px;
-  overflow-x: hidden;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.move-prompt-btn {
+  position: relative;
 }
 
 .move-prompt-menu .action-btn {
@@ -621,11 +626,6 @@ body {
   text-overflow: ellipsis;
 
   white-space: nowrap;
-}
-
-.move-prompt-menu {
-  max-height: 200px;
-  overflow-y: auto;
 }
 
 .prompt-editor.is-saved .saved-actions .secondary-btn {

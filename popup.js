@@ -13,7 +13,7 @@ const modelIcons = {
   HuggingChat: "icons/huggingchat.svg",
   "Meta AI": "icons/metaai.svg",
   "Mistral AI": "icons/mistralai.svg",
-  Perplexity: "icons/perplexity.svg"
+  Perplexity: "icons/perplexity.svg",
 };
 
 addFolderBtn.addEventListener("click", () => createFolderElement());
@@ -472,7 +472,8 @@ function addPromptToUI(
         menu.appendChild(noFolderMsg);
       }
 
-      e.target.closest(".saved-actions").appendChild(menu);
+      const btn = e.target.closest(".move-prompt-btn");
+      btn.appendChild(menu);
 
       const menuRect = menu.getBoundingClientRect();
       if (menuRect.bottom > window.innerHeight) {
