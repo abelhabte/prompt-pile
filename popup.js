@@ -837,7 +837,7 @@ function checkEmptyState() {
     const emptyDiv = document.createElement("div");
     emptyDiv.className = "empty-state";
     emptyDiv.innerHTML = `
-            <p>Your pile is empty.</p>
+            <p>Pile is empty.</p>
             <span>Click <b>+ Folder</b> to start fresh or 
             <b>Import</b> a previous backup.</span>
         `;
