@@ -20,6 +20,18 @@ addFolderBtn.addEventListener("click", () => createFolderElement());
 loadFolders();
 checkEmptyState();
 
+function closeAllMenus() {
+  // 1. Remove Folder Options or Move Menus
+  document
+    .querySelectorAll(".folder-options-menu")
+    .forEach((menu) => menu.remove());
+
+  // 2. Close Model Select Dropdowns
+  document
+    .querySelectorAll(".custom-model-select.active")
+    .forEach((s) => s.classList.remove("active"));
+}
+
 function createFolderElement(
   existingName = null,
   existingPrompts = [],
@@ -121,6 +133,8 @@ function createFolderElement(
         existingMenu.remove();
         return;
       }
+
+      closeAllMenus();
 
       const openMenu = document.querySelector(".folder-options-menu");
       if (openMenu) openMenu.remove();
@@ -273,16 +287,19 @@ function addPromptToUI(
   display.onclick = (e) => {
     e.stopPropagation();
 
-    // ADD THIS CHECK:
     if (promptEditor.classList.contains("is-saved")) {
       return;
     }
 
-    // Close any other open dropdowns first
-    document.querySelectorAll(".custom-model-select.active").forEach((s) => {
-      if (s !== customSelect) s.classList.remove("active");
-    });
-    customSelect.classList.toggle("active");
+    const isActive = customSelect.classList.contains("active");
+
+    // Close everything first
+    closeAllMenus();
+
+    // If it wasn't active before, open it now
+    if (!isActive) {
+      customSelect.classList.add("active");
+    }
   };
 
   customSelect.querySelectorAll(".model-opt").forEach((opt) => {
@@ -417,6 +434,8 @@ function addPromptToUI(
         existingMenu.remove();
         return;
       }
+
+      closeAllMenus();
 
       const openMenu = document.querySelector(".move-prompt-menu");
       if (openMenu) openMenu.remove();
