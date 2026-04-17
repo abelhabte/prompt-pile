@@ -606,8 +606,8 @@ body {
   top: 28px;
   right: 0;
   z-index: 1000;
-  width: 120px;
-  min-width: 120px;
+  width: 130px;
+  min-width: 130px;
   overflow-x: hidden;
 }
 
@@ -688,12 +688,15 @@ body {
   top: 100%;
   right: 0;
   z-index: 2000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8); /* Matches folder-options-menu */
-  border: 1px solid #333; /* Matches folder-options-menu */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+  border: 1px solid #333;
   border-radius: 6px;
-  background: #121212; /* Changed from #000000 to match folder-options-menu */
+  background: #121212;
   min-width: 130px;
   margin-top: 4px;
+  /* Add these lines */
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .custom-model-select.active .model-options-dropdown {
