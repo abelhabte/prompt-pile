@@ -839,7 +839,6 @@ function checkEmptyState() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadFolders();
 
   const savedTheme = localStorage.getItem("theme");
   setDarkMode(savedTheme === "dark");
