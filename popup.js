@@ -21,12 +21,10 @@ loadFolders();
 checkEmptyState();
 
 function closeAllMenus() {
-  // 1. Remove Folder Options or Move Menus
   document
     .querySelectorAll(".folder-options-menu")
     .forEach((menu) => menu.remove());
 
-  // 2. Close Model Select Dropdowns
   document
     .querySelectorAll(".custom-model-select.active")
     .forEach((s) => s.classList.remove("active"));
@@ -293,10 +291,8 @@ function addPromptToUI(
 
     const isActive = customSelect.classList.contains("active");
 
-    // Close everything first
     closeAllMenus();
 
-    // If it wasn't active before, open it now
     if (!isActive) {
       customSelect.classList.add("active");
     }
@@ -320,7 +316,7 @@ function addPromptToUI(
 
     let originalData = {
       title: promptEditor.querySelector(".prompt-title").value,
-      model: customSelect.getAttribute("data-model"), // Use getAttribute instead
+      model: customSelect.getAttribute("data-model"),
       text: promptEditor.querySelector(".prompt-text").value,
     };
 
@@ -347,7 +343,6 @@ function addPromptToUI(
         promptEditor.querySelector(".prompt-title").value = originalData.title;
         promptEditor.querySelector(".prompt-text").value = originalData.text;
 
-        // Restore the custom model UI
         customSelect.setAttribute("data-model", originalData.model);
         customSelect.querySelector(".selected-display img").src =
           modelIcons[originalData.model] || modelIcons["Default"];
@@ -363,7 +358,6 @@ function addPromptToUI(
         return;
       }
 
-      // Update originalData and the model attribute
       originalData = {
         title: currentTitle,
         model: customSelect.getAttribute("data-model"),
@@ -411,9 +405,8 @@ function addPromptToUI(
                 iconImg.src = originalSrc;
               }, 1500);
             } else {
-              // Logic for Editing State (Text)
               btn.textContent = "Copied!";
-              btn.classList.add("copy-success"); // Optional: for styling
+              btn.classList.add("copy-success");
 
               setTimeout(() => {
                 btn.textContent = "Copy";

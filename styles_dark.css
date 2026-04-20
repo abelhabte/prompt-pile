@@ -603,7 +603,7 @@ body {
 }
 
 .move-prompt-menu {
-  top: 28px; /* Align with the bottom of the button */
+  top: 28px;
   right: 0;
   z-index: 1000;
   width: 130px;
@@ -664,7 +664,7 @@ body {
 .empty-state b {
   color: #2a629c;
 }
-/* Custom Model Selector - Dark Mode */
+
 .custom-model-select {
   position: relative;
   cursor: pointer;
@@ -673,11 +673,11 @@ body {
 
 .selected-display {
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 4px;
+  align-items: center;
   border-radius: 50%;
   background: #080808;
+  padding: 4px;
   width: 24px;
   height: 24px;
 }
@@ -688,13 +688,12 @@ body {
   top: 100%;
   right: 0;
   z-index: 2000;
+  margin-top: 4px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
   border: 1px solid #333;
   border-radius: 6px;
   background: #121212;
   min-width: 130px;
-  margin-top: 4px;
-  /* Add these lines */
   max-height: 200px;
   overflow-y: auto;
 }
@@ -708,8 +707,8 @@ body {
   align-items: center;
   gap: 10px;
   padding: 8px 12px;
-  font-size: 11px;
   color: #e0e0e0;
+  font-size: 11px;
 }
 
 .model-opt:hover {
@@ -717,35 +716,32 @@ body {
 }
 
 .model-icon {
+  filter: brightness(1.1);
   width: 16px;
   height: 16px;
   object-fit: contain;
-  filter: brightness(1.1);
 }
 
 .custom-model-select[data-model="ChatGPT"] .selected-display .model-icon,
 .model-opt[data-value="ChatGPT"] .model-icon {
-    filter: invert(1) brightness(1.5);
+  filter: invert(1) brightness(1.5);
 }
 
 .custom-model-select[data-model="Grok"] .selected-display .model-icon,
 .model-opt[data-value="Grok"] .model-icon {
-    filter: invert(1) brightness(1.5);
+  filter: invert(1) brightness(1.5);
 }
 
-/* Disable pointer events and dim the icon when the prompt is saved */
 .prompt-editor.is-saved .custom-model-select {
-  pointer-events: none;
   opacity: 0.7;
   cursor: default;
+  pointer-events: none;
 }
 
-/* Ensure the dropdown doesn't accidentally show if forced */
 .prompt-editor.is-saved .model-options-dropdown {
   display: none !important;
 }
 
-/* Replicates the 3-dot button hover effect for the model logo in dark mode */
 .custom-model-select .selected-display {
   transition: background-color 0.2s;
   cursor: pointer;
