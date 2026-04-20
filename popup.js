@@ -837,3 +837,16 @@ function checkEmptyState() {
     list.appendChild(emptyDiv);
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadFolders();
+
+  const savedTheme = localStorage.getItem("theme");
+  setDarkMode(savedTheme === "dark");
+
+  checkEmptyState();
+
+  requestAnimationFrame(() => {
+    document.getElementById("app-container").classList.add("ready");
+  });
+});
