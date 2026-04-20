@@ -1,12 +1,3 @@
-#app-container {
-  opacity: 0;
-  transition: opacity 0.1s ease-in;
-}
-
-#app-container.ready {
-  opacity: 1;
-}
-
 html,
 body {
   margin: 0;
@@ -19,13 +10,18 @@ body {
 #app-container {
   display: flex;
   flex-direction: column;
+  opacity: 0;
+  transition: opacity 0.1s ease-in;
   background-color: #ffffff;
   width: 100%;
   height: 100%;
   overflow: hidden;
   color: #333333;
-
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#app-container.ready {
+  opacity: 1;
 }
 
 .folder-header {
