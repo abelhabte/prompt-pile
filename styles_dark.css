@@ -727,12 +727,17 @@ body {
 }
 
 .custom-model-select[data-model="ChatGPT"] .selected-display .model-icon,
-.model-opt[data-value="ChatGPT"] .model-icon {
-  filter: invert(1) brightness(1.5);
-}
-
+.model-opt[data-value="ChatGPT"] .model-icon,
+.custom-model-select[data-model="Flux"] .selected-display .model-icon,
+.model-opt[data-value="Flux"] .model-icon,
 .custom-model-select[data-model="Grok"] .selected-display .model-icon,
-.model-opt[data-value="Grok"] .model-icon {
+.model-opt[data-value="Grok"] .model-icon,
+.custom-model-select[data-model="Midjourney"] .selected-display .model-icon,
+.model-opt[data-value="Midjourney"] .model-icon,
+.custom-model-select[data-model="Ollama"] .selected-display .model-icon,
+.model-opt[data-value="Ollama"] .model-icon,
+.custom-model-select[data-model="Suno"] .selected-display .model-icon,
+.model-opt[data-value="Suno"] .model-icon {
   filter: invert(1) brightness(1.5);
 }
 

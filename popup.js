@@ -7,13 +7,20 @@ const modelIcons = {
   ChatGPT: "icons/chatgpt.svg",
   Claude: "icons/claude.svg",
   Copilot: "icons/copilot.svg",
+  "DALL-E": "icons/dall-e.svg",
   DeepSeek: "icons/deepseek.svg",
+  Flux: "icons/flux.svg",
   Gemini: "icons/gemini.svg",
   Grok: "icons/grok.svg",
   HuggingChat: "icons/huggingchat.svg",
-  "Meta AI": "icons/metaai.svg",
-  "Mistral AI": "icons/mistralai.svg",
+  "Le Chat": "icons/le_chat.svg",
+  "Meta AI": "icons/meta_ai.svg",
+  Midjourney: "icons/midjourney.svg",
+  Ollama: "icons/ollama.svg",
   Perplexity: "icons/perplexity.svg",
+  Qwen: "icons/qwen.svg",
+  "Stable Diffusion": "icons/stable_diffusion.svg",
+  Suno: "icons/suno.svg"
 };
 
 addFolderBtn.addEventListener("click", () => createFolderElement());
@@ -839,7 +846,6 @@ function checkEmptyState() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-
   const savedTheme = localStorage.getItem("theme");
   setDarkMode(savedTheme === "dark");
 
