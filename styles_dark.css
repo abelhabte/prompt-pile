@@ -732,6 +732,8 @@ body {
 .model-opt[data-value="Flux"] .model-icon,
 .custom-model-select[data-model="Grok"] .selected-display .model-icon,
 .model-opt[data-value="Grok"] .model-icon,
+.custom-model-select[data-model="Manus"] .selected-display .model-icon,
+.model-opt[data-value="Manus"] .model-icon,
 .custom-model-select[data-model="Midjourney"] .selected-display .model-icon,
 .model-opt[data-value="Midjourney"] .model-icon,
 .custom-model-select[data-model="Ollama"] .selected-display .model-icon,

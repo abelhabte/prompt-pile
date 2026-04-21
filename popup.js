@@ -14,6 +14,7 @@ const modelIcons = {
   Grok: "icons/grok.svg",
   HuggingChat: "icons/huggingchat.svg",
   "Le Chat": "icons/le_chat.svg",
+  Manus: "icons/manus.svg",
   "Meta AI": "icons/meta_ai.svg",
   Midjourney: "icons/midjourney.svg",
   Ollama: "icons/ollama.svg",
