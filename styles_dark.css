@@ -726,8 +726,8 @@ body {
   object-fit: contain;
 }
 
-.custom-model-select[data-model="ChatGPT"] .selected-display .model-icon,
-.model-opt[data-value="ChatGPT"] .model-icon {
+.custom-model-select[data-model="GPT"] .selected-display .model-icon,
+.model-opt[data-value="GPT"] .model-icon {
   filter: invert(1) brightness(1.5);
 }
 
