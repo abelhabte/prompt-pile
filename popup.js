@@ -4,11 +4,11 @@ const combinedList = document.getElementById("combined-list");
 const searchInput = document.getElementById("search-prompts");
 
 const modelIcons = {
+  ChatGPT: "icons/chatgpt.svg",
   Claude: "icons/claude.svg",
   Copilot: "icons/copilot.svg",
   DeepSeek: "icons/deepseek.svg",
   Gemini: "icons/gemini.svg",
-  GPT: "icons/gpt.svg",
   Grok: "icons/grok.svg",
   HuggingChat: "icons/huggingchat.svg",
   "Meta AI": "icons/metaai.svg",
@@ -215,7 +215,7 @@ function createFolderElement(
 
       const list = folder.querySelector(".prompts-list");
       if (list) {
-        addPromptToUI(list, { title: "", model: "Claude", text: "" }, true);
+        addPromptToUI(list, { title: "", model: "ChatGPT", text: "" }, true);
       }
       const menu = folder.querySelector(".folder-options-menu");
       if (menu) menu.remove();
@@ -225,7 +225,7 @@ function createFolderElement(
 
 function addPromptToUI(
   container,
-  data = { title: "", model: "Claude", text: "" },
+  data = { title: "", model: "ChatGPT", text: "" },
   isNew = false,
 ) {
   const promptEditor = document.createElement("div");
