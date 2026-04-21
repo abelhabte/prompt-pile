@@ -671,11 +671,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 50%;
-  background: #fdfdfd;
-  padding: 4px;
-  width: 24px;
-  height: 24px;
 }
 
 .model-options-dropdown {

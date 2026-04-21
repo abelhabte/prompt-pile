@@ -679,11 +679,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 50%;
-  background: #080808;
-  padding: 4px;
-  width: 24px;
-  height: 24px;
 }
 
 .model-options-dropdown {
