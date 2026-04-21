@@ -17,6 +17,7 @@ const modelIcons = {
   Manus: "icons/manus.svg",
   "Meta AI": "icons/meta_ai.svg",
   Midjourney: "icons/midjourney.svg",
+  "Nano Banana": "icons/nano_banana.svg",
   Ollama: "icons/ollama.svg",
   Perplexity: "icons/perplexity.svg",
   Qwen: "icons/qwen.svg",
