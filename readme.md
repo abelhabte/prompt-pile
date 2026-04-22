@@ -21,8 +21,8 @@
 
 ### Installation
 Open your browser and navigate to the extension store:
-* **Chrome:**
-* **Firefox:**
+* **Chrome**
+* **Firefox**
 
 ### Basic Usage
 * **Create a Folder:** Click the `+ Folder` button to create a new folder.
