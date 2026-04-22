@@ -34,6 +34,6 @@ Open your browser and navigate to the extension store:
 
 ## Technical Stack
 * **HTML**
+* **CSS**
 * **JavaScript**
-* **CSS:**
-* **Manifest V3:**
+* **Manifest V3**
