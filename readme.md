@@ -28,7 +28,7 @@ Open your browser and navigate to the extension store:
 * **Create a Folder:** Click the `+ Folder` button to create a new folder.
 * **Manage Prompts:** Use the three-dot menu on any folder to add a new prompt, rename the folder, or delete the folder.
 * **Quick Copy:** Click the "Copy" button on a saved prompt to instantly add the text to your clipboard.
-* **Import library:** Provided that you have a compatible JSON file, you can simply click ![logo](icons/arrow_up.svg) Import to import a previous backup.
+* **Import library:** Provided that you have a compatible JSON file, you can simply click `Λ Import` to import a previous backup.
 
 ---
 
