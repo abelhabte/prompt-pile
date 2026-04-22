@@ -22,7 +22,7 @@ const modelIcons = {
   Perplexity: "icons/perplexity.svg",
   Qwen: "icons/qwen.svg",
   "Stable Diffusion": "icons/stable_diffusion.svg",
-  Suno: "icons/suno.svg"
+  Suno: "icons/suno.svg",
 };
 
 addFolderBtn.addEventListener("click", () => createFolderElement());
@@ -259,7 +259,7 @@ function addPromptToUI(
             <span class="drag-handle">⠿</span>
             <input type="text" class="prompt-title" placeholder="Prompt Title" value="${data.title}">
             
-            <div class="custom-model-select" data-model="${data.model}">
+            <div class="custom-model-select" data-model="${data.model}" tabindex="0" role="combobox" aria-label="Select AI Model">
                 <div class="selected-display">
                     <img src="${iconPath}" class="model-icon" alt="${data.model}">
                 </div>
@@ -268,11 +268,11 @@ function addPromptToUI(
                       .filter(([key]) => key !== "Default")
                       .map(
                         ([model, path]) => `
-                        <div class="model-opt" data-value="${model}">
-                            <img src="${path}" class="model-icon">
-                            <span>${model}</span>
+                        <div class="model-opt" data-value="${model}" tabindex="0" role="option">
+                          <img src="${path}" class="model-icon">
+                          <span>${model}</span>
                         </div>
-                    `,
+                      `,
                       )
                       .join("")}
                 </div>
@@ -291,6 +291,27 @@ function addPromptToUI(
   const customSelect = promptEditor.querySelector(".custom-model-select");
   const display = customSelect.querySelector(".selected-display");
 
+  const toggleDropdown = (e) => {
+    e.stopPropagation();
+    if (promptEditor.classList.contains("is-saved")) return;
+
+    const isActive = customSelect.classList.contains("active");
+    closeAllMenus();
+    if (!isActive) customSelect.classList.add("active");
+  };
+
+  display.onclick = toggleDropdown;
+
+  customSelect.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleDropdown(e);
+    }
+    if (e.key === "Escape") {
+      customSelect.classList.remove("active");
+    }
+  });
+
   display.onclick = (e) => {
     e.stopPropagation();
 
@@ -308,16 +329,26 @@ function addPromptToUI(
   };
 
   customSelect.querySelectorAll(".model-opt").forEach((opt) => {
-    opt.onclick = (e) => {
+    const selectOption = (e) => {
       e.stopPropagation();
       const val = opt.getAttribute("data-value");
       customSelect.setAttribute("data-model", val);
       display.querySelector("img").src = modelIcons[val];
       customSelect.classList.remove("active");
+      customSelect.focus();
       if (promptEditor.classList.contains("is-saved")) {
         saveFolders();
       }
     };
+
+    opt.onclick = selectOption;
+
+    opt.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        selectOption(e);
+      }
+    });
   });
 
   const setupListeners = () => {
