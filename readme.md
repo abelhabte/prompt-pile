@@ -30,12 +30,12 @@ Install the latest stable version of Prompt Pile directly from your browser's of
 If you want to run the extension locally:
 1. Clone the Repository: `git clone https://github.com/abelhabte/prompt-pile.git`
 2. Open Extension Management:
-* Chrome: Navigate to chrome://extensions/.
-* Firefox: Navigate to about:debugging#/runtime/this-firefox.
+    * Chrome: Navigate to chrome://extensions/.
+    * Firefox: Navigate to about:debugging#/runtime/this-firefox.
 3. Enable Developer Mode: Toggle the Developer mode switch in the top right corner.
 4. Load the Extension:
-* Chrome: Click Load unpacked and select the project folder.
-* Firefox: Click Load Temporary Add-on and select the manifest.json file.
+    * Chrome: Click Load unpacked and select the project folder.
+    * Firefox: Click Load Temporary Add-on and select the manifest.json file.
 
 ### Basic Usage
 * **Create a Folder:** Click the `+ Folder` button to create a new folder.
