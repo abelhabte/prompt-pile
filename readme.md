@@ -1,12 +1,13 @@
 ![logo](icons/logo_web_512.png)
-![logo](screenshots/screenshot_1.png) ![logo](screenshots/screenshot_3.png)
-![logo](screenshots/screenshot_2.png) ![logo](screenshots/screenshot_4.png)
 
 # Prompt Pile
 
 **Prompt Pile** is a streamlined side bar web extension designed to save and organize AI prompts. Regardless of whatever model you are currently using, this tool helps maintain a personal library of high-performing prompts to optimize your AI interactions.
 
 ---
+
+![screenshot](screenshots/screenshot_1.png) ![screenshot](screenshots/screenshot_3.png)
+![screenshot](screenshots/screenshot_2.png) ![screenshot](screenshots/screenshot_4.png)
 
 ## Key Features
 
