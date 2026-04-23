@@ -27,7 +27,7 @@ Install Prompt Pile directly from your browser's official marketplace:
 * **Firefox Add-ons**
 
 #### Local Install
-If you want to run the extension locally:
+If you want to run Prompt Pile locally:
 1. Clone the Repository: `git clone https://github.com/abelhabte/prompt-pile.git`
 2. Open Extension Management:
     * Chrome: Navigate to `chrome://extensions/` and turn on Developer mode.
