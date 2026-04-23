@@ -1,4 +1,4 @@
-<img src="icons/logo_web_512.png" alt="logo" width="100" height="100">
+<img src="icons/logo_web_512.png" alt="logo" width="200" height="200">
 
 # Prompt Pile
 
