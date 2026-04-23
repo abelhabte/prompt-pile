@@ -18,7 +18,7 @@
     "default_icon": "icons/logo_web_32.png"
   },
   "permissions": ["downloads", "storage", "clipboardWrite"],
-  "host_permissions": ["*"],
+  "host_permissions": ["<all_urls>"],
   "background": {
     "scripts": ["background.js"]
   },
