@@ -21,8 +21,8 @@
 
 ### Installation
 
-#### Extension Stores
-Install the latest stable version of Prompt Pile directly from your browser's official marketplace:
+#### Extension Store
+Install Prompt Pile directly from your browser's official marketplace:
 * **Chrome:** Chrome Web Store
 * **Firefox:** Firefox Add-ons
 
