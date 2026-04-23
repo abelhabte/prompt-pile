@@ -17,7 +17,7 @@
     "default_panel": "popup.html",
     "default_icon": "icons/logo_web_32.png"
   },
-  "permissions": ["downloads", "storage", "contextMenus", "clipboardWrite"],
+  "permissions": ["downloads", "storage", "clipboardWrite"],
   "background": {
     "scripts": ["background.js"]
   },
