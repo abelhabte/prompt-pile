@@ -8,6 +8,11 @@
 
 ![screenshot](screenshots/screenshot_1.png) ![screenshot](screenshots/screenshot_3.png) ![screenshot](screenshots/screenshot_2.png) ![screenshot](screenshots/screenshot_4.png)
 
+<img src="screenshots/screenshot_1.png" alt="screenshot" width="200" height="800">
+<img src="screenshots/screenshot_2.png" alt="screenshot" width="200" height="800">
+<img src="screenshots/screenshot_3.png" alt="screenshot" width="200" height="500">
+<img src="screenshots/screenshot_4.png" alt="screenshot" width="200" height="500">
+
 ## Key Features
 
 * **Nested & Fluid Organization:** Group prompts into custom folders. Drag-and-drop handles are available to reorder both your folders and the prompts inside.
