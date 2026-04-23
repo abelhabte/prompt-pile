@@ -6,7 +6,7 @@
 
 ---
 
-### Gallery
+## Gallery
 | Light Interface | Dark Interface |
 | :---: | :---: |
 | <img src="screenshots/screenshot_1.png" width="280" alt="Main Interface"> | <img src="screenshots/screenshot_3.png" width="280" alt="Folder Management"> |
