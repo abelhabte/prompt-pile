@@ -6,8 +6,14 @@
 
 ---
 
-<img src="screenshots/screenshot_1.png" alt="screenshot" width="300" height="800"> <img src="screenshots/screenshot_3.png" alt="screenshot" width="300" height="800">
-<img src="screenshots/screenshot_2.png" alt="screenshot" width="300" height="500"> <img src="screenshots/screenshot_4.png" alt="screenshot" width="300" height="500">
+### Gallery
+| Main Interface | Folder Management |
+| :---: | :---: |
+| <img src="screenshots/screenshot_1.png" width="280" alt="Main Interface"> | <img src="screenshots/screenshot_3.png" width="280" alt="Folder Management"> |
+| **Prompt Editor** | **Dark Mode** |
+| <img src="screenshots/screenshot_2.png" width="280" alt="Prompt Editor"> | <img src="screenshots/screenshot_4.png" width="280" alt="Dark Mode"> |
+
+---
 
 ## Key Features
 
