@@ -18,13 +18,14 @@
     "default_icon": "icons/logo_web_32.png"
   },
   "permissions": ["downloads", "storage", "clipboardWrite"],
-  "host_permissions": ["<all_urls>"],
   "background": {
     "scripts": ["background.js"]
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "promptpile@abelhabte.com"
+      "id": "promptpile@abelhabte.com",
+      "strict_min_version": "109.0",
+      "data_collection_permissions": false
     }
   }
 }
