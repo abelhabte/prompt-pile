@@ -1,8 +1,6 @@
 ![logo](icons/logo_web_512.png)
-![logo](screenshots/screenshot_1.png)
-![logo](screenshots/screenshot_2.png)
-![logo](screenshots/screenshot_3.png)
-![logo](screenshots/screenshot_4.png)
+![logo](screenshots/screenshot_1.png) ![logo](screenshots/screenshot_3.png)
+![logo](screenshots/screenshot_2.png) ![logo](screenshots/screenshot_4.png)
 
 # Prompt Pile
 
