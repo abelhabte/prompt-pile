@@ -31,7 +31,7 @@
 
 #### Extension Store
 Install Prompt Pile directly from your browser's official marketplace:
-* [**Chrome Web Store**](https://support.google.com/chrome_webstore/answer/12225786?p=cws_reviews_results&hl=en)
+* [**Chrome Web Store**](https://chromewebstore.google.com/detail/prompt-pile/akgbknmfalamjbloabkcgpdnpgeegnnm)
 * **Firefox Add-ons**
 
 #### Local Install
