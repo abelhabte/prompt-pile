@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Prompt Pile",
-  "version": "1.0",
+  "version": "1.0.1",
   "description": "Streamlined side bar web extension designed to save and organize AI prompts.",
   "icons": {
     "32": "icons/logo_web_32.png",

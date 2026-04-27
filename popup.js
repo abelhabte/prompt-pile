@@ -55,7 +55,7 @@ function createFolderElement(
                 <span class="icon">
                     <img src="icons/triangle_right.svg" class="arrow-icon" alt="toggle">
                 </span>
-                <input type="text" class="folder-input" placeholder="Folder Name..." />
+                <input type="text" class="folder-input" placeholder="Folder name..." />
                 <div class="creation-actions">
                     <button class="cancel-folder-btn secondary-btn" title="Cancel"><img src="icons/cancel.svg" class="btn-icon" alt="Cancel"></button>
                     <button class="confirm-folder-btn secondary-btn" title="+ Folder"><img src="icons/add.svg" class="btn-icon" alt="+ Folder"></button>
@@ -257,7 +257,7 @@ function addPromptToUI(
   promptEditor.innerHTML = `
         <div class="prompt-header-row">
             <span class="drag-handle">⠿</span>
-            <input type="text" class="prompt-title" placeholder="Prompt Title" value="${data.title}">
+            <input type="text" class="prompt-title" placeholder="Prompt title..." value="${data.title}">
             
             <div class="custom-model-select" data-model="${data.model}" tabindex="0" role="combobox" aria-label="Select AI Model">
                 <div class="selected-display">
@@ -284,7 +284,7 @@ function addPromptToUI(
                 <button class="delete-prompt-btn secondary-btn" title="Delete"><img src="icons/delete.svg" class="btn-icon" alt="Delete"></button>
             </div>
         </div>
-        <textarea class="prompt-text" placeholder="Paste your prompt here...">${data.text}</textarea>
+        <textarea class="prompt-text" placeholder="Prompt text...">${data.text}</textarea>
         <div class="edit-actions">${renderButtons(isNew)}</div>
     `;
 
