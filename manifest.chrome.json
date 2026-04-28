@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Prompt Pile",
   "version": "1.0.1",
-  "description": "Streamlined sidebar browser extension designed to save and organize AI prompts.",
+  "description": "Sidebar browser extension designed to save and organize AI prompts.",
   "icons": {
     "32": "icons/logo_web_32.png",
     "64": "icons/logo_web_64.png",
